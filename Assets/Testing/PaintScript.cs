@@ -19,30 +19,29 @@ public class PaintScript : MonoBehaviour
 
         colors = new Color32[textureSize * textureSize];
         for (int i = 0; i < colors.Length; i++) colors[i] = Color.white;
-
-        //Test
-        Paint(0, 0, Color.green, 10);
-        Paint(10, 10, Color.red, 15);
-        Paint(5, 5, Color.blue, 20);
     }
 
-    void Paint(int x, int y, Color color, int size)
+    void Paint(Vector2 p, Color color, int size)
     {
-        int centerX = (textureSize / 2 - x);
-        int centerY = (textureSize / 2 - y);
-        int rad = size / 2;
+        int centerX = (textureSize / 2 - (int)p.x);
+        int centerY = (textureSize / 2 - (int)p.y);
 
-        for (int i = centerX - rad; i < centerX + rad; i++)
+        int actionArea = size; //Area to check for color change
+
+        for (int i = centerX - actionArea; i < centerX + actionArea; i++)
         {
-            for(int j = centerY - rad; j < centerY + rad; j++)
+            for(int j = centerY - actionArea; j < centerY + actionArea; j++)
             {
-                if ((i - centerX) * (i - centerX) + (j - centerY) * (j - centerY) < size)
-                    colors[i * textureSize + j] = color;
+                if (i < 0 || j < 0 || i >= textureSize || j >= textureSize) continue;
+
+                float dist = (i - centerX) * (i - centerX) + (j - centerY) * (j - centerY);
+                if (dist < size) colors[i * textureSize + j] = Color.Lerp(color, colors[i * textureSize + j], dist / size);
             }
         }
 
         UpdatePaint();
     }
+
     void UpdatePaint()
     {
         //Set color array to pixels
@@ -52,8 +51,43 @@ public class PaintScript : MonoBehaviour
         tex.Apply();
         r.material.mainTexture = tex;
     }
-    void Update()
+
+    //---------------MOUSE-CLICK-----------
+    private void Update()
     {
-        
+        if (Input.GetMouseButton(0)) CheckDrawClick();
+    }
+
+    void CheckDrawClick()
+    {
+        // Create a ray from the camera to the mouse position
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.collider.gameObject == gameObject)
+            {
+                Vector3 clickPosition = hit.point;
+                Vector2 p = PlaneToTextureCoords(WorldToPlaneCoords(clickPosition));
+                Paint(p, Color.magenta, 10);
+            }
+        }
+    }
+
+    Vector2 WorldToPlaneCoords(Vector3 hitPoint)
+    {
+        Vector3 planeHit = hitPoint - transform.position;
+
+        Vector2 pos = new Vector2(planeHit.x, planeHit.z);
+        pos /= 5f * transform.localScale.x; //Set plane coords between -1 & 1 (scale should be the same in X & Z);
+
+        return pos;
+    }
+
+    Vector2 PlaneToTextureCoords(Vector2 p)
+    {
+        Vector2 res = p * textureSize / 2;
+        return new Vector2(res.y, res.x); //Texture Coords are inverted
     }
 }
