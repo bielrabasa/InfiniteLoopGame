@@ -5,10 +5,12 @@ using UnityEngine.UI;
 using TMPro;
 public class LayersGen : MonoBehaviour
 {
-    public GameObject LayerPrefab;
-    public int numLayers;
+    public GameObject layerPrefab;
+    public float numLayers;
 
-    public float maxDistance;
+    float maxDistance = 600;
+
+    public List<GameObject> layerList;
 
     // Start is called before the first frame update
     void Start()
@@ -17,19 +19,17 @@ public class LayersGen : MonoBehaviour
 
         for (int i = 0; i < numLayers; i++)
         {
-            GameObject newLayer = Instantiate(LayerPrefab);
+            GameObject newLayer = Instantiate(layerPrefab);
             newLayer.name = "Layer_" + i.ToString();
             newLayer.transform.SetParent(parentLayer.transform, false);
 
-            float posY = ((maxDistance / numLayers) * (i + 1)) - (maxDistance);
+            maxDistance = layerPrefab.GetComponent<RectTransform>().sizeDelta.y * numLayers + 25f;
+
+            float posY = (-maxDistance / 2) + (maxDistance * (i / (numLayers - 1)));
 
             newLayer.transform.localPosition = new Vector3(0.0f, posY, 0.0f);
-        }
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+            layerList.Add(newLayer);
+        }
     }
 }
