@@ -15,13 +15,13 @@ public class LayersGen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameObject parentLayer = GameObject.Find("LayersParent");
+        //GameObject parentLayer = GameObject.Find("LayersParent");
 
         for (int i = 0; i < numLayers; i++)
         {
             GameObject newLayer = Instantiate(layerPrefab);
             newLayer.name = "Layer_" + i.ToString();
-            newLayer.transform.SetParent(parentLayer.transform, false);
+            newLayer.transform.SetParent(transform, false);
 
             maxDistance = layerPrefab.GetComponent<RectTransform>().sizeDelta.y * numLayers + 25f;
 
