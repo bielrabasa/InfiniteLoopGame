@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class MoveLayer : MonoBehaviour
 {
+    RectTransform thisObject;
+    RectTransform basisObject;
+
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        thisObject = this.GetComponent<RectTransform>();
+        basisObject = GameObject.Find("LayersParent").GetComponent<RectTransform>();
     }
 
     public void DragLayer()
     {
-        Debug.Log("Dragging");
+        Vector3 offset = new Vector3(863, 0, 93);
+        Vector3 screenPosition = Input.mousePosition + offset;
+
+        thisObject.position = Camera.main.ScreenToWorldPoint(screenPosition);
     }
 }

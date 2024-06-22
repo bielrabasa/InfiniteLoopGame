@@ -6,7 +6,10 @@ public class CardsOnLayers : MonoBehaviour
 {
     public List<GameObject> fullDeck;
     public List<GameObject> auxDeck;
+    public List<GameObject> toSelect;
     public List<GameObject> gameDeck;
+
+    public GameObject panelSelectCards;
 
     public int cardsDraw;
 
@@ -21,10 +24,7 @@ public class CardsOnLayers : MonoBehaviour
         CopyFullDeck();
 
         //Get the cards to play and split from the other cards
-        SplitDeck();
-
-        //Instatiate cards
-        CreateCards();
+        SelectCards();
     }
     
     void CopyFullDeck()
@@ -35,7 +35,7 @@ public class CardsOnLayers : MonoBehaviour
         }
     }
 
-    void SplitDeck()
+    void SelectCards()
     {
         if(cardsDraw > auxDeck.Count) cardsDraw = auxDeck.Count;
 
@@ -50,11 +50,36 @@ public class CardsOnLayers : MonoBehaviour
             auxDeck.Remove(nextCard);
 
             //Add that card to the deck for playing
-            gameDeck.Add(nextCard);
+            toSelect.Add(nextCard);
+        }
+
+        //Show a menu to select the cards
+        panelSelectCards.SetActive(true);
+
+        CreateSelection();
+    }
+
+    public void CreateSelection()
+    {
+        for (int i = 0; i < toSelect.Count; i++)
+        {
+            //Instatiate the card
+            GameObject newCard = Instantiate(toSelect[i]);
+
+            //Set the random layer parent Card
+            newCard.transform.SetParent(panelSelectCards.transform, false);
+
+            //Set a new position
+            newCard.transform.position = new Vector3(50 * i, 0f, 0f);
         }
     }
 
-    void CreateCards()
+    public void AddToGame(GameObject newCard)
+    {
+        gameDeck.Add(newCard);
+    }
+
+    public void CreateCards()
     {
         for (int i = 0; i < gameDeck.Count; i++)
         {

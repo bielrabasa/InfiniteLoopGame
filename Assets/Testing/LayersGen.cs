@@ -11,6 +11,7 @@ public class LayersGen : MonoBehaviour
     float maxDistance = 600;
 
     public List<GameObject> layerList;
+    public List<GameObject> playerList;
 
     // Start is called before the first frame update
     void Start()
@@ -23,13 +24,14 @@ public class LayersGen : MonoBehaviour
             newLayer.name = "Layer_" + i.ToString();
             newLayer.transform.SetParent(transform, false);
 
-            maxDistance = layerPrefab.GetComponent<RectTransform>().sizeDelta.y * numLayers + 25f;
+            maxDistance = layerPrefab.GetComponent<RectTransform>().sizeDelta.y * numLayers;
 
             float posY = (-maxDistance / 2) + (maxDistance * (i / (numLayers - 1)));
 
             newLayer.transform.localPosition = new Vector3(0.0f, posY, 0.0f);
 
-            layerList.Add(newLayer);
+            if (i == 0 || i == numLayers - 1) playerList.Add(newLayer);
+            else layerList.Add(newLayer);
         }
     }
 }
