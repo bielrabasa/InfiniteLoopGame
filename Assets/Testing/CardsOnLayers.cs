@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CardsOnLayers : MonoBehaviour
 {
@@ -10,8 +11,15 @@ public class CardsOnLayers : MonoBehaviour
     public List<GameObject> gameDeck;
 
     public GameObject panelSelectCards;
+    public GameObject selectCards;
 
     public int cardsDraw;
+
+    void Start()
+    {
+        //Copy the full deck at the start of the game
+        CopyFullDeck();
+    }
 
     void Update()
     {
@@ -20,10 +28,7 @@ public class CardsOnLayers : MonoBehaviour
 
     void DrawCards()
     {
-        //Copy the full deck
-        CopyFullDeck();
-
-        //Get the cards to play and split from the other cards
+        //Get the cards to play and split from the other cards each turn
         SelectCards();
     }
     
@@ -56,6 +61,7 @@ public class CardsOnLayers : MonoBehaviour
         //Show a menu to select the cards
         panelSelectCards.SetActive(true);
 
+        //choose between 5 cards
         CreateSelection();
     }
 
@@ -67,16 +73,73 @@ public class CardsOnLayers : MonoBehaviour
             GameObject newCard = Instantiate(toSelect[i]);
 
             //Set the random layer parent Card
-            newCard.transform.SetParent(panelSelectCards.transform, false);
+            newCard.transform.SetParent(selectCards.transform, false);
 
             //Set a new position
-            newCard.transform.position = new Vector3(50 * i, 0f, 0f);
+            newCard.transform.localPosition = new Vector3((200 * i)-400, 0f, 0f);
+
+
+            //Add the event PointerUp to select the card
+            GameObject theDeck = GameObject.Find("Deck");
+
+            newCard.AddComponent(typeof(EventTrigger));
+            EventTrigger trigger = newCard.GetComponent<EventTrigger>();
+
+            //Not showed in the inspector, but is there
+            EventTrigger.Entry click = new EventTrigger.Entry();
+            click.eventID = EventTriggerType.PointerUp;
+            click.callback.AddListener(delegate { theDeck.GetComponent<CardsOnLayers>().PreSelectionCards(newCard); });
+            trigger.triggers.Add(click);
         }
     }
 
-    public void AddToGame(GameObject newCard)
+    public void PreSelectionCards(GameObject selection)
     {
+        selection = FindOnDeck(selection.name, toSelect);
+        //check if the card are in the deck to remove
+        for (int i = 0; i < gameDeck.Count; i++)
+        {
+            if(selection == gameDeck[i])
+            {
+                RemoveToGame(selection);
+                return;
+            }
+        }
+
+        //if its not, add the card
+        AddToGame(selection);
+    }
+
+    void AddToGame(GameObject newCard)
+    {
+        //add the card to the deck
         gameDeck.Add(newCard);
+    }
+
+    void RemoveToGame(GameObject newCard)
+    {
+        //remove the card to the deck
+        gameDeck.Remove(newCard);
+    }
+
+    GameObject FindOnDeck(string name, List<GameObject> deck)
+    {
+        //check if the card is a copy or original
+        if(name.Contains(char.Parse("(")))
+        {
+            //get just the name of the card
+            string[] splitArray = name.Split(char.Parse("("));
+            name = splitArray[0];
+        }
+
+        //retun the game object  with the name in the deck
+        for (int i = 0; i < deck.Count; i++)
+        {
+            if (deck[i].name == name) return deck[i];
+        }
+        
+        //if the name is not in the deck, return null
+        return null;
     }
 
     public void CreateCards()
@@ -95,6 +158,34 @@ public class CardsOnLayers : MonoBehaviour
 
             //Set the random layer parent Card
             newLayer.transform.SetParent(aux.transform, false);
+        }
+
+        //cards return to the deck
+        foreach (Transform child in selectCards.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        //Check the selected card to return to the deck or play
+        for (int i = toSelect.Count - 1; i >= 0; i--)
+        {
+            bool toRemoveAndAdd = true;
+            for (int j = 0; j < gameDeck.Count; j++)
+            {
+                //is selected, so remove from the selection
+                if (toSelect[i] == gameDeck[j])
+                {
+                    toSelect.Remove(toSelect[i]);
+                    toRemoveAndAdd = false;
+                    break;
+                }
+            }
+            //is not selected, so returns to the deck and remove from selection
+            if(toRemoveAndAdd)
+            {
+                auxDeck.Add(toSelect[i]);
+                toSelect.Remove(toSelect[i]);
+            }
         }
     }
 }

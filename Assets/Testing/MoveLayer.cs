@@ -19,6 +19,11 @@ public class MoveLayer : MonoBehaviour
         Vector3 offset = new Vector3(863, 0, 93);
         Vector3 screenPosition = Input.mousePosition + offset;
 
+        screenPosition.x = basisObject.position.x;
+        screenPosition.z = basisObject.position.z;
+
         thisObject.position = Camera.main.ScreenToWorldPoint(screenPosition);
+
+        thisObject.localPosition = new Vector3(0, thisObject.position.y, 0);
     }
 }
