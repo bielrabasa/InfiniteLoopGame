@@ -8,6 +8,7 @@ public class CardsOnLayers : MonoBehaviour
     public List<GameObject> fullDeck;
     public List<GameObject> auxDeck;
     public List<GameObject> toSelect;
+    public List<GameObject> toGameDeck;
     public List<GameObject> gameDeck;
 
     public GameObject panelSelectCards;
@@ -17,6 +18,9 @@ public class CardsOnLayers : MonoBehaviour
 
     public bool player_1;
 
+    public int manaCost;
+    public int manaLess;
+
     void Start()
     {
         //Copy the full deck at the start of the game
@@ -25,7 +29,8 @@ public class CardsOnLayers : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.D)) DrawCards();
+        if(Input.GetKeyDown(KeyCode.D) && player_1) DrawCards();
+        if(Input.GetKeyDown(KeyCode.A) && !player_1) DrawCards();
     }
 
     void DrawCards()
@@ -97,30 +102,39 @@ public class CardsOnLayers : MonoBehaviour
     public void PreSelectionCards(GameObject selection)
     {
         selection = FindOnDeck(selection.name, toSelect);
+
         //check if the card are in the deck to remove
-        for (int i = 0; i < gameDeck.Count; i++)
+        for (int i = 0; i < toGameDeck.Count; i++)
         {
-            if(selection == gameDeck[i])
+            if(selection == toGameDeck[i])
             {
                 RemoveToGame(selection);
+                manaLess += manaCost;
                 return;
             }
         }
 
-        //if its not, add the card
-        AddToGame(selection);
+        //if(selection.GetComponent<InfoCard>().manaCost <= mana)
+        if (manaCost <= manaLess)
+        {
+            //if its not, add the card
+            AddToGame(selection);
+
+            manaLess -= manaCost;
+        }
+
     }
 
     void AddToGame(GameObject newCard)
     {
         //add the card to the deck
-        gameDeck.Add(newCard);
+        toGameDeck.Add(newCard);
     }
 
     void RemoveToGame(GameObject newCard)
     {
         //remove the card to the deck
-        gameDeck.Remove(newCard);
+        toGameDeck.Remove(newCard);
     }
 
     GameObject FindOnDeck(string name, List<GameObject> deck)
@@ -145,24 +159,6 @@ public class CardsOnLayers : MonoBehaviour
 
     public void CreateCards()
     {
-        for (int i = 0; i < gameDeck.Count; i++)
-        {
-            //Instatiate the card
-            GameObject newLayer = Instantiate(gameDeck[i]);
-
-            //Get Layer List from LayerGen script
-            List<GameObject> layers;
-            if (player_1) layers = GameObject.Find("LayersParent").GetComponent<LayersGen>().layerListP1;
-            else layers = GameObject.Find("LayersParent").GetComponent<LayersGen>().layerListP0;
-
-            //Get a random Layer from list
-            GameObject aux;
-            aux = layers[Random.Range(0, layers.Count)];
-
-            //Set the random layer parent Card
-            newLayer.transform.SetParent(aux.transform, false);
-        }
-
         //cards return to the deck
         foreach (Transform child in selectCards.transform)
         {
@@ -173,10 +169,10 @@ public class CardsOnLayers : MonoBehaviour
         for (int i = toSelect.Count - 1; i >= 0; i--)
         {
             bool toRemoveAndAdd = true;
-            for (int j = 0; j < gameDeck.Count; j++)
+            for (int j = 0; j < toGameDeck.Count; j++)
             {
                 //is selected, so remove from the selection
-                if (toSelect[i] == gameDeck[j])
+                if (toSelect[i] == toGameDeck[j])
                 {
                     toSelect.Remove(toSelect[i]);
                     toRemoveAndAdd = false;
@@ -189,6 +185,28 @@ public class CardsOnLayers : MonoBehaviour
                 auxDeck.Add(toSelect[i]);
                 toSelect.Remove(toSelect[i]);
             }
+        }
+
+        for (int i = toGameDeck.Count - 1; i >= 0; i--)
+        {
+            //Instatiate the card
+            GameObject newLayer = Instantiate(toGameDeck[i]);
+
+            //Remove from the list and addet to the list of the cards in game
+            toGameDeck.Remove(toGameDeck[i]);
+            gameDeck.Add(newLayer);
+
+            //Get Layer List from LayerGen script
+            List<GameObject> layers;
+            if (player_1) layers = GameObject.Find("LayersParent").GetComponent<LayersGen>().layerListP1;
+            else layers = GameObject.Find("LayersParent").GetComponent<LayersGen>().layerListP0;
+
+            //Get a random Layer from list
+            GameObject aux;
+            aux = layers[Random.Range(0, layers.Count)];
+
+            //Set the random layer parent Card
+            newLayer.transform.SetParent(aux.transform, false);
         }
     }
 }
