@@ -1,20 +1,20 @@
-num,Card Name,Faction,Mana Cost,Range,Damage,HP,Ability,description for developers,Ability value,Mana cal
+Card ID,Card Name,Faction,Mana Cost,Range,Damage,HP,Ability ID,Ability Description,description for developers,Mana cal
 1,,Dwarf,1,1,1,2,,,,1
 2,,Dwarf,2,1,1,3,,,,2
 3,,Dwarf,3,1,2,3,,,,3
-4,,Dwarf,3,1,1,3,on die: deals 2 more damage to the enemy card or hero if dies ,"(for developers: dying only happens when attacking or defending, in both scenarios there is another enemy card interacting with this card, if this card dies during the fight, the enemy card gets 2 more damages)",2,2
+4,,Dwarf,3,1,1,3,2,on die: deals 2 more damage to the enemy card or hero if dies ,"(for developers: dying only happens when attacking or defending, in both scenarios there is another enemy card interacting with this card, if this card dies during the fight, the enemy card gets 2 more damages)",2
 5,,Dwarf,4,2,2,3,,,,4
 6,,Dwarf,6,1,2,6,,,,6
 7,,Knight,2,1,2,2,,,,2
 8,,Knight,3,2,2,2,,,,3
 9,,Knight,4,2,3,2,,,,4
 10,,Knight,5,2,3,3,,,,5
-11,,Knight,5,1,3,3,ongoing: gives +1 damage to the cards in the same layer,,,4
-12,,Knight,7,3,1,3,"on attack: if fights an enemy card, deals damage to all the cards in that layer",,,4
+11,,Knight,5,1,3,3,,ongoing: gives +1 damage to the cards in the same layer,,4
+12,,Knight,7,3,1,3,,"on attack: if fights an enemy card, deals damage to all the cards in that layer",,4
 13,,Elf,3,3,2,1,,,,3
 14,,Elf,4,4,2,1,,,,4
-15,,Elf,6,3,1,1,"ongoing: if passes through mana layer, generates 2 mana","in each attack, if passes through mana layer, generates 2 mana instead of 1, normal cards generate 1",,2
-16,,Elf,7,3,1,1,on play: can change the location of 2 cards,"the player can choose the new place of 2 cards. it's not switching the place of 2 cards, by choosing the location of 2 seperated cards",,2
+15,,Elf,6,3,1,1,,"ongoing: if passes through mana layer, generates 2 mana","in each attack, if passes through mana layer, generates 2 mana instead of 1, normal cards generate 1",2
+16,,Elf,7,3,1,1,,on play: can change the location of 2 cards,"the player can choose the new place of 2 cards. it's not switching the place of 2 cards, by choosing the location of 2 seperated cards",2
 17,,Orc,4,,,,,,,-3
 18,,Orc,5,,,,,,,-3
 19,,Orc,6,,,,,,,-3

@@ -6,8 +6,8 @@ public class TestCardloader : MonoBehaviour
 {
     void Start()
     {
-        List<int> l = new List<int>() { 
-        1, 3, 5, 6
+        List<uint> l = new List<uint>() { 
+        1, 3, 5, 6,
         };
         CardLoader.LoadCards(ref l);
     }

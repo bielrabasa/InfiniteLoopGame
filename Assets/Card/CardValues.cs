@@ -4,24 +4,33 @@ using UnityEngine;
 
 public class CardValues : MonoBehaviour
 {
-    public int id;
+    public uint id;
 
     public string cardName;
     public string faction;
 
-    public int manaCost;
-    public int range;
-    public int damage;
-    public int hp;
+    public uint manaCost;
+    public uint range;
+    public uint damage;
+    public uint hp;
 
-    public int abilityId;
+    public uint abilityId;
     public string abilityDescription;
 
     void Start()
     {
-        //TODO: Add ability script from ability id
+        AddAbilityScript();
+        InitializeVisuals();
+    }
 
-        //TODO: Initialize visual representation
+    void AddAbilityScript()
+    {
+        //TODO: Add ability script from ability id
+    }
+
+    void InitializeVisuals()
+    {
+        //TODO ROGER <3: Initialize visual representation
     }
 
     //TODO: All attack & move functions

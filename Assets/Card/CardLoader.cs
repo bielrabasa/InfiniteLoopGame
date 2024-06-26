@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using Unity.VisualScripting.Antlr3.Runtime;
-using UnityEditor;
 using UnityEngine;
 
 public static class CardLoader
@@ -30,7 +27,7 @@ public static class CardLoader
         csv = loadedObject.text.Split('\n');
     }
 
-    public static GameObject LoadCards(ref List<int> cardIds)
+    public static GameObject LoadCards(ref List<uint> cardIds)
     {
         if(cardPrefab == null) LoadCardPrefab();
         if(csv == null) LoadCsvFile();
@@ -39,6 +36,12 @@ public static class CardLoader
 
         foreach(int id in cardIds)
         {
+            if (id >= csv.Length)
+            {
+                Debug.Log("[CardLoading] Card ID out of CSV file length.");
+                continue;
+            }
+
             string[] row = csv[id + 1].Split(','); //First line are column names
 
             GameObject card = GameObject.Instantiate(cardPrefab, parent.transform);
@@ -50,9 +53,9 @@ public static class CardLoader
         return parent;
     }
 
-    public static GameObject LoadCards(int id)
+    public static GameObject LoadCards(uint id)
     {
-        List<int> c = new List<int>() { id };
+        List<uint> c = new List<uint>() { id };
         return LoadCards(ref c);
     }
 
@@ -60,17 +63,17 @@ public static class CardLoader
     {
         CardValues vals = card.GetComponent<CardValues>();
 
-        vals.id = int.Parse(row[0]);
+        vals.id = uint.Parse(row[0]);
 
         vals.cardName = row[1];
         vals.faction = row[2];
 
-        vals.manaCost = int.Parse(row[3]);
-        vals.range = int.Parse(row[4]);
-        vals.damage = int.Parse(row[5]);
-        vals.hp = int.Parse(row[6]);
+        vals.manaCost = uint.Parse(row[3]);
+        vals.range = uint.Parse(row[4]);
+        vals.damage = uint.Parse(row[5]);
+        vals.hp = uint.Parse(row[6]);
 
-        vals.abilityDescription = row[7];
-        //vals.abilityId = int.Parse(row[9]); TODO: Reorder columns, this has to be before
+        if(!uint.TryParse(row[7], out vals.abilityId)) vals.abilityId = 0; //In case of no ability, set value 0
+        vals.abilityDescription = row[8];
     }
 }
