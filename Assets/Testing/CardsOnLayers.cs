@@ -15,6 +15,8 @@ public class CardsOnLayers : MonoBehaviour
 
     public int cardsDraw;
 
+    public bool player_1;
+
     void Start()
     {
         //Copy the full deck at the start of the game
@@ -78,9 +80,8 @@ public class CardsOnLayers : MonoBehaviour
             //Set a new position
             newCard.transform.localPosition = new Vector3((200 * i)-400, 0f, 0f);
 
-
             //Add the event PointerUp to select the card
-            GameObject theDeck = GameObject.Find("Deck");
+            GameObject theDeck = this.gameObject;
 
             newCard.AddComponent(typeof(EventTrigger));
             EventTrigger trigger = newCard.GetComponent<EventTrigger>();
@@ -150,11 +151,13 @@ public class CardsOnLayers : MonoBehaviour
             GameObject newLayer = Instantiate(gameDeck[i]);
 
             //Get Layer List from LayerGen script
-            LayersGen layers = GameObject.Find("LayersParent").GetComponent<LayersGen>();
+            List<GameObject> layers;
+            if (player_1) layers = GameObject.Find("LayersParent").GetComponent<LayersGen>().layerListP1;
+            else layers = GameObject.Find("LayersParent").GetComponent<LayersGen>().layerListP0;
 
             //Get a random Layer from list
             GameObject aux;
-            aux = layers.layerList[Random.Range(0, layers.layerList.Count)];
+            aux = layers[Random.Range(0, layers.Count)];
 
             //Set the random layer parent Card
             newLayer.transform.SetParent(aux.transform, false);

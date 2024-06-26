@@ -11,7 +11,7 @@ public class MoveLayer : MonoBehaviour
     void Start()
     {
         thisObject = this.GetComponent<RectTransform>();
-        basisObject = GameObject.Find("LayersParent").GetComponent<RectTransform>();
+        basisObject = transform.parent.GetComponent<RectTransform>();
     }
 
     public void DragLayer()

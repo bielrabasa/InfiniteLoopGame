@@ -2,22 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
+
 public class LayersGen : MonoBehaviour
 {
     public GameObject layerPrefab;
     public float numLayers;
 
+    public bool player1;
     float maxDistance = 600;
 
-    public List<GameObject> layerList;
+    public List<GameObject> layerListP1;
+    public List<GameObject> layerListP0;
     public List<GameObject> playerList;
 
     // Start is called before the first frame update
     void Start()
     {
-        //GameObject parentLayer = GameObject.Find("LayersParent");
-
         for (int i = 0; i < numLayers; i++)
         {
             GameObject newLayer = Instantiate(layerPrefab);
@@ -31,7 +33,29 @@ public class LayersGen : MonoBehaviour
             newLayer.transform.localPosition = new Vector3(0.0f, posY, 0.0f);
 
             if (i == 0 || i == numLayers - 1) playerList.Add(newLayer);
-            else layerList.Add(newLayer);
+            else if (i < numLayers/2)
+            {
+                AddDrag(newLayer);
+                layerListP0.Add(newLayer);
+            }
+            else
+            {
+                AddDrag(newLayer);
+                layerListP1.Add(newLayer);
+            }
         }
+    }
+
+    void AddDrag(GameObject layer)
+    {
+        //Add the event PointerUp to select the card
+        layer.AddComponent(typeof(EventTrigger));
+        EventTrigger trigger = layer.GetComponent<EventTrigger>();
+
+        //Not showed in the inspector, but is there
+        EventTrigger.Entry drag = new EventTrigger.Entry();
+        drag.eventID = EventTriggerType.Drag;
+        drag.callback.AddListener(delegate { layer.GetComponent<MoveLayer>().DragLayer(); });
+        trigger.triggers.Add(drag);
     }
 }
