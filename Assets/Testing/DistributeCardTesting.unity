@@ -217,18 +217,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 636932046}
-        m_TargetAssemblyTypeName: CardsOnLayers, Assembly-CSharp
-        m_MethodName: CreateCards
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 528607991}
         m_TargetAssemblyTypeName: CardsOnLayers, Assembly-CSharp
         m_MethodName: CreateCards
@@ -421,26 +409,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cde9cb21dfc4c42b4739063a6d3334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullDeck:
-  - {fileID: 3248078663638571448, guid: 90ff6ac8297513f448d4360c11d4729a, type: 3}
-  - {fileID: 631749674079819699, guid: 6b79ea4cfb950654fb05ce423044ee17, type: 3}
-  - {fileID: 5521600742612566188, guid: dfa1715eac122e046a3e15589293c57f, type: 3}
-  - {fileID: 7451607389410250576, guid: 57f9408a92ba6e54c8100733abce9a92, type: 3}
-  - {fileID: 8704844041491304998, guid: ad3ce5f2ed4b8214dbba59cb3cc62bf0, type: 3}
-  - {fileID: 461505374228670399, guid: 07862d55ac21a5646aa3aeff0f15f23e, type: 3}
-  - {fileID: 1287578596490592442, guid: c06142beeb2fb7a48b9d885ec510c0b3, type: 3}
-  - {fileID: 2240603345279938880, guid: 1ec679ca87484bc4fb21d3bbab7b73be, type: 3}
-  - {fileID: 1493598895175111895, guid: 6c37550e6dab7ba4184011b7fbc2bf45, type: 3}
-  - {fileID: 2140380470218927647, guid: e853f3a882407bc47b77b0f427947057, type: 3}
-  auxDeck: []
-  toSelect: []
-  toGameDeck: []
-  gameDeck: []
+  fullDeck: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
+  auxDeck: 
+  toSelect: 
+  toGameDeck: 
+  gameDeck: 
   panelSelectCards: {fileID: 2138335215}
   selectCards: {fileID: 1496365040}
   cardsDraw: 5
   player_1: 1
-  manaCost: 2
   manaLess: 10
 --- !u!1 &612526720
 GameObject:
@@ -624,26 +601,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cde9cb21dfc4c42b4739063a6d3334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullDeck:
-  - {fileID: 3248078663638571448, guid: 90ff6ac8297513f448d4360c11d4729a, type: 3}
-  - {fileID: 631749674079819699, guid: 6b79ea4cfb950654fb05ce423044ee17, type: 3}
-  - {fileID: 5521600742612566188, guid: dfa1715eac122e046a3e15589293c57f, type: 3}
-  - {fileID: 7451607389410250576, guid: 57f9408a92ba6e54c8100733abce9a92, type: 3}
-  - {fileID: 8704844041491304998, guid: ad3ce5f2ed4b8214dbba59cb3cc62bf0, type: 3}
-  - {fileID: 461505374228670399, guid: 07862d55ac21a5646aa3aeff0f15f23e, type: 3}
-  - {fileID: 1287578596490592442, guid: c06142beeb2fb7a48b9d885ec510c0b3, type: 3}
-  - {fileID: 2240603345279938880, guid: 1ec679ca87484bc4fb21d3bbab7b73be, type: 3}
-  - {fileID: 1493598895175111895, guid: 6c37550e6dab7ba4184011b7fbc2bf45, type: 3}
-  - {fileID: 2140380470218927647, guid: e853f3a882407bc47b77b0f427947057, type: 3}
-  auxDeck: []
-  toSelect: []
-  toGameDeck: []
-  gameDeck: []
+  fullDeck: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
+  auxDeck: 
+  toSelect: 
+  toGameDeck: 
+  gameDeck: 
   panelSelectCards: {fileID: 2138335215}
   selectCards: {fileID: 1496365040}
   cardsDraw: 5
   player_1: 0
-  manaCost: 3
   manaLess: 10
 --- !u!1 &706962833
 GameObject:

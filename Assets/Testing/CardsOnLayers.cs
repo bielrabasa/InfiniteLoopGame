@@ -5,11 +5,11 @@ using UnityEngine.EventSystems;
 
 public class CardsOnLayers : MonoBehaviour
 {
-    public List<GameObject> fullDeck;
-    public List<GameObject> auxDeck;
-    public List<GameObject> toSelect;
-    public List<GameObject> toGameDeck;
-    public List<GameObject> gameDeck;
+    public List<uint> fullDeck;
+    public List<uint> auxDeck;
+    public List<uint> toSelect;
+    public List<uint> toGameDeck;
+    public List<uint> gameDeck;
 
     public GameObject panelSelectCards;
     public GameObject selectCards;
@@ -18,8 +18,7 @@ public class CardsOnLayers : MonoBehaviour
 
     public bool player_1;
 
-    public int manaCost;
-    public int manaLess;
+    public uint manaLess;
 
     void Start()
     {
@@ -53,7 +52,7 @@ public class CardsOnLayers : MonoBehaviour
 
         for (int i = 0; i < cardsDraw; i++)
         {
-            GameObject nextCard;
+            uint nextCard;
 
             //Get Random Card from the auxiliar deck
             nextCard = auxDeck[Random.Range(0, auxDeck.Count)];
@@ -74,87 +73,66 @@ public class CardsOnLayers : MonoBehaviour
 
     public void CreateSelection()
     {
-        for (int i = 0; i < toSelect.Count; i++)
+        CardLoader.LoadCards(ref toSelect);
+        GameObject cards = GameObject.Find("CardLoader");
+        cards.transform.SetParent(selectCards.transform, false);
+
+        foreach (Transform child in cards.transform)
         {
-            //Instatiate the card
-            GameObject newCard = Instantiate(toSelect[i]);
-
-            //Set the random layer parent Card
-            newCard.transform.SetParent(selectCards.transform, false);
-
             //Set a new position
-            newCard.transform.localPosition = new Vector3((200 * i)-400, 0f, 0f);
+            child.transform.localPosition = new Vector3(0, 0, 0f);
 
             //Add the event PointerUp to select the card
             GameObject theDeck = this.gameObject;
 
-            newCard.AddComponent(typeof(EventTrigger));
-            EventTrigger trigger = newCard.GetComponent<EventTrigger>();
+            child.gameObject.AddComponent(typeof(EventTrigger));
+            EventTrigger trigger = child.GetComponent<EventTrigger>();
 
             //Not showed in the inspector, but is there
             EventTrigger.Entry click = new EventTrigger.Entry();
             click.eventID = EventTriggerType.PointerUp;
-            click.callback.AddListener(delegate { theDeck.GetComponent<CardsOnLayers>().PreSelectionCards(newCard); });
+            click.callback.AddListener(delegate { theDeck.GetComponent<CardsOnLayers>().PreSelectionCards(child.gameObject); });
             trigger.triggers.Add(click);
         }
     }
 
     public void PreSelectionCards(GameObject selection)
     {
-        selection = FindOnDeck(selection.name, toSelect);
+        string[] splitArray = selection.name.Split(char.Parse("<"));
+        string[] splitName = splitArray[1].Split(char.Parse(">"));
+        int number;
+        int.TryParse(splitName[0], out number);
 
         //check if the card are in the deck to remove
         for (int i = 0; i < toGameDeck.Count; i++)
         {
-            if(selection == toGameDeck[i])
-            {
-                RemoveToGame(selection);
-                manaLess += manaCost;
+           if(number == toGameDeck[i])
+           {
+                RemoveToGame((uint)number);
+                manaLess += selection.GetComponent<CardValues>().manaCost;
                 return;
-            }
+           }
         }
 
-        //if(selection.GetComponent<InfoCard>().manaCost <= mana)
-        if (manaCost <= manaLess)
+        if(selection.GetComponent<CardValues>().manaCost <= manaLess)
         {
             //if its not, add the card
-            AddToGame(selection);
+            AddToGame((uint)number);
 
-            manaLess -= manaCost;
+            manaLess -= selection.GetComponent<CardValues>().manaCost;
         }
-
     }
 
-    void AddToGame(GameObject newCard)
+    void AddToGame(uint newCard)
     {
         //add the card to the deck
         toGameDeck.Add(newCard);
     }
 
-    void RemoveToGame(GameObject newCard)
+    void RemoveToGame(uint newCard)
     {
         //remove the card to the deck
         toGameDeck.Remove(newCard);
-    }
-
-    GameObject FindOnDeck(string name, List<GameObject> deck)
-    {
-        //check if the card is a copy or original
-        if(name.Contains(char.Parse("(")))
-        {
-            //get just the name of the card
-            string[] splitArray = name.Split(char.Parse("("));
-            name = splitArray[0];
-        }
-
-        //retun the game object  with the name in the deck
-        for (int i = 0; i < deck.Count; i++)
-        {
-            if (deck[i].name == name) return deck[i];
-        }
-        
-        //if the name is not in the deck, return null
-        return null;
     }
 
     public void CreateCards()
@@ -187,14 +165,19 @@ public class CardsOnLayers : MonoBehaviour
             }
         }
 
-        for (int i = toGameDeck.Count - 1; i >= 0; i--)
+
+        CardLoader.LoadCards(ref toGameDeck);
+        GameObject cards = GameObject.Find("CardLoader");
+        foreach (Transform child in cards.transform)
         {
-            //Instatiate the card
-            GameObject newLayer = Instantiate(toGameDeck[i]);
+            string[] splitArray = child.name.Split(char.Parse("<"));
+            string[] splitName = splitArray[1].Split(char.Parse(">"));
+            int number;
+            int.TryParse(splitName[0], out number);
 
             //Remove from the list and addet to the list of the cards in game
-            toGameDeck.Remove(toGameDeck[i]);
-            gameDeck.Add(newLayer);
+            toGameDeck.Remove((uint)number);
+            gameDeck.Add((uint)number);
 
             //Get Layer List from LayerGen script
             List<GameObject> layers;
@@ -206,7 +189,8 @@ public class CardsOnLayers : MonoBehaviour
             aux = layers[Random.Range(0, layers.Count)];
 
             //Set the random layer parent Card
-            newLayer.transform.SetParent(aux.transform, false);
+            child.gameObject.transform.SetParent(aux.transform, false);
         }
+        Destroy(cards);
     }
 }
