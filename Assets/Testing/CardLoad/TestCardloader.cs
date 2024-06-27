@@ -11,7 +11,11 @@ public class TestCardloader : MonoBehaviour
         };
         CardLoader.LoadCards(ref l);
 
+        MapState.SpacesLeft();
+
         MapState.StartTurn();
+        MapState.SpacesLeft();
+
         MapState.StartTurn();
     }
 }

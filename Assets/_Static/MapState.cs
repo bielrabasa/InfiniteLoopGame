@@ -18,10 +18,46 @@ public static class MapState
     { LayerPerks.NONE, LayerPerks.NONE, LayerPerks.NONE, LayerPerks.NONE, LayerPerks.NONE, LayerPerks.NONE };
 
     //Card position on map (both players) [0 = up, 5 = down, 0 = left, 2 = right]
-    public static int[,] cardPositions = new int[6, 3];
+    public static GameObject[,] cardPositions = new GameObject[6, 3];
+
+    static Transform cardHolder = null;
+
+    static void CreateCardHolder()
+    {
+        GameObject holder = new GameObject("CardHolder");
+        cardHolder = holder.transform;
+    }
+
+    //---------------TURN SET CARDS---------------
+    public static int SpacesLeft()
+    {
+        int spaces = 0;
+
+        for(int i = 0; i < 3; i++) //Vertical
+        {
+            for (int j = 0; j < 3; j++) //Horizontal
+            {
+                if (cardPositions[i + (bottomPlayerAtacking ? 3 : 0), j] == null) spaces++;
+            }
+        }
+
+        return spaces;
+    }
+    
+    public static void SetCardsOnMap(List<GameObject> cards)
+    {
+        if (cardHolder == null) CreateCardHolder();
+
+        foreach (GameObject card in cards) 
+        {
+            card.transform.SetParent(cardHolder);
+        }
+
+        //TODO: Set randomly, check for space
+    }
 
 
-    //---------------TURN STATE---------------
+    //---------------TURN ATTACK---------------
     public static bool bottomPlayerAtacking = true;
 
     public static void StartTurn()
