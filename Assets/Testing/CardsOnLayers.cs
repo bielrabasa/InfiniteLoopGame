@@ -8,8 +8,7 @@ public class CardsOnLayers : MonoBehaviour
     public List<uint> fullDeck;
     public List<uint> auxDeck;
     public List<uint> toSelect;
-    public List<uint> toGameDeck;
-    public List<uint> gameDeck;
+    public List<GameObject> toGameDeck;
 
     public GameObject panelSelectCards;
     public GameObject selectCards;
@@ -98,17 +97,17 @@ public class CardsOnLayers : MonoBehaviour
 
     public void PreSelectionCards(GameObject selection)
     {
-        string[] splitArray = selection.name.Split(char.Parse("<"));
+        /*string[] splitArray = selection.name.Split(char.Parse("<"));
         string[] splitName = splitArray[1].Split(char.Parse(">"));
         int number;
-        int.TryParse(splitName[0], out number);
+        int.TryParse(splitName[0], out number);*/
 
         //check if the card are in the deck to remove
         for (int i = 0; i < toGameDeck.Count; i++)
         {
-           if(number == toGameDeck[i])
+           if(selection == toGameDeck[i])
            {
-                RemoveToGame((uint)number);
+                RemoveToGame(selection);
                 manaLess += selection.GetComponent<CardValues>().manaCost;
                 return;
            }
@@ -117,19 +116,19 @@ public class CardsOnLayers : MonoBehaviour
         if(selection.GetComponent<CardValues>().manaCost <= manaLess)
         {
             //if its not, add the card
-            AddToGame((uint)number);
+            AddToGame(selection);
 
             manaLess -= selection.GetComponent<CardValues>().manaCost;
         }
     }
 
-    void AddToGame(uint newCard)
+    void AddToGame(GameObject newCard)
     {
         //add the card to the deck
         toGameDeck.Add(newCard);
     }
 
-    void RemoveToGame(uint newCard)
+    void RemoveToGame(GameObject newCard)
     {
         //remove the card to the deck
         toGameDeck.Remove(newCard);
@@ -137,6 +136,10 @@ public class CardsOnLayers : MonoBehaviour
 
     public void CreateCards()
     {
+        //send list toGsmeObject
+        MapState.SetCardsOnMap(toGameDeck);
+        //destroy cards
+
         //cards return to the deck
         foreach (Transform child in selectCards.transform)
         {
@@ -150,7 +153,7 @@ public class CardsOnLayers : MonoBehaviour
             for (int j = 0; j < toGameDeck.Count; j++)
             {
                 //is selected, so remove from the selection
-                if (toSelect[i] == toGameDeck[j])
+                if (toSelect[i] == toGameDeck[j].GetComponent<CardValues>().id)
                 {
                     toSelect.Remove(toSelect[i]);
                     toRemoveAndAdd = false;
@@ -164,33 +167,5 @@ public class CardsOnLayers : MonoBehaviour
                 toSelect.Remove(toSelect[i]);
             }
         }
-
-
-        CardLoader.LoadCards(ref toGameDeck);
-        GameObject cards = GameObject.Find("CardLoader");
-        foreach (Transform child in cards.transform)
-        {
-            string[] splitArray = child.name.Split(char.Parse("<"));
-            string[] splitName = splitArray[1].Split(char.Parse(">"));
-            int number;
-            int.TryParse(splitName[0], out number);
-
-            //Remove from the list and addet to the list of the cards in game
-            toGameDeck.Remove((uint)number);
-            gameDeck.Add((uint)number);
-
-            //Get Layer List from LayerGen script
-            List<GameObject> layers;
-            if (player_1) layers = GameObject.Find("LayersParent").GetComponent<LayersGen>().layerListP1;
-            else layers = GameObject.Find("LayersParent").GetComponent<LayersGen>().layerListP0;
-
-            //Get a random Layer from list
-            GameObject aux;
-            aux = layers[Random.Range(0, layers.Count)];
-
-            //Set the random layer parent Card
-            child.gameObject.transform.SetParent(aux.transform, false);
-        }
-        Destroy(cards);
     }
 }
