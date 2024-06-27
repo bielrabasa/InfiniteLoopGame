@@ -29,6 +29,8 @@ public static class MapState
     }
 
     //---------------TURN SET CARDS---------------
+    
+    //Returns the number of spaces left
     public static int SpacesLeft()
     {
         int spaces = 0;
@@ -43,17 +45,37 @@ public static class MapState
 
         return spaces;
     }
+
+    //Returns exactly the spaces left
+    static void WhichSpacesLeft(ref List<Vector2Int> spaces)
+    {
+        for (int i = 0; i < 3; i++) //Vertical
+        {
+            for (int hori = 0; hori < 3; hori++) //Horizontal
+            {
+                int vert = i + (bottomPlayerAtacking ? 3 : 0);
+                if (cardPositions[vert, hori] == null) spaces.Add(new Vector2Int(vert, hori));
+            }
+        }
+    }
+
     
     public static void SetCardsOnMap(List<GameObject> cards)
     {
         if (cardHolder == null) CreateCardHolder();
 
-        foreach (GameObject card in cards) 
-        {
-            card.transform.SetParent(cardHolder);
-        }
+        //Change cards parent
+        foreach (GameObject card in cards) card.transform.SetParent(cardHolder);
 
-        //TODO: Set randomly, check for space
+        //Set selected cards randomly
+        List<Vector2Int> spaces = new List<Vector2Int>();
+        WhichSpacesLeft(ref spaces);
+        foreach(GameObject card in cards)
+        {
+            //TODO: Get random number from spaces list
+            //TODO: erase number from spaces list
+            //TODO: Set card on cardPositions array
+        }
     }
 
 

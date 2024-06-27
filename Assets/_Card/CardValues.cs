@@ -34,4 +34,8 @@ public class CardValues : MonoBehaviour
     }
 
     //TODO: All attack & move functions
+    public void Attack()
+    {
+
+    }
 }

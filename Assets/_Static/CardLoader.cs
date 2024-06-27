@@ -36,9 +36,9 @@ public static class CardLoader
 
         foreach(int id in cardIds)
         {
-            if (id >= csv.Length)
+            if (id <= 0 || id >= csv.Length)
             {
-                Debug.Log("[CardLoading] Card ID out of CSV file length.");
+                Debug.Log("[CardLoading] Card ID <" + id + "> out of CSV file length.");
                 continue;
             }
 
