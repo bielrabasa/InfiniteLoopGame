@@ -76,10 +76,12 @@ public class CardsOnLayers : MonoBehaviour
         GameObject cards = GameObject.Find("CardLoader");
         cards.transform.SetParent(selectCards.transform, false);
 
+        int i = 0;
+
         foreach (Transform child in cards.transform)
         {
             //Set a new position
-            child.transform.localPosition = new Vector3(0, 0, 0f);
+            child.transform.localPosition = new Vector3((350 * i) - (175 * (cards.transform.childCount - 1)), 0.0f, 0.0f);
 
             //Add the event PointerUp to select the card
             GameObject theDeck = this.gameObject;
@@ -92,16 +94,13 @@ public class CardsOnLayers : MonoBehaviour
             click.eventID = EventTriggerType.PointerUp;
             click.callback.AddListener(delegate { theDeck.GetComponent<CardsOnLayers>().PreSelectionCards(child.gameObject); });
             trigger.triggers.Add(click);
+
+            i++;
         }
     }
 
     public void PreSelectionCards(GameObject selection)
     {
-        /*string[] splitArray = selection.name.Split(char.Parse("<"));
-        string[] splitName = splitArray[1].Split(char.Parse(">"));
-        int number;
-        int.TryParse(splitName[0], out number);*/
-
         //check if the card are in the deck to remove
         for (int i = 0; i < toGameDeck.Count; i++)
         {
@@ -138,13 +137,9 @@ public class CardsOnLayers : MonoBehaviour
     {
         //send list toGsmeObject
         MapState.SetCardsOnMap(toGameDeck);
-        //destroy cards
 
-        //cards return to the deck
-        foreach (Transform child in selectCards.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        //destroy physical cards
+        Destroy(selectCards.transform.GetChild(0).gameObject);
 
         //Check the selected card to return to the deck or play
         for (int i = toSelect.Count - 1; i >= 0; i--)
@@ -167,5 +162,6 @@ public class CardsOnLayers : MonoBehaviour
                 toSelect.Remove(toSelect[i]);
             }
         }
+        toGameDeck.Clear();
     }
 }

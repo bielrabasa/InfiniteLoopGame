@@ -409,11 +409,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cde9cb21dfc4c42b4739063a6d3334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullDeck: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
+  fullDeck: 0a000000010000000200000003000000040000000500000006000000070000000800000009000000
   auxDeck: 
   toSelect: 
-  toGameDeck: 
-  gameDeck: 
+  toGameDeck: []
   panelSelectCards: {fileID: 2138335215}
   selectCards: {fileID: 1496365040}
   cardsDraw: 5
@@ -604,8 +603,7 @@ MonoBehaviour:
   fullDeck: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
   auxDeck: 
   toSelect: 
-  toGameDeck: 
-  gameDeck: 
+  toGameDeck: []
   panelSelectCards: {fileID: 2138335215}
   selectCards: {fileID: 1496365040}
   cardsDraw: 5
