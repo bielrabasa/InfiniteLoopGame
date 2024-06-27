@@ -6,7 +6,7 @@ public static class CardLoader
 {
     public static GameObject cardPrefab = null;
     public static string[] csv = null;
-
+    
     static void LoadCardPrefab()
     {
         var loadedObject = Resources.Load<GameObject>("Card");
@@ -42,7 +42,7 @@ public static class CardLoader
                 continue;
             }
 
-            string[] row = csv[id + 1].Split(','); //First line are column names
+            string[] row = csv[id].Split(','); //First line are column names (csv[0])
 
             GameObject card = GameObject.Instantiate(cardPrefab, parent.transform);
             card.name = "Card<" + row[0] + ">"; //Row[0] is card ID, using this for testing purposes
