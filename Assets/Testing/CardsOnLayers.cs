@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class CardsOnLayers : MonoBehaviour
 {
@@ -18,6 +20,10 @@ public class CardsOnLayers : MonoBehaviour
     public bool player_1;
 
     public uint manaLess;
+    public uint maxMana;
+    public uint turn = 1;
+
+    int spacesLeft;
 
     void Start()
     {
@@ -29,10 +35,16 @@ public class CardsOnLayers : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.D) && player_1) DrawCards();
         if(Input.GetKeyDown(KeyCode.A) && !player_1) DrawCards();
+        if(Input.GetKeyDown(KeyCode.S)) turn++;
     }
 
     void DrawCards()
     {
+        //Add the new mana (the turn number)
+        manaLess += turn;
+        //set 10 as max Mana
+        if (manaLess > maxMana) manaLess = maxMana;
+
         //Get the cards to play and split from the other cards each turn
         SelectCards();
     }
@@ -66,6 +78,9 @@ public class CardsOnLayers : MonoBehaviour
         //Show a menu to select the cards
         panelSelectCards.SetActive(true);
 
+        //Set the text to show the mana have less
+        SetMana();
+
         //choose between 5 cards
         CreateSelection();
     }
@@ -97,6 +112,8 @@ public class CardsOnLayers : MonoBehaviour
 
             i++;
         }
+
+        spacesLeft = MapState.SpacesLeft();
     }
 
     public void PreSelectionCards(GameObject selection)
@@ -107,17 +124,15 @@ public class CardsOnLayers : MonoBehaviour
            if(selection == toGameDeck[i])
            {
                 RemoveToGame(selection);
-                manaLess += selection.GetComponent<CardValues>().manaCost;
                 return;
            }
         }
 
-        if(selection.GetComponent<CardValues>().manaCost <= manaLess)
+        //if (selection.GetComponent<CardValues>().manaCost <= manaLess && spacesLeft < 0)
+        if (selection.GetComponent<CardValues>().manaCost <= manaLess)
         {
             //if its not, add the card
             AddToGame(selection);
-
-            manaLess -= selection.GetComponent<CardValues>().manaCost;
         }
     }
 
@@ -125,12 +140,30 @@ public class CardsOnLayers : MonoBehaviour
     {
         //add the card to the deck
         toGameDeck.Add(newCard);
+        //subtract the mana
+        manaLess -= newCard.GetComponent<CardValues>().manaCost;
+        //-1 space in the pool
+        spacesLeft--;
+
+        //Set the text to show the mana have less
+        SetMana();
+        //set a new color for the card (glowing)
+        newCard.transform.Find("CardImage").GetComponent<Image>().color = new Color(0.98f, 1.0f, 0.80f, 1.0f);
     }
 
     void RemoveToGame(GameObject newCard)
     {
         //remove the card to the deck
         toGameDeck.Remove(newCard);
+        //take back the mana
+        manaLess += newCard.GetComponent<CardValues>().manaCost;
+        //take back the space in the pool
+        spacesLeft++;
+
+        //Set the text to show the mana have less
+        SetMana();
+        //set athe original color
+        newCard.transform.Find("CardImage").GetComponent<Image>().color = Color.white;
     }
 
     public void CreateCards()
@@ -163,5 +196,10 @@ public class CardsOnLayers : MonoBehaviour
             }
         }
         toGameDeck.Clear();
+    }
+
+    void SetMana()
+    {
+        panelSelectCards.transform.Find("Mana").Find("Mana_Text").GetComponent<TMP_Text>().text = manaLess.ToString();
     }
 }

@@ -229,6 +229,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 636932046}
+        m_TargetAssemblyTypeName: CardsOnLayers, Assembly-CSharp
+        m_MethodName: CreateCards
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &302423559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,7 +421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cde9cb21dfc4c42b4739063a6d3334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullDeck: 0a000000010000000200000003000000040000000500000006000000070000000800000009000000
+  fullDeck: 0100000002000000030000000400000005000000060000000700000008000000090000000a000000
   auxDeck: 
   toSelect: 
   toGameDeck: []
@@ -417,7 +429,9 @@ MonoBehaviour:
   selectCards: {fileID: 1496365040}
   cardsDraw: 5
   player_1: 1
-  manaLess: 10
+  manaLess: 0
+  maxMana: 10
+  turn: 1
 --- !u!1 &612526720
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,7 +444,7 @@ GameObject:
   - component: {fileID: 612526723}
   - component: {fileID: 612526722}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Mana_Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -600,7 +614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cde9cb21dfc4c42b4739063a6d3334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullDeck: 00000000010000000200000003000000040000000500000006000000070000000800000009000000
+  fullDeck: 0100000002000000030000000400000005000000060000000700000008000000090000000a000000
   auxDeck: 
   toSelect: 
   toGameDeck: []
@@ -608,7 +622,9 @@ MonoBehaviour:
   selectCards: {fileID: 1496365040}
   cardsDraw: 5
   player_1: 0
-  manaLess: 10
+  manaLess: 0
+  maxMana: 10
+  turn: 1
 --- !u!1 &706962833
 GameObject:
   m_ObjectHideFlags: 0
