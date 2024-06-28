@@ -39,11 +39,14 @@ public class CardValues : MonoBehaviour
         transform.Find("DamageOutline").Find("Damage_Text").GetComponent<TMP_Text>().text = damage.ToString();
         transform.Find("RangeOutline").Find("Range_Text").GetComponent<TMP_Text>().text = range.ToString();
 
- 
         transform.Find("CardImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/" + spriteName);
 
+        if (cardName == "") cardName = "[_____ _____]";
         transform.Find("Name_Text").GetComponent<TMP_Text>().text = cardName;
+
+        if (faction == "") faction = "[_____]";
         transform.Find("Faction_Text").GetComponent<TMP_Text>().text = faction;
+
         transform.Find("Description_Text").GetComponent<TMP_Text>().text = abilityDescription;
 
         //TODO ROGER <3: Initialize visual representation
