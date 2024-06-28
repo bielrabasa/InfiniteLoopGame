@@ -66,7 +66,10 @@ public static class CardLoader
         vals.id = uint.Parse(row[0]);
 
         vals.cardName = row[1];
+        if (vals.cardName == "") vals.cardName = "No Name";
+
         vals.faction = row[2];
+        if (vals.faction == "") vals.faction = "No Faction";
 
         vals.manaCost = uint.Parse(row[3]);
         vals.range = uint.Parse(row[4]);

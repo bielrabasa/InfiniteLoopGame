@@ -72,12 +72,26 @@ public static class MapState
         WhichSpacesLeft(ref spaces);
         foreach(GameObject card in cards)
         {
-            //TODO: Get random number from spaces list
-            //TODO: erase number from spaces list
-            //TODO: Set card on cardPositions array
+            if(spaces.Count == 0)
+            {
+                Debug.Log("[MapState] Selected cards exceed board space, not placing card.");
+                continue;
+            }
+
+            //Get Random from empty spaces & erase from posible positions
+            Vector2Int cardPos = spaces[Random.Range(0, spaces.Count)];
+            spaces.Remove(cardPos);
+
+            //Set Card to array & set in physical board
+            cardPositions[cardPos.x, cardPos.y] = card;
+            SetCardOnPhysicalBoard(card.transform, cardPos);
         }
     }
 
+    static void SetCardOnPhysicalBoard(Transform card, Vector2Int gridPos)
+    {
+        //TODO: Set card fisically on position
+    }
 
     //---------------TURN ATTACK---------------
     public static bool bottomPlayerAtacking = true;
@@ -91,6 +105,7 @@ public static class MapState
                 for (int r = 0; r < 3; r++) //from left to right
                 {
                     //Attack
+                    //TODO: Call attack function
                     //Debug.Log("BOT = L:" + l + " R:" + r);
                 }
             }
@@ -102,6 +117,7 @@ public static class MapState
                 for (int r = 2; r >= 0; r--) //from right to left
                 {
                     //Attack
+                    //TODO: Call attack function
                     //Debug.Log("TOP = L:" + l + " R:" + r);
                 }
             }
