@@ -81,7 +81,7 @@ public class CardsOnLayers : MonoBehaviour
         foreach (Transform child in cards.transform)
         {
             //Set a new position
-            child.transform.localPosition = new Vector3((350 * i) - (175 * (cards.transform.childCount - 1)), 0.0f, 0.0f);
+            child.transform.localPosition = new Vector3((350 * i) - (175 * (cards.transform.childCount - 1)), 100.0f, 0.0f);
 
             //Add the event PointerUp to select the card
             GameObject theDeck = this.gameObject;
