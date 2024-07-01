@@ -169,6 +169,15 @@ public class CardsOnLayers : MonoBehaviour
     public void CreateCards()
     {
         //send list toGsmeObject
+        foreach (GameObject card in toGameDeck)
+        {
+            card.transform.Find("CardImage").GetComponent<Image>().color = Color.white;
+
+            //Remove all listeners
+            EventTrigger trigger = card.GetComponent<EventTrigger>();
+            trigger.triggers.RemoveRange(0, trigger.triggers.Count);
+        }
+
         MapState.SetCardsOnMap(toGameDeck);
 
         //destroy physical cards

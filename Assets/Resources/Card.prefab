@@ -750,7 +750,7 @@ MonoBehaviour:
   hp: 0
   abilityId: 0
   abilityDescription: 
-  spriteName: orla_Roger_Salas
+  spriteName: 
 --- !u!1 &5530332575417205304
 GameObject:
   m_ObjectHideFlags: 0
