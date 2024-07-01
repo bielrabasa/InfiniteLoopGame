@@ -18,8 +18,7 @@ public class MoveLayer : MonoBehaviour
 
     public void DragLayer()
     {
-        Vector3 offset = new Vector3(863, 0, 93);
-        Vector3 screenPosition = Input.mousePosition + offset;
+        Vector3 screenPosition = Input.mousePosition;
 
         screenPosition.x = basisObject.position.x;
         screenPosition.z = basisObject.position.z;
@@ -27,5 +26,6 @@ public class MoveLayer : MonoBehaviour
         thisObject.position = Camera.main.ScreenToWorldPoint(screenPosition);
 
         thisObject.localPosition = new Vector3(0, thisObject.position.y, 0);
+        thisObject.localPosition *= mouseSensitivity;
     }
 }
