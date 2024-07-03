@@ -214,6 +214,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 356662741}
+  - component: {fileID: 356662742}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -244,6 +245,18 @@ Transform:
   - {fileID: 1792986138}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &356662742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 356662740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a85099b8018cb74987bb2f18c674e25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &496202830
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,8 +768,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1625113434}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.41650632, y: -0.0010899879, z: 0.00050492655, w: 0.90913206}
+  m_LocalPosition: {x: -0.20373318, y: 20.513355, z: -19.449093}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
