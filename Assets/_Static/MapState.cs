@@ -66,7 +66,7 @@ public static class MapState
 
         for(int i = 0; i < COLUMNS; i++)
         {
-            for (int j = 0; j < ROWS; j++)
+            for (int j = 0; j < ROWS / 2; j++)
             {
                 if (cardPositions[i, j + (bottomPlayerAtacking ? ROWS / 2 : 0)] == null) spaces++;
             }
