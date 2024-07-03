@@ -17,7 +17,7 @@ public static class MapState
     public static LayerPerks[] Layer = new LayerPerks[6] 
     { LayerPerks.NONE, LayerPerks.NONE, LayerPerks.NONE, LayerPerks.NONE, LayerPerks.NONE, LayerPerks.NONE };
 
-    //Card position on map (both players) [0 = up, 5 = down, 0 = left, 2 = right]
+    //Card position on map (both players) [0 = left, 2 = right, 0 = up, 5 = down]
     public static GameObject[,] cardPositions = new GameObject[3, 6];
 
     static Transform cardHolder = null;

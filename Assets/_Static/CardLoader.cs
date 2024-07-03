@@ -4,8 +4,8 @@ using UnityEngine;
 
 public static class CardLoader
 {
-    public static GameObject cardPrefab = null;
-    public static string[] csv = null;
+    static GameObject cardPrefab = null;
+    static string[] csv = null;
     
     static void LoadCardPrefab()
     {
