@@ -34,20 +34,22 @@ public class CardValues : MonoBehaviour
 
     void InitializeVisuals()
     {
-        transform.Find("ManaCostOutline").Find("ManaCost_Text").GetComponent<TMP_Text>().text = manaCost.ToString();
-        transform.Find("HPOutline").Find("HP_Text").GetComponent<TMP_Text>().text = hp.ToString();
-        transform.Find("DamageOutline").Find("Damage_Text").GetComponent<TMP_Text>().text = damage.ToString();
-        transform.Find("RangeOutline").Find("Range_Text").GetComponent<TMP_Text>().text = range.ToString();
+        Transform traCanvas = transform.Find("Canvas");
 
-        transform.Find("CardImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/" + spriteName);
+        traCanvas.Find("ManaCostOutline").Find("ManaCost_Text").GetComponent<TMP_Text>().text = manaCost.ToString();
+        traCanvas.Find("HPOutline").Find("HP_Text").GetComponent<TMP_Text>().text = hp.ToString();
+        traCanvas.Find("DamageOutline").Find("Damage_Text").GetComponent<TMP_Text>().text = damage.ToString();
+        traCanvas.Find("RangeOutline").Find("Range_Text").GetComponent<TMP_Text>().text = range.ToString();
+
+        traCanvas.Find("CardImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/" + spriteName);
 
         if (cardName == "") cardName = "[_____ _____]";
-        transform.Find("Name_Text").GetComponent<TMP_Text>().text = cardName;
+        traCanvas.Find("Name_Text").GetComponent<TMP_Text>().text = cardName;
 
         if (faction == "") faction = "[_____]";
-        transform.Find("Faction_Text").GetComponent<TMP_Text>().text = faction;
+        traCanvas.Find("Faction_Text").GetComponent<TMP_Text>().text = faction;
 
-        transform.Find("Description_Text").GetComponent<TMP_Text>().text = abilityDescription;
+        traCanvas.Find("Description_Text").GetComponent<TMP_Text>().text = abilityDescription;
 
         //TODO ROGER <3: Initialize visual representation
     }
