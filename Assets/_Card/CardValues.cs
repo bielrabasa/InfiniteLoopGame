@@ -41,6 +41,7 @@ public class CardValues : MonoBehaviour
         traCanvas.Find("DamageOutline").Find("Damage_Text").GetComponent<TMP_Text>().text = damage.ToString();
         traCanvas.Find("RangeOutline").Find("Range_Text").GetComponent<TMP_Text>().text = range.ToString();
 
+        spriteName = "BanishCard";
         traCanvas.Find("CardImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/" + spriteName);
 
         if (cardName == "") cardName = "[_____ _____]";

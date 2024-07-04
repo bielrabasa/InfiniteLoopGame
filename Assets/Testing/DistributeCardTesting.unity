@@ -297,7 +297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &327372199
 RectTransform:
   m_ObjectHideFlags: 0
@@ -425,6 +425,9 @@ MonoBehaviour:
   auxDeck: 
   toSelect: 
   toGameDeck: []
+  cardLayer:
+    serializedVersion: 2
+    m_Bits: 8
   panelSelectCards: {fileID: 2138335215}
   selectCards: {fileID: 1496365040}
   cardsDraw: 5
@@ -618,6 +621,9 @@ MonoBehaviour:
   auxDeck: 
   toSelect: 
   toGameDeck: []
+  cardLayer:
+    serializedVersion: 2
+    m_Bits: 0
   panelSelectCards: {fileID: 2138335215}
   selectCards: {fileID: 1496365040}
   cardsDraw: 5
