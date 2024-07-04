@@ -12,6 +12,8 @@ public class CardsOnLayers : MonoBehaviour
     public List<uint> toSelect;
     public List<GameObject> toGameDeck;
 
+    public LayerMask cardLayer;
+
     public GameObject panelSelectCards;
     public GameObject selectCards;
 
@@ -36,6 +38,8 @@ public class CardsOnLayers : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.D) && player_1) DrawCards();
         if(Input.GetKeyDown(KeyCode.A) && !player_1) DrawCards();
         if(Input.GetKeyDown(KeyCode.S)) turn++;
+
+        DetectCard();
     }
 
     void DrawCards()
@@ -89,17 +93,18 @@ public class CardsOnLayers : MonoBehaviour
     {
         CardLoader.LoadCards(ref toSelect);
         GameObject cards = GameObject.Find("CardLoader");
-        cards.transform.SetParent(selectCards.transform, false);
+        //cards.transform.SetParent(selectCards.transform, false);
 
         int i = 0;
 
         foreach (Transform child in cards.transform)
         {
             //Set a new position
-            child.transform.localPosition = new Vector3((350 * i) - (175 * (cards.transform.childCount - 1)), 100.0f, 0.0f);
+            child.transform.localPosition = new Vector3((2 * i) - (1 * (cards.transform.childCount - 1)), 1, 0.0f);
+            child.transform.Rotate(-90.0f, (cards.transform.childCount - 1), 0.0f);
 
             //Add the event PointerUp to select the card
-            GameObject theDeck = this.gameObject;
+            /*GameObject theDeck = this.gameObject;
 
             child.gameObject.AddComponent(typeof(EventTrigger));
             EventTrigger trigger = child.GetComponent<EventTrigger>();
@@ -108,7 +113,7 @@ public class CardsOnLayers : MonoBehaviour
             EventTrigger.Entry click = new EventTrigger.Entry();
             click.eventID = EventTriggerType.PointerUp;
             click.callback.AddListener(delegate { theDeck.GetComponent<CardsOnLayers>().PreSelectionCards(child.gameObject); });
-            trigger.triggers.Add(click);
+            trigger.triggers.Add(click);*/
 
             i++;
         }
@@ -148,7 +153,7 @@ public class CardsOnLayers : MonoBehaviour
         //Set the text to show the mana have less
         SetMana();
         //set a new color for the card (glowing)
-        newCard.transform.Find("CardImage").GetComponent<Image>().color = new Color(0.98f, 1.0f, 0.80f, 1.0f);
+        newCard.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = new Color(0.98f, 1.0f, 0.80f, 1.0f);
     }
 
     void RemoveToGame(GameObject newCard)
@@ -163,7 +168,7 @@ public class CardsOnLayers : MonoBehaviour
         //Set the text to show the mana have less
         SetMana();
         //set athe original color
-        newCard.transform.Find("CardImage").GetComponent<Image>().color = Color.white;
+        newCard.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = Color.white;
     }
 
     public void CreateCards()
@@ -210,5 +215,21 @@ public class CardsOnLayers : MonoBehaviour
     void SetMana()
     {
         panelSelectCards.transform.Find("Mana").Find("Mana_Text").GetComponent<TMP_Text>().text = manaLess.ToString();
+    }
+
+    void DetectCard()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            // Raycast to detect tiles
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, cardLayer))
+            {
+                Debug.Log(hit.transform.gameObject.name);
+                PreSelectionCards(hit.transform.gameObject);
+            }
+        }
     }
 }
