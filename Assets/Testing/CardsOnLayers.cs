@@ -176,17 +176,18 @@ public class CardsOnLayers : MonoBehaviour
         //send list toGsmeObject
         foreach (GameObject card in toGameDeck)
         {
-            card.transform.Find("CardImage").GetComponent<Image>().color = Color.white;
+            card.transform.Find("Canvas").transform.Find("CardImage").GetComponent<Image>().color = Color.white;
+            card.layer = 6;
 
             //Remove all listeners
-            EventTrigger trigger = card.GetComponent<EventTrigger>();
-            trigger.triggers.RemoveRange(0, trigger.triggers.Count);
+            /*EventTrigger trigger = card.GetComponent<EventTrigger>();
+            trigger.triggers.RemoveRange(0, trigger.triggers.Count);*/
         }
 
         MapState.SetCardsOnMap(toGameDeck);
 
         //destroy physical cards
-        Destroy(selectCards.transform.GetChild(0).gameObject);
+        Destroy(GameObject.Find("CardLoader").gameObject);
 
         //Check the selected card to return to the deck or play
         for (int i = toSelect.Count - 1; i >= 0; i--)

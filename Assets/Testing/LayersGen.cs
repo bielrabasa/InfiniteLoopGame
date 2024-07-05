@@ -17,6 +17,11 @@ public class LayersGen : MonoBehaviour
     public List<GameObject> layerListP0;
     public List<GameObject> playerList;
 
+    public Vector3 initialPos;
+    public int distanceLayers;
+
+    public bool layerYOrZ;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,21 +31,23 @@ public class LayersGen : MonoBehaviour
             newLayer.name = "Layer_" + i.ToString();
             newLayer.transform.SetParent(transform, false);
 
-            maxDistance = layerPrefab.GetComponent<RectTransform>().sizeDelta.y * numLayers;
+            //maxDistance = layerPrefab.GetComponent<RectTransform>().sizeDelta.y * numLayers;
+            maxDistance = layerPrefab.transform.localScale.y * numLayers;
 
             float posY = (-maxDistance / 2) + (maxDistance * (i / (numLayers - 1)));
 
-            newLayer.transform.localPosition = new Vector3(0.0f, posY, 0.0f);
+            if (layerYOrZ) newLayer.transform.localPosition = (new Vector3(0.0f, posY * distanceLayers, 0.0f) + initialPos);
+            else newLayer.transform.localPosition = (new Vector3(0.0f, 0.0f, posY * distanceLayers) + initialPos);
 
             if (i == 0 || i == numLayers - 1) playerList.Add(newLayer);
             else if (i < numLayers/2)
             {
-                AddDrag(newLayer);
+                //AddDrag(newLayer);
                 layerListP0.Add(newLayer);
             }
             else
             {
-                AddDrag(newLayer);
+                //AddDrag(newLayer);
                 layerListP1.Add(newLayer);
             }
         }
