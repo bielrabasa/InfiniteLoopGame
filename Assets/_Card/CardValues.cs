@@ -11,15 +11,24 @@ public class CardValues : MonoBehaviour
     public string cardName;
     public string faction;
 
-    public uint manaCost;
-    public uint range;
-    public uint damage;
-    public uint hp;
+    public int manaCost;
+    public int range;
+    public int damage;
+    public int hp;
 
     public uint abilityId;
     public string abilityDescription;
 
     public string spriteName;
+
+    //-------------------------------------
+
+    public int tempDamage;
+    public int tempRange;
+
+    //-------------------------------------
+
+    public Ability abilityScript;
 
     void Start()
     {
@@ -30,6 +39,8 @@ public class CardValues : MonoBehaviour
     void AddAbilityScript()
     {
         //TODO: Add ability script from ability id
+        abilityScript = gameObject.AddComponent<Ability>();
+        abilityScript.me = this;
     }
 
     void InitializeVisuals()
@@ -55,9 +66,19 @@ public class CardValues : MonoBehaviour
         //TODO ROGER <3: Initialize visual representation
     }
 
-    //TODO: All attack & move functions
-    public void Attack()
-    {
+    //-----------PLAY FUNCTIONS----------
 
+    public void ResetTemporalValues()
+    {
+        tempDamage = damage;
+        tempRange = range;
+    }
+
+    public void Attack(Vector2Int myPosition)
+    {
+        ResetTemporalValues();
+
+        abilityScript.myStartPosition = myPosition;
+        abilityScript.MakeCardAttackSequence();
     }
 }

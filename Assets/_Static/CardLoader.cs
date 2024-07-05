@@ -71,10 +71,10 @@ public static class CardLoader
         vals.faction = row[2];
         if (vals.faction == "") vals.faction = "No Faction";
 
-        vals.manaCost = uint.Parse(row[3]);
-        vals.range = uint.Parse(row[4]);
-        vals.damage = uint.Parse(row[5]);
-        vals.hp = uint.Parse(row[6]);
+        vals.manaCost = int.Parse(row[3]);
+        vals.range = int.Parse(row[4]);
+        vals.damage = int.Parse(row[5]);
+        vals.hp = int.Parse(row[6]);
 
         if(!uint.TryParse(row[7], out vals.abilityId)) vals.abilityId = 0; //In case of no ability, set value 0
         vals.abilityDescription = row[8];

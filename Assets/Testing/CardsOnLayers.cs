@@ -21,8 +21,8 @@ public class CardsOnLayers : MonoBehaviour
 
     public bool player_1;
 
-    public uint manaLess;
-    public uint maxMana;
+    public int manaLess;
+    public int maxMana;
     public uint turn = 1;
 
     int spacesLeft;
@@ -45,7 +45,7 @@ public class CardsOnLayers : MonoBehaviour
     void DrawCards()
     {
         //Add the new mana (the turn number)
-        manaLess += turn;
+        manaLess += (int)turn;
         //set 10 as max Mana
         if (manaLess > maxMana) manaLess = maxMana;
 

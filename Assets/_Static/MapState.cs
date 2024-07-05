@@ -5,8 +5,8 @@ using static UnityEditor.VersionControl.Asset;
 
 public static class MapState
 {
-    const int COLUMNS = 3;
-    const int ROWS = 6;
+    public const int COLUMNS = 3;
+    public const int ROWS = 6;
 
     //---------------MAP STATE---------------
     public enum LayerPerks
@@ -116,12 +116,15 @@ public static class MapState
         }
     }
 
-    static void SetCardOnPhysicalBoard(Transform card, Vector2Int gridPos)
+    public static void SetCardOnPhysicalBoard(Transform card, Vector2Int gridPos)
     {
         if(boardPositions == null) CreateBoardPositions();
 
         //TODO: This will be made into a Lerp function
         card.localPosition = boardPositions[gridPos.x, gridPos.y];
+
+        //TODO: Hardcoded scale
+        card.localScale *= 4f;
     }
 
     //---------------TURN ATTACK---------------
@@ -131,24 +134,22 @@ public static class MapState
     {
         if (bottomPlayerAtacking) //BOTTOM player
         {
-            for(int l = ROWS/2; l < ROWS; l++) // layers 3,4,5
+            for(int l = ROWS / 2; l < ROWS; l++) // layers 3,4,5
             {
                 for (int r = 0; r < COLUMNS; r++) //from left to right
                 {
-                    //Attack
-                    //TODO: Call attack function
+                    cardPositions[l, r].GetComponent<CardValues>().Attack(new Vector2Int(l, r));
                     //Debug.Log("BOT = L:" + l + " R:" + r);
                 }
             }
         }
         else //TOP player
         {
-            for (int l = ROWS / 2 - 1; l >= 0; l--) // layers 3,4,5
+            for (int l = ROWS / 2 - 1; l >= 0; l--) // layers 2,1,0
             {
                 for (int r = COLUMNS - 1; r >= 0; r--) //from right to left
                 {
-                    //Attack
-                    //TODO: Call attack function
+                    cardPositions[l, r].GetComponent<CardValues>().Attack(new Vector2Int(l, r));
                     //Debug.Log("TOP = L:" + l + " R:" + r);
                 }
             }
