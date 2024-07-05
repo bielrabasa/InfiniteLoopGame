@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2235557886631231999}
   - component: {fileID: 4119843629045725387}
   - component: {fileID: 528866772205015522}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: LayerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e2ab42280bfb094dbb39e16df4256bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseSensitivity: 1
   layers:
     serializedVersion: 2
     m_Bits: 128

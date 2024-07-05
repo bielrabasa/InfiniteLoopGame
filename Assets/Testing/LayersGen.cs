@@ -42,12 +42,14 @@ public class LayersGen : MonoBehaviour
             if (i == 0 || i == numLayers - 1) playerList.Add(newLayer);
             else if (i < numLayers/2)
             {
-                AddDrag(newLayer);
+                //AddDrag(newLayer);
+                newLayer.layer = 7;
                 layerListP0.Add(newLayer);
             }
             else
             {
-                AddDrag(newLayer);
+                //AddDrag(newLayer);
+                newLayer.layer = 7;
                 layerListP1.Add(newLayer);
             }
         }
