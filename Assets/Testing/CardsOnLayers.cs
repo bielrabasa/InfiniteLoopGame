@@ -228,7 +228,6 @@ public class CardsOnLayers : MonoBehaviour
             // Raycast to detect tiles
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, cardLayer))
             {
-                Debug.Log(hit.transform.gameObject.name);
                 PreSelectionCards(hit.transform.gameObject);
             }
         }
