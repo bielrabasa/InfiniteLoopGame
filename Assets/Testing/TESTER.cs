@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class TESTER : MonoBehaviour
 {
+    [Header("SPACE - PlayTurn")]
+    [SerializeField] bool bottomPlayerAttacking = true; //Just to know who is playing
+
+
+    [Space]
     //ALWAYS 3 COLUMNS
     [SerializeField] Vector3Int[] cardsOnMap = new Vector3Int[MapState.ROWS];
 
@@ -18,10 +23,12 @@ public class TESTER : MonoBehaviour
         {
             for (int j = 0; j < 3; j++)
             {
+                //Do not place cards where there is a 0
                 if(j == 0) if (cardsOnMap[i].x == 0) continue;
                 if(j == 1) if (cardsOnMap[i].y == 0) continue;
                 if(j == 2) if (cardsOnMap[i].z == 0) continue;
 
+                //Set other cards on board
                 SetOneCardOnMap(new Vector2Int(i, j));
             }
         }
@@ -53,7 +60,8 @@ public class TESTER : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            MapState.SetCardsOnMap(new List<GameObject>() { GameObject.CreatePrimitive(PrimitiveType.Cube) });
+            MapState.StartTurn();
+            bottomPlayerAttacking = MapState.bottomPlayerAtacking;
         }
 
         if (Input.GetKeyDown(KeyCode.Return))

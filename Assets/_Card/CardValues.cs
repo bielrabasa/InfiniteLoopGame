@@ -30,10 +30,16 @@ public class CardValues : MonoBehaviour
 
     public Ability abilityScript;
 
-    void Start()
+    private void Awake()
     {
         AddAbilityScript();
+    }
+
+    void Start()
+    {
         InitializeVisuals();
+
+        ResetTemporalValues(); //To initialize tempDamage
     }
 
     void AddAbilityScript()
@@ -64,6 +70,11 @@ public class CardValues : MonoBehaviour
         traCanvas.Find("Description_Text").GetComponent<TMP_Text>().text = abilityDescription;
 
         //TODO ROGER <3: Initialize visual representation
+    }
+    public void UpdateVisuals()
+    {
+        //TODO: probably save objects to make it more efficient
+        InitializeVisuals();
     }
 
     //-----------PLAY FUNCTIONS----------

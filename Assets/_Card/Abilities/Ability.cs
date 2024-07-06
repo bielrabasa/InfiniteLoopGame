@@ -12,6 +12,7 @@ public class Ability : MonoBehaviour
 
     public void MakeCardAttackSequence()
     {
+        Debug.Log("Attacking: " + gameObject.name + " From: " + myStartPosition);
         //TODO: All about passing through layers...
 
 
@@ -32,6 +33,7 @@ public class Ability : MonoBehaviour
                 FullEncounter();
             }
 
+            myCurrentPosition.y += (MapState.bottomPlayerAtacking ? -1 : +1);
             //TODO: if killed the enemy and i'm not dead, continue, else break
         }
 
@@ -54,6 +56,10 @@ public class Ability : MonoBehaviour
             other.abilityScript.other = me;
             other.abilityScript.OnDie();
         }
+
+        //Update Card Visual Values
+        me?.UpdateVisuals();
+        other?.UpdateVisuals();
     }
 
     //When the card makes damage to the other card
@@ -77,8 +83,7 @@ public class Ability : MonoBehaviour
     //When the card dies either attacking or defending
     public virtual void OnDie() 
     {
-        //TODO: destroy card and set MapState position to null
-
-        Debug.Log("CardDied!");
+        MapState.cardPositions[myStartPosition.x, myCurrentPosition.y] = null;
+        Destroy(gameObject);
     }
 }

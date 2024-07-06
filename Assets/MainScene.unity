@@ -249,13 +249,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a85099b8018cb74987bb2f18c674e25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bottomPlayerAttacking: 1
   cardsOnMap:
-  - {x: 3, y: 1, z: 4}
-  - {x: 10, y: 9, z: 0}
-  - {x: 0, y: 8, z: 0}
-  - {x: 0, y: 1, z: 0}
-  - {x: 2, y: 5, z: 0}
-  - {x: 0, y: 7, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 6, y: 15, z: 0}
+  - {x: 2, y: 5, z: 6}
+  - {x: 5, y: 1, z: 4}
+  - {x: 1, y: 2, z: 13}
+  - {x: 0, y: 5, z: 0}
 --- !u!1 &356662740
 GameObject:
   m_ObjectHideFlags: 0

@@ -120,6 +120,8 @@ public static class MapState
     {
         if(boardPositions == null) CreateBoardPositions();
 
+        card.GetComponent<Ability>().myStartPosition = gridPos;
+
         //TODO: This will be made into a Lerp function
         card.localPosition = boardPositions[gridPos.x, gridPos.y];
 
@@ -134,28 +136,34 @@ public static class MapState
     {
         if (bottomPlayerAtacking) //BOTTOM player
         {
-            for(int l = ROWS / 2; l < ROWS; l++) // layers 3,4,5
+            for(int r = ROWS / 2; r < ROWS; r++) // layers 3,4,5
             {
-                for (int r = 0; r < COLUMNS; r++) //from left to right
+                for (int c = 0; c < COLUMNS; c++) //from left to right
                 {
-                    cardPositions[l, r].GetComponent<CardValues>().Attack(new Vector2Int(l, r));
-                    //Debug.Log("BOT = L:" + l + " R:" + r);
+                    CardAttack(c, r);
                 }
             }
         }
         else //TOP player
         {
-            for (int l = ROWS / 2 - 1; l >= 0; l--) // layers 2,1,0
+            for (int r = ROWS / 2 - 1; r >= 0; r--) // layers 2,1,0
             {
-                for (int r = COLUMNS - 1; r >= 0; r--) //from right to left
+                for (int c = COLUMNS - 1; c >= 0; c--) //from right to left
                 {
-                    cardPositions[l, r].GetComponent<CardValues>().Attack(new Vector2Int(l, r));
-                    //Debug.Log("TOP = L:" + l + " R:" + r);
+                    CardAttack(c, r);
                 }
             }
         }
 
         //Switch Turns
         bottomPlayerAtacking = !bottomPlayerAtacking;
+    }
+
+    static void CardAttack(int c, int r)
+    {
+        if (cardPositions[c, r] != null)
+        {
+            cardPositions[c, r].GetComponent<CardValues>().Attack(new Vector2Int(c, r));
+        }
     }
 }
