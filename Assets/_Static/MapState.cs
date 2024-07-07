@@ -134,6 +134,8 @@ public static class MapState
 
     public static void StartTurn()
     {
+        Debug.Log("Starting Turn for " + (bottomPlayerAtacking ? "BOTTOM" : "TOP") + " player.");
+
         if (bottomPlayerAtacking) //BOTTOM player
         {
             for(int r = ROWS / 2; r < ROWS; r++) // layers 3,4,5

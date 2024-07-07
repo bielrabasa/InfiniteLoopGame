@@ -33,8 +33,8 @@ public class Ability : MonoBehaviour
                 FullEncounter();
             }
 
-            myCurrentPosition.y += (MapState.bottomPlayerAtacking ? -1 : +1);
             //TODO: if killed the enemy and i'm not dead, continue, else break
+            myCurrentPosition.y += (MapState.bottomPlayerAtacking ? -1 : +1); //TODO on top
         }
 
         //TODO: go back to myStartingPosition
@@ -83,7 +83,7 @@ public class Ability : MonoBehaviour
     //When the card dies either attacking or defending
     public virtual void OnDie() 
     {
-        MapState.cardPositions[myStartPosition.x, myCurrentPosition.y] = null;
+        MapState.cardPositions[myStartPosition.x, myStartPosition.y] = null;
         Destroy(gameObject);
     }
 }
