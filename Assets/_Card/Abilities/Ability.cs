@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Ability : MonoBehaviour
@@ -8,13 +9,14 @@ public class Ability : MonoBehaviour
     public Vector2Int myStartPosition;
     Vector2Int myCurrentPosition;
 
+    public bool isDying = false;
+
     private CardValues other;
 
     public void MakeCardAttackSequence()
     {
-        Debug.Log("Attacking: " + gameObject.name + " From: " + myStartPosition);
-        //TODO: All about passing through layers...
 
+        //TODO: All about passing through layers...
 
         //After reaching mid-field
         myCurrentPosition = myStartPosition;
@@ -33,15 +35,21 @@ public class Ability : MonoBehaviour
                 FullEncounter();
             }
 
-            //TODO: if killed the enemy and i'm not dead, continue, else break
+            //If I'm dead stop or other is alive stop
+            if (isDying || !other.abilityScript.isDying) break;
+
+            //Continue attacking
             myCurrentPosition.y += (MapState.bottomPlayerAtacking ? -1 : +1); //TODO on top
         }
 
         //TODO: go back to myStartingPosition
+        if (!isDying) Debug.Log("Returning!");
     }
 
     protected virtual void FullEncounter()
     {
+        Debug.Log("Attacking: " + myStartPosition + " On: " + myCurrentPosition);
+
         //TODO: attack animations & effects
 
         Attack();
@@ -58,8 +66,8 @@ public class Ability : MonoBehaviour
         }
 
         //Update Card Visual Values
-        me?.UpdateVisuals();
-        other?.UpdateVisuals();
+        if (!isDying) me.UpdateVisuals();
+        if (other.abilityScript.isDying) other.UpdateVisuals();
     }
 
     //When the card makes damage to the other card
@@ -83,6 +91,8 @@ public class Ability : MonoBehaviour
     //When the card dies either attacking or defending
     public virtual void OnDie() 
     {
+        isDying = true;
+
         MapState.cardPositions[myStartPosition.x, myStartPosition.y] = null;
         Destroy(gameObject);
     }
