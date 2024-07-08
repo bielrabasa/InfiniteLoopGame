@@ -31,8 +31,17 @@ public static class MapState
     public static int BottomHeroHP = 30; //TODO: Make it not hardcoded
     public static int TopHeroHP = 30;
 
+    public enum TurnPhase
+    {
+        NONE,
+        CARD_SELECTING,
+        LAYER_MOVING,
+        ATTACKING
+    }
+    public static TurnPhase turnPhase = TurnPhase.NONE;
+
     //Physical board size
-    static Vector2 boardSize = new Vector2(20, 30);
+    public static Vector2 boardSize = new Vector2(20, 30);
     public static Vector3[,] boardPositions = null;
     public static Vector3 bottomHeroPosition;
     public static Vector3 topHeroPosition;
@@ -64,6 +73,16 @@ public static class MapState
 
         bottomHeroPosition = new Vector3(0, 0, -boardSize.y / 2f);
         topHeroPosition = new Vector3(0, 0, boardSize.y / 2f);
+    }
+
+    public static float[] GetVerticalBoardPositions()
+    {
+        if (boardPositions == null) CreateBoardPositions();
+
+        float[] vPos = new float[ROWS];
+        for (int i = 0; i < ROWS; i++) vPos[i] = boardPositions[0, i].z;
+
+        return vPos;
     }
 
     //---------------TURN SET CARDS---------------

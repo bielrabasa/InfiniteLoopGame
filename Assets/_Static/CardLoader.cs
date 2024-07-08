@@ -17,6 +17,12 @@ public static class CardLoader
         cardPrefab = loadedObject;
     }
 
+    public static int GetDeckSize()
+    {
+        if(csv == null) LoadCsvFile();
+        return csv.Length;
+    }
+
     static void LoadCsvFile()
     {
         var loadedObject = Resources.Load<TextAsset>("CardsInfo");

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Ability : MonoBehaviour
 {
+    //Constants
     Vector3 attackPositionOffset = new Vector3(0, 0.5f, 0f);
     const float timeAfterEncounter = 0.2f;
     const float timeOnGoing = 0.08f;
@@ -20,7 +21,6 @@ public class Ability : MonoBehaviour
 
     public IEnumerator MakeCardAttackSequence()
     {
-
         //TODO: All about passing through layers...
 
         //After reaching mid-field
@@ -61,7 +61,7 @@ public class Ability : MonoBehaviour
 
     protected virtual IEnumerator FullEncounter()
     {
-        Debug.Log("Attacking: " + myStartPosition + " On: " + myCurrentPosition);
+        //Debug.Log("Attacking: " + myStartPosition + " On: " + myCurrentPosition);
 
         //TODO: attack animations & effects
 
