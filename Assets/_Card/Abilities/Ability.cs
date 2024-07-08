@@ -80,7 +80,7 @@ public class Ability : MonoBehaviour
 
         //Update Card Visual Values
         if (!isDying) me.UpdateVisuals();
-        if (other.abilityScript.isDying) other.UpdateVisuals();
+        if (!other.abilityScript.isDying) other.UpdateVisuals();
 
         yield return new WaitForSeconds(timeAfterEncounter);
     }
