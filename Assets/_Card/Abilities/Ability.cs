@@ -5,7 +5,10 @@ using UnityEngine;
 
 public class Ability : MonoBehaviour
 {
-    //const 
+    Vector3 attackPositionOffset = new Vector3(0, 0.5f, 0f);
+    const float timeAfterEncounter = 0.2f;
+    const float timeOnGoing = 0.08f;
+    const float timeOnReturning = 0.05f;
 
     public CardValues me;
     public Vector2Int myStartPosition;
@@ -79,7 +82,7 @@ public class Ability : MonoBehaviour
         if (!isDying) me.UpdateVisuals();
         if (other.abilityScript.isDying) other.UpdateVisuals();
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(timeAfterEncounter);
     }
 
     //When the card makes damage to the other card
@@ -117,23 +120,26 @@ public class Ability : MonoBehaviour
             finalPos = MapState.boardPositions[myCurrentPosition.x, myCurrentPosition.y];
         }
 
-        finalPos.y += 0.5f;
-        finalPos.z += MapState.bottomPlayerAtacking ? -0.5f : 0.5f;
+        Vector3 attackOffset = attackPositionOffset;
+        if (MapState.bottomPlayerAtacking) attackOffset.z = -attackOffset.z;
+        finalPos += attackOffset;
+
         Vector3 velocity = Vector3.zero;
         while (Vector3.Distance(transform.position, finalPos) > 0.01f)
         {
-            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref velocity, 0.1f);
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref velocity, timeOnGoing);
             yield return null;
         }
     }
 
+    //When the card returns to its starting position after attacking
     protected virtual IEnumerator OnReturning()
     {
         Vector3 finalPos = MapState.boardPositions[myStartPosition.x, myStartPosition.y];
         Vector3 velocity = Vector3.zero;
         while (Vector3.Distance(transform.position, finalPos) > 0.01f)
         {
-            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref velocity, 0.1f);
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref velocity, timeOnReturning);
             yield return null;
         }
     }
