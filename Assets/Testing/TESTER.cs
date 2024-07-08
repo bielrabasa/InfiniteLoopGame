@@ -60,7 +60,7 @@ public class TESTER : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            MapState.StartTurn();
+            StartCoroutine(MapState.StartTurn());
             bottomPlayerAttacking = MapState.bottomPlayerAtacking;
         }
 

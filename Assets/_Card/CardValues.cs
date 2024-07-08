@@ -68,8 +68,6 @@ public class CardValues : MonoBehaviour
         traCanvas.Find("Faction_Text").GetComponent<TMP_Text>().text = faction;
 
         traCanvas.Find("Description_Text").GetComponent<TMP_Text>().text = abilityDescription;
-
-        //TODO ROGER <3: Initialize visual representation
     }
     public void UpdateVisuals()
     {
@@ -85,11 +83,12 @@ public class CardValues : MonoBehaviour
         tempRange = range;
     }
 
-    public void Attack(Vector2Int myPosition)
+    public IEnumerator Attack(Vector2Int myPosition)
     {
         ResetTemporalValues();
 
         abilityScript.myStartPosition = myPosition;
-        abilityScript.MakeCardAttackSequence();
+
+        yield return abilityScript.MakeCardAttackSequence();
     }
 }

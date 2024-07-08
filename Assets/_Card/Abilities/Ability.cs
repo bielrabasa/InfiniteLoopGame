@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Ability : MonoBehaviour
 {
+    //const 
+
     public CardValues me;
     public Vector2Int myStartPosition;
     Vector2Int myCurrentPosition;
@@ -13,7 +15,7 @@ public class Ability : MonoBehaviour
 
     private CardValues other;
 
-    public void MakeCardAttackSequence()
+    public IEnumerator MakeCardAttackSequence()
     {
 
         //TODO: All about passing through layers...
@@ -25,28 +27,36 @@ public class Ability : MonoBehaviour
         //Forward attacking enemy cards
         for(int i = 0; i < me.range; i++) 
         {
-            //TODO: move to in front of myPosition (to encounter or just to advance)
-            OnGoing();
+            //Attack HERO
+            if(i == 3)
+            {
+                yield return OnGoing(true);
+                AttackHero();
+                break;
+            }
 
             //If there is a card -> attack it!
             if (MapState.cardPositions[myCurrentPosition.x, myCurrentPosition.y] != null)
             {
+                //Go to the desired position
+                yield return OnGoing();
+
                 other = MapState.cardPositions[myCurrentPosition.x, myCurrentPosition.y].GetComponent<CardValues>();
-                FullEncounter();
+                yield return FullEncounter();
+
+                //If I'm dead stop or other is alive stop
+                if (isDying || !other.abilityScript.isDying) break;
             }
 
-            //If I'm dead stop or other is alive stop
-            if (isDying || !other.abilityScript.isDying) break;
-
             //Continue attacking
-            myCurrentPosition.y += (MapState.bottomPlayerAtacking ? -1 : +1); //TODO on top
+            myCurrentPosition.y += (MapState.bottomPlayerAtacking ? -1 : +1);
         }
 
-        //TODO: go back to myStartingPosition
-        if (!isDying) Debug.Log("Returning!");
+        //Return to start position
+        if (!isDying) yield return OnReturning();
     }
 
-    protected virtual void FullEncounter()
+    protected virtual IEnumerator FullEncounter()
     {
         Debug.Log("Attacking: " + myStartPosition + " On: " + myCurrentPosition);
 
@@ -68,6 +78,8 @@ public class Ability : MonoBehaviour
         //Update Card Visual Values
         if (!isDying) me.UpdateVisuals();
         if (other.abilityScript.isDying) other.UpdateVisuals();
+
+        yield return new WaitForSeconds(0.2f);
     }
 
     //When the card makes damage to the other card
@@ -82,11 +94,49 @@ public class Ability : MonoBehaviour
         me.hp -= other.tempDamage;
     }
 
+    //When the card attacks specifically the Hero
+    protected virtual void AttackHero()
+    {
+        if (MapState.bottomPlayerAtacking)  MapState.TopHeroHP -= me.tempDamage;
+        else                                MapState.BottomHeroHP -= me.tempDamage;
+    }
+
     //After the card is placed randomly
     public virtual void OnPlay() { }
 
     //When the card starts moving (towards enemies)
-    protected virtual void OnGoing() { }
+    protected virtual IEnumerator OnGoing(bool toHero = false) 
+    {
+        Vector3 finalPos;
+        if (toHero)
+        {
+            finalPos = MapState.bottomPlayerAtacking? MapState.topHeroPosition : MapState.bottomHeroPosition;
+        }
+        else
+        {
+            finalPos = MapState.boardPositions[myCurrentPosition.x, myCurrentPosition.y];
+        }
+
+        finalPos.y += 0.5f;
+        finalPos.z += MapState.bottomPlayerAtacking ? -0.5f : 0.5f;
+        Vector3 velocity = Vector3.zero;
+        while (Vector3.Distance(transform.position, finalPos) > 0.01f)
+        {
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref velocity, 0.1f);
+            yield return null;
+        }
+    }
+
+    protected virtual IEnumerator OnReturning()
+    {
+        Vector3 finalPos = MapState.boardPositions[myStartPosition.x, myStartPosition.y];
+        Vector3 velocity = Vector3.zero;
+        while (Vector3.Distance(transform.position, finalPos) > 0.01f)
+        {
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref velocity, 0.1f);
+            yield return null;
+        }
+    }
 
     //When the card dies either attacking or defending
     public virtual void OnDie() 

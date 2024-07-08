@@ -26,16 +26,22 @@ public static class MapState
 
     static Transform cardHolder = null;
 
+    //Player information
+    public static bool bottomPlayerAtacking = true;
+    public static int BottomHeroHP = 30; //TODO: Make it not hardcoded
+    public static int TopHeroHP = 30;
+
     //Physical board size
     static Vector2 boardSize = new Vector2(20, 30);
-    static Vector3[,] boardPositions = null;
+    public static Vector3[,] boardPositions = null;
+    public static Vector3 bottomHeroPosition;
+    public static Vector3 topHeroPosition;
 
     static void CreateCardHolder()
     {
         GameObject holder = new GameObject("CardHolder");
         cardHolder = holder.transform;
     }
-
     static void CreateBoardPositions()
     {
         boardPositions = new Vector3[COLUMNS, ROWS];
@@ -55,6 +61,9 @@ public static class MapState
                 boardPositions[i, j] = pos;
             }
         }
+
+        bottomHeroPosition = new Vector3(0, 0, -boardSize.y / 2f);
+        topHeroPosition = new Vector3(0, 0, boardSize.y / 2f);
     }
 
     //---------------TURN SET CARDS---------------
@@ -130,11 +139,10 @@ public static class MapState
     }
 
     //---------------TURN ATTACK---------------
-    public static bool bottomPlayerAtacking = true;
 
-    public static void StartTurn()
+    public static IEnumerator StartTurn()
     {
-        Debug.Log("Starting Turn for " + (bottomPlayerAtacking ? "BOTTOM" : "TOP") + " player.");
+        //Debug.Log("Starting Turn for " + (bottomPlayerAtacking ? "BOTTOM" : "TOP") + " player.");
 
         if (bottomPlayerAtacking) //BOTTOM player
         {
@@ -142,7 +150,7 @@ public static class MapState
             {
                 for (int c = 0; c < COLUMNS; c++) //from left to right
                 {
-                    CardAttack(c, r);
+                    yield return CardAttack(c, r);
                 }
             }
         }
@@ -152,7 +160,7 @@ public static class MapState
             {
                 for (int c = COLUMNS - 1; c >= 0; c--) //from right to left
                 {
-                    CardAttack(c, r);
+                    yield return CardAttack(c, r);
                 }
             }
         }
@@ -161,11 +169,12 @@ public static class MapState
         bottomPlayerAtacking = !bottomPlayerAtacking;
     }
 
-    static void CardAttack(int c, int r)
+    static IEnumerator CardAttack(int c, int r)
     {
         if (cardPositions[c, r] != null)
         {
-            cardPositions[c, r].GetComponent<CardValues>().Attack(new Vector2Int(c, r));
+            yield return cardPositions[c, r].GetComponent<CardValues>().Attack(new Vector2Int(c, r));
+            yield return new WaitForSeconds(0.3f);
         }
     }
 }
