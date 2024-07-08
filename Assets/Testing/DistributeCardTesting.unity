@@ -424,7 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cde9cb21dfc4c42b4739063a6d3334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullDeck: 0100000002000000030000000400000005000000060000000700000008000000090000000a000000
+  fullDeck: 
   auxDeck: 
   toSelect: 
   toGameDeck: []
@@ -620,7 +620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cde9cb21dfc4c42b4739063a6d3334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullDeck: 0100000002000000030000000400000005000000060000000700000008000000090000000a000000
+  fullDeck: 
   auxDeck: 
   toSelect: 
   toGameDeck: []

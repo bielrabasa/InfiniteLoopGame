@@ -29,6 +29,11 @@ public class CardsOnLayers : MonoBehaviour
 
     void Start()
     {
+        for (int i = 0; i < CardLoader.GetDeckSize(); i++)
+        {
+            fullDeck.Add((uint)(i+1));
+        }
+
         //Copy the full deck at the start of the game
         CopyFullDeck();
     }
