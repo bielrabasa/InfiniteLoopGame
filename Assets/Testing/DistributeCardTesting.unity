@@ -626,7 +626,7 @@ MonoBehaviour:
   toGameDeck: []
   cardLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   panelSelectCards: {fileID: 2138335215}
   selectCards: {fileID: 1496365040}
   cardsDraw: 5

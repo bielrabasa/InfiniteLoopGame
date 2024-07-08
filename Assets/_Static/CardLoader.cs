@@ -19,8 +19,11 @@ public static class CardLoader
 
     public static int GetDeckSize()
     {
+       //TODO
+        
         if(csv == null) LoadCsvFile();
-        return csv.Length;
+        //return csv.Length - 1;
+        return 15;
     }
 
     static void LoadCsvFile()

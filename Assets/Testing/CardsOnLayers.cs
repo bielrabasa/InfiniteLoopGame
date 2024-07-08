@@ -15,7 +15,6 @@ public class CardsOnLayers : MonoBehaviour
     public LayerMask cardLayer;
 
     public GameObject panelSelectCards;
-    public GameObject selectCards;
 
     public int cardsDraw;
 
@@ -23,7 +22,7 @@ public class CardsOnLayers : MonoBehaviour
 
     public int manaLess;
     public int maxMana;
-    public uint turn = 1;
+    public int turn = 1;
 
     int spacesLeft;
 
@@ -50,7 +49,7 @@ public class CardsOnLayers : MonoBehaviour
     void DrawCards()
     {
         //Add the new mana (the turn number)
-        manaLess += (int)turn;
+        manaLess += turn;
         //set 10 as max Mana
         if (manaLess > maxMana) manaLess = maxMana;
 
@@ -98,7 +97,6 @@ public class CardsOnLayers : MonoBehaviour
     {
         CardLoader.LoadCards(ref toSelect);
         GameObject cards = GameObject.Find("CardLoader");
-        //cards.transform.SetParent(selectCards.transform, false);
 
         int i = 0;
 
