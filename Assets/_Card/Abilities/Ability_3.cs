@@ -8,6 +8,8 @@ public class Ability_3 : Ability
     {
         for(int i = 0; i < MapState.COLUMNS; i++)
         {
+            if (MapState.cardPositions[i, myCurrentPosition.y] == null) continue;
+
             //Attacks to every card on layer
             other = MapState.cardPositions[i, myCurrentPosition.y].GetComponent<CardValues>();
             base.Attack();
