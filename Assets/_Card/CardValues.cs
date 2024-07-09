@@ -30,6 +30,14 @@ public class CardValues : MonoBehaviour
 
     public Ability abilityScript;
 
+    //-------------------------------------
+
+    TMP_Text rangeText;
+    TMP_Text damageText;
+    TMP_Text hpText;
+
+    //-------------------------------------
+    
     private void Awake()
     {
         AddAbilityScript();
@@ -54,9 +62,17 @@ public class CardValues : MonoBehaviour
         Transform traCanvas = transform.Find("Canvas");
 
         traCanvas.Find("ManaCostOutline").Find("ManaCost_Text").GetComponent<TMP_Text>().text = manaCost.ToString();
-        traCanvas.Find("HPOutline").Find("HP_Text").GetComponent<TMP_Text>().text = hp.ToString();
-        traCanvas.Find("DamageOutline").Find("Damage_Text").GetComponent<TMP_Text>().text = tempDamage.ToString();
-        traCanvas.Find("RangeOutline").Find("Range_Text").GetComponent<TMP_Text>().text = tempRange.ToString();
+        
+        //Variable info
+        hpText = traCanvas.Find("HPOutline").Find("HP_Text").GetComponent<TMP_Text>();
+        hpText.text = hp.ToString();
+
+        damageText = traCanvas.Find("DamageOutline").Find("Damage_Text").GetComponent<TMP_Text>();
+        damageText.text = tempDamage.ToString();
+
+        rangeText = traCanvas.Find("RangeOutline").Find("Range_Text").GetComponent<TMP_Text>();
+        rangeText.text = tempRange.ToString();
+        //
 
         spriteName = "BanishCard";
         traCanvas.Find("CardImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/" + spriteName);
@@ -69,10 +85,12 @@ public class CardValues : MonoBehaviour
 
         traCanvas.Find("Description_Text").GetComponent<TMP_Text>().text = abilityDescription;
     }
+
     public void UpdateVisuals()
     {
-        //TODO: probably save objects to make it more efficient
-        InitializeVisuals();
+        hpText.text = hp.ToString();
+        damageText.text = tempDamage.ToString();
+        rangeText.text = tempRange.ToString();
     }
 
     //-----------PLAY FUNCTIONS----------
