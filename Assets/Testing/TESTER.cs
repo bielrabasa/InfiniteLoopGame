@@ -5,9 +5,10 @@ using UnityEngine;
 public class TESTER : MonoBehaviour
 {
     [Header("SPACE - PlayTurn")]
+    [Header("RETURN - SwapTurn")]
+    [Header("T - Transfer layer information")]
+    [Space]
     [SerializeField] bool bottomPlayerAttacking = true; //Just to know who is playing
-
-
     [Space]
     //ALWAYS 3 COLUMNS
     [SerializeField] Vector3Int[] cardsOnMap = new Vector3Int[MapState.ROWS];
@@ -67,6 +68,11 @@ public class TESTER : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             MapState.bottomPlayerAtacking = !MapState.bottomPlayerAtacking;
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            FindObjectOfType<LayerMovement>().TransferInformation();
         }
     }
 }

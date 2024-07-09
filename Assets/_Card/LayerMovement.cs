@@ -125,8 +125,22 @@ public class LayerMovement : MonoBehaviour
         }
     }
 
-    void TransferInformation()
+    public void TransferInformation()
     {
-        //TODO: set layers var in MapState and call StartTurn
+        for(int i = 0; i < layers.Length; i++)
+        {
+            switch (layers[i].name)
+            {
+                case "Range":
+                    MapState.Layer[i] = MapState.LayerPerks.RANGE; 
+                    break;
+                case "Damage":
+                    MapState.Layer[i] = MapState.LayerPerks.DAMAGE;
+                    break;
+                case "Mana":
+                    MapState.Layer[i] = MapState.LayerPerks.MANA;
+                    break;
+            }
+        }
     }
 }
