@@ -344,6 +344,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LayerPrefab: {fileID: 2517178812811413982, guid: 9674d5066cb02034e8ce0ebf7d34fed2, type: 3}
+  rangeMat: {fileID: 2100000, guid: 4876b338ef95fa345b256fcebe032325, type: 2}
+  damageMat: {fileID: 2100000, guid: 75944440c23fe4c42b5551aa6f84d0e7, type: 2}
+  manaMat: {fileID: 2100000, guid: 52ac44534966bce4f89848bbe7b815e1, type: 2}
 --- !u!4 &251956573
 Transform:
   m_ObjectHideFlags: 0

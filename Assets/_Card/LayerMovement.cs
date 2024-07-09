@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,25 +6,47 @@ using UnityEngine;
 public class LayerMovement : MonoBehaviour
 {
     const string PHYSICAL_LAYER = "3DLayers"; //3D_Layer
-    public GameObject LayerPrefab; 
+    public GameObject LayerPrefab;
+
+    public Material rangeMat;
+    public Material damageMat;
+    public Material manaMat;
 
     Transform[] layers = new Transform[MapState.ROWS];
+    float[] pos;
 
     bool isDragging;
     Transform draggingLayer;
-
+    int draggingLayerIndex;
 
     void Start()
     {
-        float[] pos = MapState.GetVerticalBoardPositions();
+        pos = MapState.GetVerticalBoardPositions();
         for(int i = 0; i < MapState.ROWS; i++)
         {
             GameObject go = Instantiate(LayerPrefab, new Vector3(MapState.boardSize.x / 2f + 5f, 0, pos[i]), Quaternion.identity, transform);
             go.layer = 7;
+            layers[i] = go.transform;
+
+            //Initialize perks
+            switch(i % 3)
+            {
+                case 0:
+                    go.name = "Range";
+                    go.GetComponent<Renderer>().material = rangeMat;
+                    break;
+                case 1:
+                    go.name = "Damage";
+                    go.GetComponent<Renderer>().material = damageMat;
+                    break;
+                case 2:
+                    go.name = "Mana";
+                    go.GetComponent<Renderer>().material = manaMat;
+                    break;
+            }
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         //Pick layer
@@ -35,8 +58,13 @@ public class LayerMovement : MonoBehaviour
             // Raycast to detect tiles
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask(PHYSICAL_LAYER)))
             {
-                isDragging = true;
-                draggingLayer = hit.transform;
+                if ((MapState.bottomPlayerAtacking && hit.transform.position.z < 0) ||
+                    !MapState.bottomPlayerAtacking && hit.transform.position.z > 0)
+                {
+                    isDragging = true;
+                    draggingLayer = hit.transform;
+                    draggingLayerIndex = Array.IndexOf(layers, draggingLayer);
+                }
             }
         }
 
@@ -53,14 +81,52 @@ public class LayerMovement : MonoBehaviour
 
             Vector3 p = draggingLayer.position;
             p.z = mouseWorldPosition.z;
+
+            if(MapState.bottomPlayerAtacking)
+            {
+                p.z = Mathf.Clamp(p.z, pos[MapState.ROWS - 1], pos[MapState.ROWS / 2]);
+            }
+            else
+            {
+                p.z = Mathf.Clamp(p.z, pos[(MapState.ROWS / 2) - 1], pos[0]);
+            }
+
             draggingLayer.position = p;
+
+            //Layer Swap
+            for (int i = 0; i < pos.Length; i++)
+            {
+                if (i == draggingLayerIndex) continue;
+
+                if (Mathf.Abs(pos[i] - p.z) < 1f)
+                {
+                    //Swap
+                    layers[draggingLayerIndex] = layers[i];
+                    layers[i] = draggingLayer;
+
+                    Vector3 swapPos = layers[draggingLayerIndex].position;
+                    swapPos.z = pos[draggingLayerIndex];
+                    layers[draggingLayerIndex].position = swapPos;
+
+                    draggingLayerIndex = i;
+                }
+            }
         }
 
         //Drop layer
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && draggingLayer != null)
         {
+            Vector3 snapPos = draggingLayer.position;
+            snapPos.z = pos[draggingLayerIndex];
+            draggingLayer.position = snapPos;
+
             isDragging = false;
             draggingLayer = null;
         }
+    }
+
+    void TransferInformation()
+    {
+        //TODO: set layers var in MapState and call StartTurn
     }
 }
