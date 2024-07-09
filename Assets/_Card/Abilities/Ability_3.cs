@@ -13,7 +13,8 @@ public class Ability_3 : Ability
             //Attacks to every card on layer
             other = MapState.cardPositions[i, myCurrentPosition.y].GetComponent<CardValues>();
             base.Attack();
-            other.UpdateVisuals();
+            CheckKillingOther();
+            if(!other.abilityScript.isDying) other.UpdateVisuals();
         }
 
         //Set other to the correct card again

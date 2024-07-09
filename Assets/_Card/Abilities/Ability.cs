@@ -206,7 +206,7 @@ public class Ability : MonoBehaviour
     //Check killing other
     protected virtual void CheckKillingOther()
     {
-        if (other.hp <= 0)
+        if (other.hp <= 0 && !other.abilityScript.isDying)
         {
             other.abilityScript.other = me;
             other.abilityScript.OnDie();
