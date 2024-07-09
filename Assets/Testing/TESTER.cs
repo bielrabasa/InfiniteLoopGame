@@ -6,7 +6,6 @@ public class TESTER : MonoBehaviour
 {
     [Header("SPACE - PlayTurn")]
     [Header("RETURN - SwapTurn")]
-    [Header("T - Transfer layer information")]
     [Space]
     [SerializeField] bool bottomPlayerAttacking = true; //Just to know who is playing
     [Space]
@@ -61,6 +60,7 @@ public class TESTER : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            FindObjectOfType<LayerMovement>().TransferInformation();
             StartCoroutine(MapState.StartTurn());
             bottomPlayerAttacking = MapState.bottomPlayerAtacking;
         }
@@ -68,11 +68,6 @@ public class TESTER : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             MapState.bottomPlayerAtacking = !MapState.bottomPlayerAtacking;
-        }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            FindObjectOfType<LayerMovement>().TransferInformation();
         }
     }
 }

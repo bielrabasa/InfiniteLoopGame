@@ -21,14 +21,15 @@ public class Ability : MonoBehaviour
 
     public IEnumerator MakeCardAttackSequence()
     {
-        //TODO: All about passing through layers...
+        //Getting to mid-field
+        OnPassingThroughLayers();
 
         //After reaching mid-field
         myCurrentPosition = myStartPosition;
         myCurrentPosition.y = MapState.ROWS / 2 + (MapState.bottomPlayerAtacking ? -1 : 0);
 
         //Forward attacking enemy cards
-        for(int i = 0; i < me.range; i++) 
+        for(int i = 0; i < me.tempRange; i++) 
         {
             //Attack HERO
             if(i == 3)
@@ -106,6 +107,58 @@ public class Ability : MonoBehaviour
 
     //After the card is placed randomly
     public virtual void OnPlay() { }
+
+    protected virtual void OnPassingThroughLayers()
+    {
+        myCurrentPosition = myStartPosition;
+        myCurrentPosition.y = MapState.ROWS / 2 + (MapState.bottomPlayerAtacking ? -1 : 0);
+
+        if (MapState.bottomPlayerAtacking)
+        {
+            for (int i = myStartPosition.y; i > MapState.ROWS / 2 - 1; i--)
+            {
+                ApplyLayerPerk(MapState.Layer[i]);
+            }
+        }
+        else
+        {
+            for (int i = myStartPosition.y; i < MapState.ROWS / 2; i++)
+            {
+                ApplyLayerPerk(MapState.Layer[i]);
+            }
+        }
+    }
+
+    void ApplyLayerPerk(MapState.LayerPerks layerPerk)
+    {
+        switch (layerPerk)
+        {
+            case MapState.LayerPerks.NONE:
+                Debug.Log("LayerPerk not set!");
+                break;
+            case MapState.LayerPerks.RANGE: ApplyRangePerk(); break;
+            case MapState.LayerPerks.DAMAGE: ApplyDamagePerk(); break;
+            case MapState.LayerPerks.MANA: ApplyManaPerk(); break;
+        }
+    }
+
+    protected virtual void ApplyRangePerk()
+    {
+        me.tempRange += 1;
+        me.UpdateVisuals();
+    }
+
+    protected virtual void ApplyDamagePerk()
+    {
+        me.tempDamage += 1;
+        me.UpdateVisuals();
+    }
+
+    protected virtual void ApplyManaPerk()
+    {
+        //TODO: do it good
+        //Debug.Log("Applying Mana!");
+    }
 
     //When the card starts moving (towards enemies)
     protected virtual IEnumerator OnGoing(bool toHero = false) 

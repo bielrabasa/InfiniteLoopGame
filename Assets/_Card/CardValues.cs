@@ -37,9 +37,9 @@ public class CardValues : MonoBehaviour
 
     void Start()
     {
-        InitializeVisuals();
-
         ResetTemporalValues(); //To initialize tempDamage
+
+        InitializeVisuals();
     }
 
     void AddAbilityScript()
@@ -55,8 +55,8 @@ public class CardValues : MonoBehaviour
 
         traCanvas.Find("ManaCostOutline").Find("ManaCost_Text").GetComponent<TMP_Text>().text = manaCost.ToString();
         traCanvas.Find("HPOutline").Find("HP_Text").GetComponent<TMP_Text>().text = hp.ToString();
-        traCanvas.Find("DamageOutline").Find("Damage_Text").GetComponent<TMP_Text>().text = damage.ToString();
-        traCanvas.Find("RangeOutline").Find("Range_Text").GetComponent<TMP_Text>().text = range.ToString();
+        traCanvas.Find("DamageOutline").Find("Damage_Text").GetComponent<TMP_Text>().text = tempDamage.ToString();
+        traCanvas.Find("RangeOutline").Find("Range_Text").GetComponent<TMP_Text>().text = tempRange.ToString();
 
         spriteName = "BanishCard";
         traCanvas.Find("CardImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/" + spriteName);
@@ -85,10 +85,11 @@ public class CardValues : MonoBehaviour
 
     public IEnumerator Attack(Vector2Int myPosition)
     {
-        ResetTemporalValues();
-
         abilityScript.myStartPosition = myPosition;
-
         yield return abilityScript.MakeCardAttackSequence();
+
+        //After attack, reset tempDamage & tempRange
+        ResetTemporalValues();
+        if(!abilityScript.isDying) UpdateVisuals();
     }
 }
