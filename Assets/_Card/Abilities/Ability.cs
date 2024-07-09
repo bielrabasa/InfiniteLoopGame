@@ -13,7 +13,7 @@ public class Ability : MonoBehaviour
 
     public CardValues me;
     public Vector2Int myStartPosition;
-    Vector2Int myCurrentPosition;
+    protected Vector2Int myCurrentPosition;
 
     public bool isDying = false;
 

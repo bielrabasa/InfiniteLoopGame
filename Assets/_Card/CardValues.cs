@@ -51,6 +51,9 @@ public class CardValues : MonoBehaviour
         switch (abilityId)
         {
             case 1: abilityScript = gameObject.AddComponent<Ability_1>(); break;
+            case 2: abilityScript = gameObject.AddComponent<Ability_2>(); break;
+            case 3: abilityScript = gameObject.AddComponent<Ability_3>(); break;
+            case 4: abilityScript = gameObject.AddComponent<Ability_4>(); break;
 
             default: abilityScript = gameObject.AddComponent<Ability>();  break;
         }
