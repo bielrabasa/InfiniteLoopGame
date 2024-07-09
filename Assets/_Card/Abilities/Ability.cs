@@ -17,7 +17,7 @@ public class Ability : MonoBehaviour
 
     public bool isDying = false;
 
-    private CardValues other;
+    public CardValues other;
 
     public IEnumerator MakeCardAttackSequence()
     {
@@ -73,11 +73,8 @@ public class Ability : MonoBehaviour
         //Die?
         if(me.hp <= 0) OnDie();
 
-        if (other.hp <= 0)
-        {
-            other.abilityScript.other = me;
-            other.abilityScript.OnDie();
-        }
+        //Kill?
+        CheckKillingOther();
 
         //Update Card Visual Values
         if (!isDying) me.UpdateVisuals();
@@ -204,5 +201,15 @@ public class Ability : MonoBehaviour
 
         MapState.cardPositions[myStartPosition.x, myStartPosition.y] = null;
         Destroy(gameObject);
+    }
+
+    //Check killing other
+    protected virtual void CheckKillingOther()
+    {
+        if (other.hp <= 0)
+        {
+            other.abilityScript.other = me;
+            other.abilityScript.OnDie();
+        }
     }
 }

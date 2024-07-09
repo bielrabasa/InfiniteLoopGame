@@ -38,11 +38,6 @@ public class CardValues : MonoBehaviour
 
     //-------------------------------------
     
-    private void Awake()
-    {
-        AddAbilityScript();
-    }
-
     void Start()
     {
         ResetTemporalValues(); //To initialize tempDamage
@@ -50,10 +45,16 @@ public class CardValues : MonoBehaviour
         InitializeVisuals();
     }
 
-    void AddAbilityScript()
+    public void AddAbilityScript() //Has to be called as soon as the ability id is set (btw Awake & Start)
     {
-        //TODO: Add ability script from ability id
-        abilityScript = gameObject.AddComponent<Ability>();
+        Debug.Log(abilityId);
+        switch (abilityId)
+        {
+            case 1: abilityScript = gameObject.AddComponent<Ability_1>(); break;
+
+            default: abilityScript = gameObject.AddComponent<Ability>();  break;
+        }
+
         abilityScript.me = this;
     }
 
