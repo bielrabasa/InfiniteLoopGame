@@ -65,20 +65,20 @@ public class CardValues : MonoBehaviour
     {
         Transform traCanvas = transform.Find("Canvas");
 
-        traCanvas.Find("ManaCostOutline").Find("ManaCost_Text").GetComponent<TMP_Text>().text = manaCost.ToString();
+        traCanvas.Find("ManaCost_Text").GetComponent<TMP_Text>().text = manaCost.ToString();
         
         //Variable info
-        hpText = traCanvas.Find("HPOutline").Find("HP_Text").GetComponent<TMP_Text>();
+        hpText = traCanvas.Find("HP_Text").GetComponent<TMP_Text>();
         hpText.text = hp.ToString();
 
-        damageText = traCanvas.Find("DamageOutline").Find("Damage_Text").GetComponent<TMP_Text>();
+        damageText = traCanvas.Find("Damage_Text").GetComponent<TMP_Text>();
         damageText.text = tempDamage.ToString();
 
-        rangeText = traCanvas.Find("RangeOutline").Find("Range_Text").GetComponent<TMP_Text>();
+        rangeText = traCanvas.Find("Range_Text").GetComponent<TMP_Text>();
         rangeText.text = tempRange.ToString();
         //
 
-        spriteName = "BanishCard";
+        spriteName = "Dwarf_01";
         traCanvas.Find("CardImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/" + spriteName);
 
         if (cardName == "") cardName = "[_____ _____]";

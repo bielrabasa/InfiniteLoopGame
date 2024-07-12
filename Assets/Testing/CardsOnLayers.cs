@@ -26,6 +26,8 @@ public class CardsOnLayers : MonoBehaviour
 
     int spacesLeft;
 
+    const float timeAnim = 0.1f;
+
     void Start()
     {
         for (int i = 0; i < CardLoader.GetDeckSize(); i++)
@@ -97,14 +99,16 @@ public class CardsOnLayers : MonoBehaviour
     {
         CardLoader.LoadCards(ref toSelect);
         GameObject cards = GameObject.Find("CardLoader");
+        cards.transform.position = new Vector3(-2.2f, 19.25f, -5.25f);
+        cards.transform.Rotate(78.0f, 0.0f, 0.0f);
 
         int i = 0;
 
         foreach (Transform child in cards.transform)
         {
             //Set a new position
-            child.transform.localPosition = new Vector3((2 * i) - (1 * (cards.transform.childCount - 1)), 1, 0.0f);
-            child.transform.Rotate(-90.0f, (cards.transform.childCount - 1), 0.0f);
+            child.transform.localPosition = new Vector3((1 * i) - (1 * (cards.transform.childCount - 3)), 1, -7.0f);
+            child.transform.Rotate(-90.0f, 0.0f, 0.0f);
 
             //Add the event PointerUp to select the card
             /*GameObject theDeck = this.gameObject;
@@ -157,6 +161,21 @@ public class CardsOnLayers : MonoBehaviour
         SetMana();
         //set a new color for the card (glowing)
         newCard.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = new Color(0.98f, 1.0f, 0.80f, 1.0f);
+
+        //TODO: animation card (up / down)
+        StartCoroutine(AnimationUP(newCard.transform));
+    }
+
+    IEnumerator AnimationUP(Transform card)
+    {
+        Vector3 finalPos = new Vector3(card.position.x, card.position.y + 0.25f, card.position.z);
+        Vector3 velocity = Vector3.up;
+        while (Vector3.Distance(card.position, finalPos) > 0.01f)
+        {
+            Debug.Log(Vector3.Distance(card.position, finalPos));
+            transform.localPosition = Vector3.SmoothDamp(card.localPosition, finalPos, ref velocity, timeAnim);
+            yield return null;
+        }
     }
 
     void RemoveToGame(GameObject newCard)
