@@ -133,7 +133,7 @@ public class CardsOnLayers : MonoBehaviour
         //check if the card are in the deck to remove
         for (int i = 0; i < toGameDeck.Count; i++)
         {
-           if(selection == toGameDeck[i])
+           if(selection == toGameDeck[i] && selection.tag != "AnimOn")
            {
                 RemoveToGame(selection);
                 return;
@@ -141,7 +141,7 @@ public class CardsOnLayers : MonoBehaviour
         }
 
         //if (selection.GetComponent<CardValues>().manaCost <= manaLess && spacesLeft < 0)
-        if (selection.GetComponent<CardValues>().manaCost <= manaLess)
+        if (selection.GetComponent<CardValues>().manaCost <= manaLess && selection.tag != "AnimOn")
         {
             //if its not, add the card
             AddToGame(selection);
@@ -162,20 +162,21 @@ public class CardsOnLayers : MonoBehaviour
         //set a new color for the card (glowing)
         newCard.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = new Color(0.98f, 1.0f, 0.80f, 1.0f);
 
-        //TODO: animation card (up / down)
         StartCoroutine(AnimationUP(newCard.transform));
     }
 
     IEnumerator AnimationUP(Transform card)
     {
-        Vector3 finalPos = new Vector3(card.position.x, card.position.y + 0.25f, card.position.z);
-        Vector3 velocity = Vector3.up;
-        while (Vector3.Distance(card.position, finalPos) > 0.01f)
+        string ogTag = card.tag;
+        card.tag = "AnimOn";
+        Vector3 finalPos = new Vector3(card.localPosition.x, card.localPosition.y + 0.25f, card.localPosition.z);
+        Vector3 velocity = Vector3.zero;
+        while (Vector3.Distance(card.localPosition, finalPos) > 0.01f)
         {
-            Debug.Log(Vector3.Distance(card.position, finalPos));
-            transform.localPosition = Vector3.SmoothDamp(card.localPosition, finalPos, ref velocity, timeAnim);
+            card.localPosition = Vector3.SmoothDamp(card.localPosition, finalPos, ref velocity, timeAnim);
             yield return null;
         }
+        card.tag = ogTag;
     }
 
     void RemoveToGame(GameObject newCard)
@@ -191,6 +192,22 @@ public class CardsOnLayers : MonoBehaviour
         SetMana();
         //set athe original color
         newCard.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = Color.white;
+
+        StartCoroutine(AnimationDOWN(newCard.transform));
+    }
+
+    IEnumerator AnimationDOWN(Transform card)
+    {
+        string ogTag = card.tag;
+        card.tag = "AnimOn";
+        Vector3 finalPos = new Vector3(card.localPosition.x, card.localPosition.y - 0.25f, card.localPosition.z);
+        Vector3 velocity = Vector3.zero;
+        while (Vector3.Distance(card.localPosition, finalPos) > 0.01f)
+        {
+            card.localPosition = Vector3.SmoothDamp(card.localPosition, finalPos, ref velocity, timeAnim);
+            yield return null;
+        }
+        card.tag = ogTag;
     }
 
     public void CreateCards()
