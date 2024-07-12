@@ -6,7 +6,7 @@ using UnityEngine;
 public class Ability : MonoBehaviour
 {
     //Constants
-    Vector3 attackPositionOffset = new Vector3(0, 0.5f, 0f);
+    Vector3 attackPositionOffset = new Vector3(0, 0.5f, 0.5f);
     const float timeAfterEncounter = 0.2f;
     const float timeOnGoing = 0.08f;
     const float timeOnReturning = 0.05f;

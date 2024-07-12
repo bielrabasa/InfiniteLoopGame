@@ -6,6 +6,8 @@ public class Ability_1 : Ability
 {
     public override void OnDie()
     {
+        isDying = true;
+
         if (!other.abilityScript.isDying)
         {
             other.hp -= 2;
