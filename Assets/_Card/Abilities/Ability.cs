@@ -19,6 +19,8 @@ public class Ability : MonoBehaviour
 
     public CardValues other;
 
+    //---------------------------------
+
     public IEnumerator MakeCardAttackSequence()
     {
         //Getting to mid-field
@@ -62,10 +64,6 @@ public class Ability : MonoBehaviour
 
     protected virtual IEnumerator FullEncounter()
     {
-        //Debug.Log("Attacking: " + myStartPosition + " On: " + myCurrentPosition);
-
-        //TODO: attack animations & effects
-
         Attack();
 
         ReceiveAttack();
@@ -82,6 +80,24 @@ public class Ability : MonoBehaviour
 
         yield return new WaitForSeconds(timeAfterEncounter);
     }
+
+    //---------------------------------
+
+    public virtual void OnStartPlayerTurn() { }
+    public virtual void OnEndPlayerTurn() 
+    {        
+        me.ResetTemporalValues();
+        me.UpdateVisuals();
+    }
+
+    public virtual void OnStartEnemyTurn() { }
+    public virtual void OnEndEnemyTurn() 
+    {
+        me.ResetTemporalValues();
+        me.UpdateVisuals();
+    }
+
+    //---------------------------------
 
     //When the card makes damage to the other card
     protected virtual void Attack()
@@ -102,9 +118,7 @@ public class Ability : MonoBehaviour
         else                                MapState.BottomHeroHP -= me.tempDamage;
     }
 
-    //After the card is placed randomly
-    public virtual void OnPlay() { }
-
+    //After the start sequence, when all the layer perks are applied
     protected virtual void OnPassingThroughLayers()
     {
         myCurrentPosition = myStartPosition;
@@ -138,26 +152,23 @@ public class Ability : MonoBehaviour
             case MapState.LayerPerks.MANA: ApplyManaPerk(); break;
         }
     }
-
     protected virtual void ApplyRangePerk()
     {
         me.tempRange += 1;
         me.UpdateVisuals();
     }
-
     protected virtual void ApplyDamagePerk()
     {
         me.tempDamage += 1;
         me.UpdateVisuals();
     }
-
     protected virtual void ApplyManaPerk()
     {
         //TODO: do it good
         //Debug.Log("Applying Mana!");
     }
 
-    //When the card starts moving (towards enemies)
+    //Every time a card moves towards an enemy
     protected virtual IEnumerator OnGoing(bool toHero = false) 
     {
         Vector3 finalPos;
@@ -212,4 +223,12 @@ public class Ability : MonoBehaviour
             other.abilityScript.OnDie();
         }
     }
+
+    //---------------------------------
+
+    //After the card is placed randomly
+    //public virtual void OnPlay() { }
+
+    //In the start of the attacking sequence
+    //protected virtual void OnStartSequence() { }
 }

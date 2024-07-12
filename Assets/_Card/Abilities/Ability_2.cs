@@ -4,7 +4,17 @@
 
 public class Ability_2 : Ability
 {
-    protected override void OnPassingThroughLayers()
+    public override void OnStartEnemyTurn()
+    {
+        BoostAllCardsInLine();
+    }
+
+    public override void OnStartPlayerTurn()
+    {
+        BoostAllCardsInLine();
+    }
+
+    void BoostAllCardsInLine()
     {
         for (int i = 0; i < MapState.COLUMNS; i++)
         {
@@ -16,7 +26,5 @@ public class Ability_2 : Ability
             friendCard.tempDamage += 1;
             friendCard.UpdateVisuals();
         }
-
-        base.OnPassingThroughLayers();
     }
 }

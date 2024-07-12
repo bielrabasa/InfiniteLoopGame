@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.VersionControl.Asset;
 
@@ -161,8 +162,10 @@ public static class MapState
 
     public static IEnumerator StartTurn()
     {
-        //Debug.Log("Starting Turn for " + (bottomPlayerAtacking ? "BOTTOM" : "TOP") + " player.");
+        IterateStartEndTurn(bottomPlayerAtacking, true); //Iterate the player attacking
+        IterateStartEndTurn(!bottomPlayerAtacking, true); //Iterate the player defending
 
+        //Attack
         if (bottomPlayerAtacking) //BOTTOM player
         {
             for(int r = ROWS / 2; r < ROWS; r++) // layers 3,4,5
@@ -184,6 +187,9 @@ public static class MapState
             }
         }
 
+        IterateStartEndTurn(bottomPlayerAtacking, false); //Iterate the player attacking
+        IterateStartEndTurn(!bottomPlayerAtacking, false); //Iterate the player defending
+
         //Switch Turns
         bottomPlayerAtacking = !bottomPlayerAtacking;
     }
@@ -194,6 +200,50 @@ public static class MapState
         {
             yield return cardPositions[c, r].GetComponent<CardValues>().Attack(new Vector2Int(c, r));
             yield return new WaitForSeconds(0.3f);
+        }
+    }
+
+    //----------------------------------
+
+    static void IterateStartEndTurn(bool bottomPlayer, bool start)
+    {
+        //Iterate the bottom player cards
+        if (bottomPlayer)
+        {
+            for (int r = ROWS / 2; r < ROWS; r++) // layers 3,4,5
+                for (int c = 0; c < COLUMNS; c++) //from left to right
+                    InitEndTurn(c, r, start, (bottomPlayer == bottomPlayerAtacking));
+        }
+        else
+        {
+            for (int r = ROWS / 2 - 1; r >= 0; r--) // layers 2,1,0
+                for (int c = COLUMNS - 1; c >= 0; c--) //from right to left
+                    InitEndTurn(c, r, start, (bottomPlayer == bottomPlayerAtacking));
+        }
+    }
+
+    static void InitEndTurn(int c, int r, bool start, bool isPlayer)
+    {
+        if (cardPositions[c, r] != null)
+        {
+            //Debug.Log((start ? "Starting " : "Ending ") + (r <= 2? "Top ": "Bottom ") + (isPlayer ? "Player " : "Enemy ") + "Turn");
+
+            if (start)
+            {
+                //START turn
+                if (isPlayer)
+                    cardPositions[c, r].GetComponent<CardValues>().abilityScript.OnStartPlayerTurn();
+                else
+                    cardPositions[c, r].GetComponent<CardValues>().abilityScript.OnStartEnemyTurn();
+            }
+            else
+            {
+                //END turn
+                if(isPlayer)
+                    cardPositions[c, r].GetComponent<CardValues>().abilityScript.OnEndPlayerTurn();
+                else
+                    cardPositions[c, r].GetComponent<CardValues>().abilityScript.OnEndEnemyTurn();
+            }
         }
     }
 }

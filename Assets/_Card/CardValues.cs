@@ -47,7 +47,6 @@ public class CardValues : MonoBehaviour
 
     public void AddAbilityScript() //Has to be called as soon as the ability id is set (btw Awake & Start)
     {
-        Debug.Log(abilityId);
         switch (abilityId)
         {
             case 1: abilityScript = gameObject.AddComponent<Ability_1>(); break;
@@ -109,9 +108,5 @@ public class CardValues : MonoBehaviour
     {
         abilityScript.myStartPosition = myPosition;
         yield return abilityScript.MakeCardAttackSequence();
-
-        //After attack, reset tempDamage & tempRange
-        ResetTemporalValues();
-        if(!abilityScript.isDying) UpdateVisuals();
     }
 }

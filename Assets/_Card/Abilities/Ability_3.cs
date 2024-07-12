@@ -8,6 +8,7 @@ public class Ability_3 : Ability
     {
         for(int i = 0; i < MapState.COLUMNS; i++)
         {
+            if (i == myCurrentPosition.x) continue;
             if (MapState.cardPositions[i, myCurrentPosition.y] == null) continue;
 
             //Attacks to every card on layer
@@ -17,7 +18,8 @@ public class Ability_3 : Ability
             if(!other.abilityScript.isDying) other.UpdateVisuals();
         }
 
-        //Set other to the correct card again
+        //Finally the card in front
         other = MapState.cardPositions[myCurrentPosition.x, myCurrentPosition.y].GetComponent<CardValues>();
+        base.Attack();
     }
 }
