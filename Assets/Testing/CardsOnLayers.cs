@@ -18,8 +18,6 @@ public class CardsOnLayers : MonoBehaviour
 
     public int cardsDraw;
 
-    bool player_1;
-
     public int manaLess;
 
     int spacesLeft;
@@ -39,14 +37,13 @@ public class CardsOnLayers : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.D) && player_1) DrawCards();
-        if(Input.GetKeyDown(KeyCode.A) && !player_1) DrawCards();
-
         DetectCard();
     }
 
     public void DrawCards()
     {
+        Debug.Log(gameObject.name);
+
         if (MapState.bottomPlayerAtacking)
             manaLess = MapState.bottomMana;
         else
@@ -219,6 +216,11 @@ public class CardsOnLayers : MonoBehaviour
             /*EventTrigger trigger = card.GetComponent<EventTrigger>();
             trigger.triggers.RemoveRange(0, trigger.triggers.Count);*/
         }
+
+        Debug.Log("M:" + manaLess);
+
+        if (MapState.bottomPlayerAtacking) MapState.bottomMana = manaLess;
+        else MapState.topMana = manaLess;
 
         MapState.SetCardsOnMap(toGameDeck);
 

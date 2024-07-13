@@ -8,6 +8,8 @@ public class TESTER : MonoBehaviour
     [Header("RETURN - SwapTurn")]
     [Space]
     [SerializeField] bool bottomPlayerAttacking = true; //Just to know who is playing
+    [SerializeField] int topMana = 0;
+    [SerializeField] int botMana = 0;
     [Space]
     //ALWAYS 3 COLUMNS
     [SerializeField] Vector3Int[] cardsOnMap = new Vector3Int[MapState.ROWS];
@@ -58,6 +60,9 @@ public class TESTER : MonoBehaviour
 
     void Update()
     {
+        botMana = MapState.bottomMana;
+        topMana = MapState.topMana;
+
         if (Input.GetKeyDown(KeyCode.F)) StartCoroutine(MapState.NextPhase());
 
         /*if (Input.GetKeyDown(KeyCode.Space))

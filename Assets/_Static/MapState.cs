@@ -31,8 +31,8 @@ public static class MapState
     public static bool bottomPlayerAtacking = true;
     public static int BottomHeroHP = 30; //TODO: Make it not hardcoded
     public static int TopHeroHP = 30;
-    public static int bottomMana = 1; //Starting mana value
-    public static int topMana = 1;
+    public static int bottomMana = 5; //Starting mana value
+    public static int topMana = 7;
     const int MAX_MANA = 10;
 
     public enum TurnPhase
@@ -265,6 +265,8 @@ public static class MapState
 
                 break;
             case TurnPhase.CARD_SELECTING:
+                GameObject.Find(bottomPlayerAtacking ? "DeckP0" : "DeckP1").
+                    GetComponent<CardsOnLayers>().CreateCards();
                 Debug.Log("LayerMoving! " + (bottomPlayerAtacking? "BOT" : "TOP"));
                 turnPhase = TurnPhase.LAYER_MOVING;
 
