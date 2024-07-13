@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using TMPro;
 
 public class CardsOnLayers : MonoBehaviour
@@ -125,23 +124,27 @@ public class CardsOnLayers : MonoBehaviour
 
     public void PreSelectionCards(GameObject selection)
     {
-        //If it is selected -> unselect it
-        if(toGameDeck.Contains(selection) && selection.tag != "AnimOn")
-        {
-            RemoveToGame(selection);
-            return;
-        }
+        //If is on animation, don't do anything
+        if (selection.tag == "AnimOn") return;
 
-        //Select?
-        if (selection.tag != "AnimOn" && spacesLeft > 0 && selection.GetComponent<CardValues>().manaCost <= manaLess)
+        if(toGameDeck.Contains(selection))
         {
-            //if its not, add the card
-            AddToGame(selection);
+            //Unselect
+            RemoveToGame(selection);
+        }
+        else
+        {
+            //Select
+            if (spacesLeft > 0 && selection.GetComponent<CardValues>().manaCost <= manaLess)
+            {
+                AddToGame(selection);
+            }
         }
     }
 
     void AddToGame(GameObject newCard)
     {
+
         //add the card to the deck
         toGameDeck.Add(newCard);
         //subtract the mana
@@ -161,6 +164,7 @@ public class CardsOnLayers : MonoBehaviour
     {
         string ogTag = card.tag;
         card.tag = "AnimOn";
+
         Vector3 finalPos = new Vector3(card.localPosition.x, card.localPosition.y + 0.25f, card.localPosition.z);
         Vector3 velocity = Vector3.zero;
         while (Vector3.Distance(card.localPosition, finalPos) > 0.01f)
@@ -192,6 +196,7 @@ public class CardsOnLayers : MonoBehaviour
     {
         string ogTag = card.tag;
         card.tag = "AnimOn";
+
         Vector3 finalPos = new Vector3(card.localPosition.x, card.localPosition.y - 0.25f, card.localPosition.z);
         Vector3 velocity = Vector3.zero;
         while (Vector3.Distance(card.localPosition, finalPos) > 0.01f)
@@ -227,25 +232,32 @@ public class CardsOnLayers : MonoBehaviour
         //Check the selected card to return to the deck or play
         for (int i = toSelect.Count - 1; i >= 0; i--)
         {
-            bool toRemoveAndAdd = true;
+            //Is the card selected?
+            bool isCardSelected = false;
             for (int j = 0; j < toGameDeck.Count; j++)
             {
+                if (isCardSelected) continue;
+
                 //is selected, so remove from the selection
                 if (toSelect[i] == toGameDeck[j].GetComponent<CardValues>().id)
                 {
-                    toSelect.Remove(toSelect[i]);
-                    toRemoveAndAdd = false;
-                    break;
+                    isCardSelected = true;
                 }
             }
+
             //is not selected, so returns to the deck and remove from selection
-            if(toRemoveAndAdd)
+            if(!isCardSelected)
             {
                 auxDeck.Add(toSelect[i]);
-                toSelect.Remove(toSelect[i]);
             }
+
+            //Erase all cards shown
+            toSelect.Remove(toSelect[i]);
         }
+
+        toSelect.Clear();
         toGameDeck.Clear();
+        //toGameDeck = new List<GameObject>();
     }
 
     void SetMana()

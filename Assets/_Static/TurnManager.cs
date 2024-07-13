@@ -6,7 +6,8 @@ public class TurnManager : MonoBehaviour
 {
     public void DrawingCardsAcceptButton()
     {
-        StartCoroutine(MapState.NextPhase());
+        if(MapState.turnPhase == MapState.TurnPhase.CARD_SELECTING)
+            StartCoroutine(MapState.NextPhase());
     }
 
     public void NextButton()
