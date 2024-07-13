@@ -14,7 +14,7 @@ public class TESTER : MonoBehaviour
 
     private void Start()
     {
-        SetCardsOnMap();
+        //SetCardsOnMap();
     }
 
     void SetCardsOnMap()
@@ -58,7 +58,9 @@ public class TESTER : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.F)) StartCoroutine(MapState.NextPhase());
+
+        /*if (Input.GetKeyDown(KeyCode.Space))
         {
             FindObjectOfType<LayerMovement>().TransferInformation();
             StartCoroutine(MapState.StartTurn());
@@ -68,6 +70,6 @@ public class TESTER : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             MapState.bottomPlayerAtacking = !MapState.bottomPlayerAtacking;
-        }
+        }*/
     }
 }

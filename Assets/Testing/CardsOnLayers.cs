@@ -47,7 +47,7 @@ public class CardsOnLayers : MonoBehaviour
 
     public void DrawCards()
     {
-        if (MapState.bottomPlayerAttacking)
+        if (MapState.bottomPlayerAtacking)
             manaLess = MapState.bottomMana;
         else
             manaLess = MapState.topMana;

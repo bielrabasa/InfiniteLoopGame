@@ -31,6 +31,9 @@ public static class MapState
     public static bool bottomPlayerAtacking = true;
     public static int BottomHeroHP = 30; //TODO: Make it not hardcoded
     public static int TopHeroHP = 30;
+    public static int bottomMana = 1; //Starting mana value
+    public static int topMana = 1;
+    const int MAX_MANA = 10;
 
     public enum TurnPhase
     {
@@ -192,6 +195,7 @@ public static class MapState
 
         //Switch Turns
         bottomPlayerAtacking = !bottomPlayerAtacking;
+        Debug.Log("Switching turns!");
     }
 
     static IEnumerator CardAttack(int c, int r)
@@ -244,6 +248,41 @@ public static class MapState
                 else
                     cardPositions[c, r].GetComponent<CardValues>().abilityScript.OnEndEnemyTurn();
             }
+        }
+    }
+
+    //---------------GAME LOOP---------------
+
+    public static IEnumerator NextPhase()
+    {
+        switch(turnPhase)
+        {
+            case TurnPhase.NONE:
+                Debug.Log("CardSelecting! " + (bottomPlayerAtacking ? "BOT" : "TOP"));
+                turnPhase = TurnPhase.CARD_SELECTING;
+                GameObject.Find(bottomPlayerAtacking ? "DeckP0" : "DeckP1").
+                    GetComponent<CardsOnLayers>().DrawCards();
+
+                break;
+            case TurnPhase.CARD_SELECTING:
+                Debug.Log("LayerMoving! " + (bottomPlayerAtacking? "BOT" : "TOP"));
+                turnPhase = TurnPhase.LAYER_MOVING;
+
+                break;
+            case TurnPhase.LAYER_MOVING: 
+                Debug.Log("Attacking! " + (bottomPlayerAtacking ? "BOT" : "TOP"));
+                turnPhase = TurnPhase.ATTACKING;
+                GameObject.FindObjectOfType<LayerMovement>().TransferInformation();
+                yield return StartTurn();
+
+                break;
+            case TurnPhase.ATTACKING:
+                Debug.Log("CardSelecting! " + (bottomPlayerAtacking ? "BOT" : "TOP"));
+                turnPhase = TurnPhase.CARD_SELECTING;
+                GameObject.Find(bottomPlayerAtacking ? "DeckP0" : "DeckP1").
+                    GetComponent<CardsOnLayers>().DrawCards();
+
+                break;
         }
     }
 }

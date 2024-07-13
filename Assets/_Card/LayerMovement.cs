@@ -49,6 +49,8 @@ public class LayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (MapState.turnPhase != MapState.TurnPhase.LAYER_MOVING) return;
+
         //Pick layer
         if (Input.GetMouseButtonDown(0))
         {
