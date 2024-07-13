@@ -4,20 +4,14 @@ using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void DrawingCardsAcceptButton()
     {
         StartCoroutine(MapState.NextPhase());
+    }
+
+    public void NextButton()
+    {
+        if(MapState.turnPhase == MapState.TurnPhase.LAYER_MOVING)
+            StartCoroutine(MapState.NextPhase());
     }
 }

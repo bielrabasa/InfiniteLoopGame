@@ -26,6 +26,7 @@ public class CardsOnLayers : MonoBehaviour
 
     void Start()
     {
+        //Full deck = All cards from excel
         for (int i = 0; i < CardLoader.GetDeckSize(); i++)
         {
             fullDeck.Add((uint)(i+1));
@@ -37,13 +38,13 @@ public class CardsOnLayers : MonoBehaviour
 
     void Update()
     {
+        if (MapState.turnPhase != MapState.TurnPhase.CARD_SELECTING) return;
+
         DetectCard();
     }
 
     public void DrawCards()
     {
-        Debug.Log(gameObject.name);
-
         if (MapState.bottomPlayerAtacking)
             manaLess = MapState.bottomMana;
         else
@@ -124,17 +125,15 @@ public class CardsOnLayers : MonoBehaviour
 
     public void PreSelectionCards(GameObject selection)
     {
-        //check if the card are in the deck to remove
-        for (int i = 0; i < toGameDeck.Count; i++)
+        //If it is selected -> unselect it
+        if(toGameDeck.Contains(selection) && selection.tag != "AnimOn")
         {
-           if(selection == toGameDeck[i] && selection.tag != "AnimOn")
-           {
-                RemoveToGame(selection);
-                return;
-           }
+            RemoveToGame(selection);
+            return;
         }
 
-        if (selection.GetComponent<CardValues>().manaCost <= manaLess && spacesLeft > 0 && selection.tag != "AnimOn")
+        //Select?
+        if (selection.tag != "AnimOn" && spacesLeft > 0 && selection.GetComponent<CardValues>().manaCost <= manaLess)
         {
             //if its not, add the card
             AddToGame(selection);
@@ -217,15 +216,13 @@ public class CardsOnLayers : MonoBehaviour
             trigger.triggers.RemoveRange(0, trigger.triggers.Count);*/
         }
 
-        Debug.Log("M:" + manaLess);
-
         if (MapState.bottomPlayerAtacking) MapState.bottomMana = manaLess;
         else MapState.topMana = manaLess;
 
         MapState.SetCardsOnMap(toGameDeck);
 
         //destroy physical cards
-        Destroy(GameObject.Find("CardLoader").gameObject);
+        Destroy(GameObject.Find("CardLoader"));
 
         //Check the selected card to return to the deck or play
         for (int i = toSelect.Count - 1; i >= 0; i--)

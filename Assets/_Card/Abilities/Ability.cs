@@ -164,8 +164,11 @@ public class Ability : MonoBehaviour
     }
     protected virtual void ApplyManaPerk()
     {
-        //TODO: do it good
-        //Debug.Log("Applying Mana!");
+        if (MapState.bottomPlayerAtacking)
+        {
+            if (++MapState.bottomMana > MapState.MAX_MANA) MapState.bottomMana = MapState.MAX_MANA;
+        }
+        else if (++MapState.topMana > MapState.MAX_MANA) MapState.topMana = MapState.MAX_MANA;
     }
 
     //Every time a card moves towards an enemy

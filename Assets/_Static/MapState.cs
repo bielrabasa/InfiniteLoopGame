@@ -33,7 +33,7 @@ public static class MapState
     public static int TopHeroHP = 30;
     public static int bottomMana = 5; //Starting mana value
     public static int topMana = 7;
-    const int MAX_MANA = 10;
+    public const int MAX_MANA = 10;
 
     public enum TurnPhase
     {
@@ -195,7 +195,6 @@ public static class MapState
 
         //Switch Turns
         bottomPlayerAtacking = !bottomPlayerAtacking;
-        Debug.Log("Switching turns!");
     }
 
     static IEnumerator CardAttack(int c, int r)
@@ -255,32 +254,42 @@ public static class MapState
 
     public static IEnumerator NextPhase()
     {
+        if (turnPhase == TurnPhase.NONE) turnPhase = TurnPhase.ATTACKING;
+
         switch(turnPhase)
         {
-            case TurnPhase.NONE:
-                Debug.Log("CardSelecting! " + (bottomPlayerAtacking ? "BOT" : "TOP"));
-                turnPhase = TurnPhase.CARD_SELECTING;
-                GameObject.Find(bottomPlayerAtacking ? "DeckP0" : "DeckP1").
-                    GetComponent<CardsOnLayers>().DrawCards();
-
-                break;
             case TurnPhase.CARD_SELECTING:
+                turnPhase = TurnPhase.LAYER_MOVING;
+
+                //Put cards on board
                 GameObject.Find(bottomPlayerAtacking ? "DeckP0" : "DeckP1").
                     GetComponent<CardsOnLayers>().CreateCards();
-                Debug.Log("LayerMoving! " + (bottomPlayerAtacking? "BOT" : "TOP"));
-                turnPhase = TurnPhase.LAYER_MOVING;
 
                 break;
             case TurnPhase.LAYER_MOVING: 
-                Debug.Log("Attacking! " + (bottomPlayerAtacking ? "BOT" : "TOP"));
                 turnPhase = TurnPhase.ATTACKING;
+
+                //Tranfer layer information
                 GameObject.FindObjectOfType<LayerMovement>().TransferInformation();
+
+                //Wait for attack
                 yield return StartTurn();
+
+                //Go to draw cards
+                yield return NextPhase();
 
                 break;
             case TurnPhase.ATTACKING:
-                Debug.Log("CardSelecting! " + (bottomPlayerAtacking ? "BOT" : "TOP"));
                 turnPhase = TurnPhase.CARD_SELECTING;
+
+                //Increase mana
+                if (bottomPlayerAtacking) 
+                { 
+                    if (++bottomMana > MAX_MANA) bottomMana = MAX_MANA; 
+                }
+                else if (++topMana > MAX_MANA) topMana = MAX_MANA;
+
+                //Draw cards
                 GameObject.Find(bottomPlayerAtacking ? "DeckP0" : "DeckP1").
                     GetComponent<CardsOnLayers>().DrawCards();
 

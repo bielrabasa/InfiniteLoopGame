@@ -6,7 +6,7 @@ public class Ability_4 : Ability
 {
     protected override void ApplyManaPerk()
     {
-        //TODO:
+        base.ApplyManaPerk();
         base.ApplyManaPerk();
     }
 }
