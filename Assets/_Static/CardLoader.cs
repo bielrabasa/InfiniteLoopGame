@@ -86,7 +86,10 @@ public static class CardLoader
         vals.hp = int.Parse(row[6]);
 
         if(!uint.TryParse(row[7], out vals.abilityId)) vals.abilityId = 0; //In case of no ability, set value 0
-        vals.abilityDescription = row[8];
+        
+        vals.spriteName = row[8];
+        
+        vals.abilityDescription = row[9];
 
         //Has to be called here (btw Awake & Start)
         vals.AddAbilityScript();
