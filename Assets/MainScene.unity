@@ -440,7 +440,7 @@ MonoBehaviour:
   panelSelectCards: {fileID: 3204914781938054514}
   cardsDraw: 5
   player_1: 1
-  manaLess: 5
+  manaLess: 10
   maxMana: 10
   turn: 1
 --- !u!4 &460767186

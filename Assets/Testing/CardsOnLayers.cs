@@ -140,8 +140,7 @@ public class CardsOnLayers : MonoBehaviour
            }
         }
 
-        //if (selection.GetComponent<CardValues>().manaCost <= manaLess && spacesLeft < 0)
-        if (selection.GetComponent<CardValues>().manaCost <= manaLess && selection.tag != "AnimOn")
+        if (selection.GetComponent<CardValues>().manaCost <= manaLess && spacesLeft > 0 && selection.tag != "AnimOn")
         {
             //if its not, add the card
             AddToGame(selection);
@@ -216,6 +215,7 @@ public class CardsOnLayers : MonoBehaviour
         foreach (GameObject card in toGameDeck)
         {
             card.transform.Find("Canvas").transform.Find("CardImage").GetComponent<Image>().color = Color.white;
+            card.transform.Find("Canvas").transform.Find("ManaCost_Text").gameObject.SetActive(false);
             card.layer = 6;
 
             //Remove all listeners

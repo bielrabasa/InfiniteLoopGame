@@ -77,13 +77,13 @@ public class CardValues : MonoBehaviour
         rangeText.text = tempRange.ToString();
         //
 
-        spriteName = "Dwarf_01";
+        //spriteName = "Dwarf_01";
         traCanvas.Find("CardImage").GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/" + spriteName);
 
-        if (cardName == "") cardName = "[_____ _____]";
+        //if (cardName == "") cardName = "[_____ _____]";
         traCanvas.Find("Name_Text").GetComponent<TMP_Text>().text = cardName;
 
-        if (faction == "") faction = "[_____]";
+        //if (faction == "") faction = "[_____]";
         traCanvas.Find("Faction_Text").GetComponent<TMP_Text>().text = faction;
 
         traCanvas.Find("Description_Text").GetComponent<TMP_Text>().text = abilityDescription;
