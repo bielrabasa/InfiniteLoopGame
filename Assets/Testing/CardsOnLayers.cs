@@ -18,11 +18,9 @@ public class CardsOnLayers : MonoBehaviour
 
     public int cardsDraw;
 
-    public bool player_1;
+    bool player_1;
 
     public int manaLess;
-    public int maxMana;
-    public int turn = 1;
 
     int spacesLeft;
 
@@ -43,17 +41,16 @@ public class CardsOnLayers : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.D) && player_1) DrawCards();
         if(Input.GetKeyDown(KeyCode.A) && !player_1) DrawCards();
-        if(Input.GetKeyDown(KeyCode.S)) turn++;
 
         DetectCard();
     }
 
-    void DrawCards()
+    public void DrawCards()
     {
-        //Add the new mana (the turn number)
-        manaLess += turn;
-        //set 10 as max Mana
-        if (manaLess > maxMana) manaLess = maxMana;
+        if (MapState.bottomPlayerAttacking)
+            manaLess = MapState.bottomMana;
+        else
+            manaLess = MapState.topMana;
 
         //Get the cards to play and split from the other cards each turn
         SelectCards();
