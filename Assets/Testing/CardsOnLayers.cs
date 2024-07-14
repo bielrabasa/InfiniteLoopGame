@@ -6,33 +6,32 @@ using TMPro;
 
 public class CardsOnLayers : MonoBehaviour
 {
-    public List<uint> fullDeck;
-    public List<uint> auxDeck;
-    public List<uint> toSelect;
-    public List<GameObject> toGameDeck;
+    [SerializeField] LayerMask cardLayer;
+    [SerializeField] GameObject panelSelectCards;
 
-    public LayerMask cardLayer;
+    int shownCardsNumber = 5;
 
-    public GameObject panelSelectCards;
+    int currentPlayerMana = -1;
+    int currentSpacesLeft = -1;
 
-    public int cardsDraw;
+    //Players full decks
+    List<uint> bottomPlayerDeck = new List<uint>();
+    List<uint> topPlayerDeck = new List<uint>();
 
-    public int manaLess;
+    //Cards shown in screen
+    List<uint> shownCards = new List<uint>();
 
-    int spacesLeft;
+    //Selected cards
+    List<GameObject> selectedCards = new List<GameObject>();
 
-    const float timeAnim = 0.1f;
 
     void Start()
     {
-        //Full deck = All cards from excel
         for (int i = 0; i < CardLoader.GetDeckSize(); i++)
         {
-            fullDeck.Add((uint)(i+1));
+            bottomPlayerDeck.Add((uint)(i + 1));
+            topPlayerDeck.Add((uint)(i + 1));
         }
-
-        //Copy the full deck at the start of the game
-        CopyFullDeck();
     }
 
     void Update()
@@ -42,56 +41,48 @@ public class CardsOnLayers : MonoBehaviour
         DetectCard();
     }
 
+    //On Draw Cards
     public void DrawCards()
     {
-        if (MapState.bottomPlayerAtacking)
-            manaLess = MapState.bottomMana;
-        else
-            manaLess = MapState.topMana;
+        //Set current mana & pick cards from player deck
 
-        //Get the cards to play and split from the other cards each turn
-        SelectCards();
-    }
-    
-    void CopyFullDeck()
-    {
-        for (int i = 0; i < fullDeck.Count; i++)
+        if (MapState.bottomPlayerAtacking)
         {
-            auxDeck.Add(fullDeck[i]);
+            currentPlayerMana = MapState.bottomMana;
+            DrawCardsFromDeck(ref bottomPlayerDeck);
+        }
+        else
+        {
+            currentPlayerMana = MapState.topMana;
+            DrawCardsFromDeck(ref topPlayerDeck);
         }
     }
 
-    void SelectCards()
+    void DrawCardsFromDeck(ref List<uint> currentPlayerDeck)
     {
-        if(cardsDraw > auxDeck.Count) cardsDraw = auxDeck.Count;
+        if(shownCardsNumber > currentPlayerDeck.Count) shownCardsNumber = currentPlayerDeck.Count;
 
-        for (int i = 0; i < cardsDraw; i++)
+        List<uint> temporalDeckCopy = new List<uint>(currentPlayerDeck);
+        for (int i = 0; i < shownCardsNumber; i++)
         {
-            uint nextCard;
-
-            //Get Random Card from the auxiliar deck
-            nextCard = auxDeck[Random.Range(0, auxDeck.Count)];
-
-            //Remove that card from the auxiliar deck
-            auxDeck.Remove(nextCard);
-
-            //Add that card to the deck for playing
-            toSelect.Add(nextCard);
+            uint nextCard = temporalDeckCopy[Random.Range(0, temporalDeckCopy.Count)];
+            temporalDeckCopy.Remove(nextCard);
+            shownCards.Add(nextCard);
         }
 
         //Show a menu to select the cards
         panelSelectCards.SetActive(true);
 
         //Set the text to show the mana have less
-        SetMana();
+        UpdateManaVisuals();
 
         //choose between 5 cards
         CreateSelection();
     }
 
-    public void CreateSelection()
+    void CreateSelection()
     {
-        CardLoader.LoadCards(ref toSelect);
+        CardLoader.LoadCards(ref shownCards);
         GameObject cards = GameObject.Find("CardLoader");
         cards.transform.position = new Vector3(-2.2f, 19.25f, -5.25f);
         cards.transform.Rotate(78.0f, 0.0f, 0.0f);
@@ -104,165 +95,147 @@ public class CardsOnLayers : MonoBehaviour
             child.transform.localPosition = new Vector3((1 * i) - (1 * (cards.transform.childCount - 3)), 1, -7.0f);
             child.transform.Rotate(-90.0f, 0.0f, 0.0f);
 
-            //Add the event PointerUp to select the card
-            /*GameObject theDeck = this.gameObject;
-
-            child.gameObject.AddComponent(typeof(EventTrigger));
-            EventTrigger trigger = child.GetComponent<EventTrigger>();
-
-            //Not showed in the inspector, but is there
-            EventTrigger.Entry click = new EventTrigger.Entry();
-            click.eventID = EventTriggerType.PointerUp;
-            click.callback.AddListener(delegate { theDeck.GetComponent<CardsOnLayers>().PreSelectionCards(child.gameObject); });
-            trigger.triggers.Add(click);*/
-
             i++;
         }
 
-        spacesLeft = MapState.SpacesLeft();
+        currentSpacesLeft = MapState.SpacesLeft();
     }
 
-    public void PreSelectionCards(GameObject selection)
+    //OnClick
+    void PreSelectionCards(GameObject selection)
     {
         //If is on animation, don't do anything
-        if (selection.tag == "AnimOn") return;
+        //if (selection.tag == "AnimOn") return;
 
-        if(toGameDeck.Contains(selection))
+        if (selectedCards.Contains(selection))
         {
-            //Unselect
-            RemoveToGame(selection);
+            UnselectCard(selection);
         }
-        else
-        {
-            //Select
-            if (spacesLeft > 0 && selection.GetComponent<CardValues>().manaCost <= manaLess)
-            {
-                AddToGame(selection);
-            }
+        else if (CanBeSelected(selection)) 
+        { 
+            SelectCard(selection);
         }
     }
 
-    void AddToGame(GameObject newCard)
+    bool CanBeSelected(GameObject card)
     {
+        //Check spaces
+        if (currentSpacesLeft <= selectedCards.Count) return false;
 
-        //add the card to the deck
-        toGameDeck.Add(newCard);
-        //subtract the mana
-        manaLess -= newCard.GetComponent<CardValues>().manaCost;
-        //-1 space in the pool
-        spacesLeft--;
+        //Check mana
+        if (card.GetComponent<CardValues>().manaCost > currentPlayerMana) return false;
 
-        //Set the text to show the mana have less
-        SetMana();
+        return true;
+    }
+
+    void SelectCard(GameObject card)
+    {
+        selectedCards.Add(card);
+
+        currentPlayerMana -= card.GetComponent<CardValues>().manaCost;
+
+        UpdateManaVisuals();
+
         //set a new color for the card (glowing)
-        newCard.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = new Color(0.98f, 1.0f, 0.80f, 1.0f);
+        card.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = new Color(0.98f, 1.0f, 0.80f, 1.0f);
 
-        StartCoroutine(AnimationUP(newCard.transform));
+        //StartCoroutine(AnimationUP(newCard.transform));
     }
 
-    IEnumerator AnimationUP(Transform card)
-    {
-        string ogTag = card.tag;
-        card.tag = "AnimOn";
+    //IEnumerator AnimationUP(Transform card)
+    //{
+    //    string ogTag = card.tag;
+    //    card.tag = "AnimOn";
 
-        Vector3 finalPos = new Vector3(card.localPosition.x, card.localPosition.y + 0.25f, card.localPosition.z);
-        Vector3 velocity = Vector3.zero;
-        while (Vector3.Distance(card.localPosition, finalPos) > 0.01f)
-        {
-            card.localPosition = Vector3.SmoothDamp(card.localPosition, finalPos, ref velocity, timeAnim);
-            yield return null;
-        }
-        card.tag = ogTag;
+    //    Vector3 finalPos = new Vector3(card.localPosition.x, card.localPosition.y + 0.25f, card.localPosition.z);
+    //    Vector3 velocity = Vector3.zero;
+    //    while (Vector3.Distance(card.localPosition, finalPos) > 0.01f)
+    //    {
+    //        card.localPosition = Vector3.SmoothDamp(card.localPosition, finalPos, ref velocity, timeAnim);
+    //        yield return null;
+    //    }
+    //    card.tag = ogTag;
+    //}
+
+    void UnselectCard(GameObject card)
+    {
+        selectedCards.Remove(card);
+
+        currentPlayerMana += card.GetComponent<CardValues>().manaCost;
+        UpdateManaVisuals();
+
+        //set the original color
+        card.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = Color.white;
+
+        //StartCoroutine(AnimationDOWN(newCard.transform));
     }
 
-    void RemoveToGame(GameObject newCard)
+    //IEnumerator AnimationDOWN(Transform card)
+    //{
+    //    string ogTag = card.tag;
+    //    card.tag = "AnimOn";
+
+    //    Vector3 finalPos = new Vector3(card.localPosition.x, card.localPosition.y - 0.25f, card.localPosition.z);
+    //    Vector3 velocity = Vector3.zero;
+    //    while (Vector3.Distance(card.localPosition, finalPos) > 0.01f)
+    //    {
+    //        card.localPosition = Vector3.SmoothDamp(card.localPosition, finalPos, ref velocity, timeAnim);
+    //        yield return null;
+    //    }
+    //    card.tag = ogTag;
+    //}
+
+    public void SendCardsToBoard()
     {
-        //remove the card to the deck
-        toGameDeck.Remove(newCard);
-        //take back the mana
-        manaLess += newCard.GetComponent<CardValues>().manaCost;
-        //take back the space in the pool
-        spacesLeft++;
-
-        //Set the text to show the mana have less
-        SetMana();
-        //set athe original color
-        newCard.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = Color.white;
-
-        StartCoroutine(AnimationDOWN(newCard.transform));
-    }
-
-    IEnumerator AnimationDOWN(Transform card)
-    {
-        string ogTag = card.tag;
-        card.tag = "AnimOn";
-
-        Vector3 finalPos = new Vector3(card.localPosition.x, card.localPosition.y - 0.25f, card.localPosition.z);
-        Vector3 velocity = Vector3.zero;
-        while (Vector3.Distance(card.localPosition, finalPos) > 0.01f)
-        {
-            card.localPosition = Vector3.SmoothDamp(card.localPosition, finalPos, ref velocity, timeAnim);
-            yield return null;
-        }
-        card.tag = ogTag;
-    }
-
-    public void CreateCards()
-    {
-        //send list toGsmeObject
-        foreach (GameObject card in toGameDeck)
+        //Prepare cards to send to board (visually & removing from raycast layer)
+        foreach (GameObject card in selectedCards)
         {
             card.transform.Find("Canvas").transform.Find("CardImage").GetComponent<Image>().color = Color.white;
             card.transform.Find("Canvas").transform.Find("ManaCost_Text").gameObject.SetActive(false);
             card.layer = 6;
-
-            //Remove all listeners
-            /*EventTrigger trigger = card.GetComponent<EventTrigger>();
-            trigger.triggers.RemoveRange(0, trigger.triggers.Count);*/
         }
 
-        if (MapState.bottomPlayerAtacking) MapState.bottomMana = manaLess;
-        else MapState.topMana = manaLess;
+        //Setting player mana
+        if (MapState.bottomPlayerAtacking)
+        {
+            MapState.bottomMana = currentPlayerMana;
+        }
+        else
+        {
+            MapState.topMana = currentPlayerMana;
+        }
+        currentPlayerMana = -1; //Reset mana value
+        currentSpacesLeft = -1; //Reset spaces value
 
-        MapState.SetCardsOnMap(toGameDeck);
+        //Send cards to board
+        MapState.SetCardsOnMap(selectedCards);
 
-        //destroy physical cards
+        //Remove selected cards from the currentPlayerDeck
+        foreach (GameObject card in selectedCards)
+        {
+            CardValues selectedValues = card.GetComponent<CardValues>();
+
+            if(MapState.bottomPlayerAtacking)
+            {
+                bottomPlayerDeck.Remove(selectedValues.id);
+            }
+            else
+            {
+                topPlayerDeck.Remove(selectedValues.id);
+            }
+        }
+
+        //Destroy non-selected cards
         Destroy(GameObject.Find("CardLoader"));
 
-        //Check the selected card to return to the deck or play
-        for (int i = toSelect.Count - 1; i >= 0; i--)
-        {
-            //Is the card selected?
-            bool isCardSelected = false;
-            for (int j = 0; j < toGameDeck.Count; j++)
-            {
-                if (isCardSelected) continue;
-
-                //is selected, so remove from the selection
-                if (toSelect[i] == toGameDeck[j].GetComponent<CardValues>().id)
-                {
-                    isCardSelected = true;
-                }
-            }
-
-            //is not selected, so returns to the deck and remove from selection
-            if(!isCardSelected)
-            {
-                auxDeck.Add(toSelect[i]);
-            }
-
-            //Erase all cards shown
-            toSelect.Remove(toSelect[i]);
-        }
-
-        toSelect.Clear();
-        toGameDeck.Clear();
-        //toGameDeck = new List<GameObject>();
+        //Clear the selected and drawn cards
+        selectedCards.Clear();
+        shownCards.Clear();
     }
 
-    void SetMana()
+    void UpdateManaVisuals()
     {
-        panelSelectCards.transform.Find("Mana").Find("Mana_Text").GetComponent<TMP_Text>().text = manaLess.ToString();
+        panelSelectCards.transform.Find("Mana").Find("Mana_Text").GetComponent<TMP_Text>().text = currentPlayerMana.ToString();
     }
 
     void DetectCard()

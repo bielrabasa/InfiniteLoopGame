@@ -259,60 +259,6 @@ MonoBehaviour:
   - {x: 5, y: 1, z: 4}
   - {x: 1, y: 2, z: 13}
   - {x: 0, y: 5, z: 0}
---- !u!1 &195816586
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 195816588}
-  - component: {fileID: 195816587}
-  m_Layer: 0
-  m_Name: DeckP0
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &195816587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 195816586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3cde9cb21dfc4c42b4739063a6d3334, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fullDeck: 
-  auxDeck: 
-  toSelect: 
-  toGameDeck: []
-  cardLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  panelSelectCards: {fileID: 3204914781938054514}
-  cardsDraw: 5
-  manaLess: 0
---- !u!4 &195816588
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 195816586}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &251956571
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +357,7 @@ GameObject:
   - component: {fileID: 460767186}
   - component: {fileID: 460767185}
   m_Layer: 0
-  m_Name: DeckP1
+  m_Name: Decks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -429,16 +375,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cde9cb21dfc4c42b4739063a6d3334, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullDeck: 
-  auxDeck: 
-  toSelect: 
-  toGameDeck: []
   cardLayer:
     serializedVersion: 2
     m_Bits: 8
   panelSelectCards: {fileID: 3204914781938054514}
-  cardsDraw: 5
-  manaLess: 0
+  shownCardsNumber: 0
 --- !u!4 &460767186
 Transform:
   m_ObjectHideFlags: 0
@@ -1689,7 +1630,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: -372}
+  m_AnchoredPosition: {x: 0, y: -372}
   m_SizeDelta: {x: 350.02, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &880828988763626278
@@ -2216,7 +2157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: -252}
+  m_AnchoredPosition: {x: 0, y: -252}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &8927046784365797694
@@ -2247,7 +2188,6 @@ SceneRoots:
   - {fileID: 356662741}
   - {fileID: 105471942}
   - {fileID: 251956573}
-  - {fileID: 195816588}
   - {fileID: 460767186}
   - {fileID: 1618686798}
   - {fileID: 1343442951}

@@ -262,8 +262,7 @@ public static class MapState
                 turnPhase = TurnPhase.LAYER_MOVING;
 
                 //Put cards on board
-                GameObject.Find(bottomPlayerAtacking ? "DeckP0" : "DeckP1").
-                    GetComponent<CardsOnLayers>().CreateCards();
+                GameObject.FindObjectOfType<CardsOnLayers>().SendCardsToBoard();
 
                 break;
             case TurnPhase.LAYER_MOVING: 
@@ -290,8 +289,7 @@ public static class MapState
                 else if (++topMana > MAX_MANA) topMana = MAX_MANA;
 
                 //Draw cards
-                GameObject.Find(bottomPlayerAtacking ? "DeckP0" : "DeckP1").
-                    GetComponent<CardsOnLayers>().DrawCards();
+                GameObject.FindObjectOfType<CardsOnLayers>().DrawCards();
 
                 break;
         }
