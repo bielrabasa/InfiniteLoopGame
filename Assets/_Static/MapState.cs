@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.VersionControl.Asset;
 
 public static class MapState
 {
@@ -29,8 +27,8 @@ public static class MapState
 
     //Player information
     public static bool bottomPlayerAtacking = true;
-    public static int BottomHeroHP = 30; //TODO: Make it not hardcoded
-    public static int TopHeroHP = 30;
+    public static int BottomHeroHP = 1; //TODO: Make it not hardcoded
+    public static int TopHeroHP = 1;
     static TMP_Text TopHeroText = null;
     static TMP_Text BotHeroText = null;
     public static int bottomMana = 5; //Starting mana value
@@ -45,6 +43,7 @@ public static class MapState
         ATTACKING
     }
     public static TurnPhase turnPhase = TurnPhase.NONE;
+    static bool gameEnded = false;
 
     //Physical board size
     public static Vector2 boardSize = new Vector2(20, 30);
@@ -263,6 +262,8 @@ public static class MapState
 
     public static IEnumerator NextPhase()
     {
+        if (gameEnded) yield break;
+
         if (turnPhase == TurnPhase.NONE)
         {
             InitGame();
@@ -308,6 +309,16 @@ public static class MapState
         }
     }
 
+    static void EndGame(bool bottomWon)
+    {
+        gameEnded = true;
+        Debug.Log("Winner! " + (bottomWon ? "Bottom" : "Top"));
+
+        GameObject.FindObjectOfType<CameraMovement>().MoveToPosition(
+            GameObject.Find(bottomWon ? "BotHero" : "TopHero").transform.position + Vector3.up * 12);
+        //TODO: Focus camera on winner & explode enemy or smth special
+    }
+
     //---------------HEROES------------------
 
     static void InitHeroes()
@@ -336,6 +347,15 @@ public static class MapState
         else TopHeroHP -= dmg;
 
         UpdateHeroInfo(botHero);
-    }
 
+        //Check for winner
+        if (botHero)
+        {
+            if (BottomHeroHP <= 0) EndGame(false);
+        }
+        else
+        {
+            if (TopHeroHP <= 0) EndGame(true);
+        }
+    }
 }
