@@ -288,6 +288,8 @@ public static class MapState
                 //Wait for attack
                 yield return StartTurn();
 
+                //SwitchCamera(); //TODO: Disable if annoying
+
                 //Go to draw cards
                 yield return NextPhase();
 
@@ -309,6 +311,14 @@ public static class MapState
         }
     }
 
+    
+    static void SwitchCamera()
+    {
+        GameObject.FindObjectOfType<CameraMovement>().SwitchPosition();
+
+        //TODO: Switch card rotation
+    }
+    
     static void EndGame(bool bottomWon)
     {
         gameEnded = true;
@@ -316,7 +326,6 @@ public static class MapState
 
         GameObject.FindObjectOfType<CameraMovement>().MoveToPosition(
             GameObject.Find(bottomWon ? "BotHero" : "TopHero").transform.position + Vector3.up * 12);
-        //TODO: Focus camera on winner & explode enemy or smth special
     }
 
     //---------------HEROES------------------

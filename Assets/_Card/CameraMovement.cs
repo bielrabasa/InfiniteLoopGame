@@ -4,11 +4,23 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-
+    float initPos;
 
     void Start()
     {
-        
+        initPos = transform.position.z;
+    }
+
+    public void SwitchPosition()
+    {
+        Vector3 p = transform.position;
+        p.z = -p.z;
+        transform.position = p;
+
+        Vector3 r = transform.rotation.eulerAngles;
+        if (r.y == 0.0f) r.y = 180f;
+        else r.y = 0.0f;
+        transform.rotation = Quaternion.Euler(r);
     }
 
     public void MoveToPosition(Vector3 pos)
