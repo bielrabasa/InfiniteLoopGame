@@ -13,16 +13,11 @@ public class CardZoom : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        frontCamera = FindObjectOfType<Camera>().transform.position;
-        Debug.Log(frontCamera);
+        frontCamera = GameObject.Find("Main Camera").GetComponent<Camera>().transform.position;
 
         frontCamera.x += 0.44f;
         frontCamera.y -= 5.62f;
         frontCamera.z += 1.14f;
-        //-2.19 29.15 -6.39
-        //-0.44  +5.62 -1.14
-        //-1.75f, 23.5f, -5.25f
-        Debug.Log(frontCamera);
     }
 
     // Update is called once per frame

@@ -84,7 +84,14 @@ public class CardsOnLayers : MonoBehaviour
     {
         CardLoader.LoadCards(ref shownCards);
         GameObject cards = GameObject.Find("CardLoader");
-        cards.transform.position = new Vector3(-2.2f, 19.25f, -5.25f);
+
+        Vector3 frontCamera = GameObject.Find("Main Camera").GetComponent<Camera>().transform.position;
+        //-0.5f 24.75f, -8.35f
+
+        frontCamera.y -= 9.75f;
+        frontCamera.z += 1.15f;
+
+        cards.transform.position = frontCamera;
         cards.transform.Rotate(78.0f, 0.0f, 0.0f);
 
         int i = 0;
