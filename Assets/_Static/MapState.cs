@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.VersionControl.Asset;
@@ -24,13 +25,14 @@ public static class MapState
 
     //Card position on map (both players) [0 = left, 2 = right, 0 = up, 5 = down]
     public static GameObject[,] cardPositions = new GameObject[COLUMNS, ROWS];
-
     static Transform cardHolder = null;
 
     //Player information
     public static bool bottomPlayerAtacking = true;
     public static int BottomHeroHP = 30; //TODO: Make it not hardcoded
     public static int TopHeroHP = 30;
+    static TMP_Text TopHeroText = null;
+    static TMP_Text BotHeroText = null;
     public static int bottomMana = 5; //Starting mana value
     public static int topMana = 7;
     public const int MAX_MANA = 10;
@@ -252,9 +254,20 @@ public static class MapState
 
     //---------------GAME LOOP---------------
 
+    static void InitGame()
+    {
+        InitHeroes();
+        UpdateHeroInfo(true);
+        UpdateHeroInfo(false);
+    }
+
     public static IEnumerator NextPhase()
     {
-        if (turnPhase == TurnPhase.NONE) turnPhase = TurnPhase.ATTACKING;
+        if (turnPhase == TurnPhase.NONE)
+        {
+            InitGame();
+            turnPhase = TurnPhase.ATTACKING;
+        }
 
         switch(turnPhase)
         {
@@ -294,4 +307,35 @@ public static class MapState
                 break;
         }
     }
+
+    //---------------HEROES------------------
+
+    static void InitHeroes()
+    {
+        BotHeroText = GameObject.Find("BotHero").transform.GetChild(0).Find("HP_Text").GetComponent<TMP_Text>();
+        TopHeroText = GameObject.Find("TopHero").transform.GetChild(0).Find("HP_Text").GetComponent<TMP_Text>();
+    }
+
+    static void UpdateHeroInfo(bool botHero)
+    {
+        if (botHero)
+        {
+            BotHeroText.text = BottomHeroHP.ToString();
+        }
+        else
+        {
+            TopHeroText.text = TopHeroHP.ToString();
+        }
+    }
+
+    public static void DamageHero(bool botHero, int dmg)
+    {
+        if(BotHeroText == null) InitHeroes();
+
+        if (botHero) BottomHeroHP -= dmg;
+        else TopHeroHP -= dmg;
+
+        UpdateHeroInfo(botHero);
+    }
+
 }

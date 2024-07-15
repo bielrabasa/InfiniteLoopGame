@@ -114,8 +114,8 @@ public class Ability : MonoBehaviour
     //When the card attacks specifically the Hero
     protected virtual void AttackHero()
     {
-        if (MapState.bottomPlayerAtacking)  MapState.TopHeroHP -= me.tempDamage;
-        else                                MapState.BottomHeroHP -= me.tempDamage;
+        //Damage the other hero
+        MapState.DamageHero(!MapState.bottomPlayerAtacking, me.tempDamage);
     }
 
     //After the start sequence, when all the layer perks are applied
