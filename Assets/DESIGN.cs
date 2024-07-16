@@ -29,6 +29,9 @@ namespace DESIGN
         //The time a card takes to return to its initial position after all attack sequence
         public const float timeOnReturning = 0.05f;
 
+        //The time the camera takes to switch positions
+        public const float timeOnCameraSwitching = 1f;
+
         //--------------OTHERS--------------
         public static readonly Color cardHighlightColor = new Color(0.98f, 1.0f, 0.80f, 1.0f);
     }

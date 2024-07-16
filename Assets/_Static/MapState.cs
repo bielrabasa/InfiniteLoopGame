@@ -292,7 +292,7 @@ public static class MapState
                 //Wait for attack
                 yield return StartTurn();
 
-                if(DESIGN_VALUES.SwitchCameraPosition) SwitchCamera();
+                if(DESIGN_VALUES.SwitchCameraPosition) yield return SwitchCamera();
 
                 //Go to draw cards
                 yield return NextPhase();
@@ -321,9 +321,9 @@ public static class MapState
     }
 
     
-    static void SwitchCamera()
+    static IEnumerator SwitchCamera()
     {
-        GameObject.FindObjectOfType<CameraMovement>().SwitchPosition();
+        yield return GameObject.FindObjectOfType<CameraMovement>().SwitchPosition();
 
         //TODO: Switch card rotation
     }

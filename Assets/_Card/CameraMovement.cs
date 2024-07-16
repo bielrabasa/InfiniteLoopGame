@@ -1,5 +1,5 @@
+using DESIGN;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
@@ -11,16 +11,29 @@ public class CameraMovement : MonoBehaviour
         initPos = transform.position.z;
     }
 
-    public void SwitchPosition()
+    public IEnumerator SwitchPosition()
     {
-        Vector3 p = transform.position;
-        p.z = -p.z;
-        transform.position = p;
+        Vector3 pos = transform.position;
+        float pini = transform.position.z;
+        float pend = -pini;
 
-        Vector3 r = transform.rotation.eulerAngles;
-        if (r.y == 0.0f) r.y = 180f;
-        else r.y = 0.0f;
-        transform.rotation = Quaternion.Euler(r);
+        Quaternion r = transform.rotation;
+        Quaternion rend = Quaternion.Euler(transform.rotation.eulerAngles + (Vector3.up * 180f));
+
+        float time = 0f;
+        while(time < 1f)
+        {
+            pos.z = Mathf.Lerp(pini, pend, time);
+            transform.rotation = Quaternion.Slerp(r, rend, time);
+            transform.position = pos;
+
+            time += Time.deltaTime / DESIGN_VALUES.timeOnCameraSwitching;
+            yield return null;
+        }
+
+        pos.z = pend;
+        transform.position = pos;
+        transform.rotation = rend;
     }
 
     public void MoveToPosition(Vector3 pos)
