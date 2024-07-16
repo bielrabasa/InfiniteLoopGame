@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -105,7 +104,23 @@ public class CardValues : MonoBehaviour
         damageText.text = tempDamage.ToString();
         rangeText.text = tempRange.ToString();
     }
-    
+
+    private void Update()
+    {
+        FollowCameraRotation();
+    }
+
+    public void FollowCameraRotation()
+    {
+        if (!MapState.switchingCameraPos) return;
+
+        Vector3 r = transform.eulerAngles;
+        r.y = Camera.main.transform.eulerAngles.y;
+        transform.rotation = Quaternion.Euler(r);
+    }
+
+    //-----------PLAY FUNCTIONS----------
+
     public void SetParticle(Color text_color, Vector3 pos, string text_value)
     {
         particleObject.transform.localPosition = pos;
@@ -115,8 +130,6 @@ public class CardValues : MonoBehaviour
         particleText.text = text_value;
         particleSystem.Play();
     }
-
-    //-----------PLAY FUNCTIONS----------
 
     public void ResetTemporalValues()
     {

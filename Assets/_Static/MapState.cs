@@ -45,6 +45,7 @@ public static class MapState
         ATTACKING
     }
     public static TurnPhase turnPhase = TurnPhase.NONE;
+    public static bool switchingCameraPos = false;
     static bool gameEnded = false;
 
     //Physical board size
@@ -323,9 +324,9 @@ public static class MapState
     
     static IEnumerator SwitchCamera()
     {
+        switchingCameraPos = true;
         yield return GameObject.FindObjectOfType<CameraMovement>().SwitchPosition();
-
-        //TODO: Switch card rotation
+        switchingCameraPos = false;
     }
     
     static void EndGame(bool bottomWon)
