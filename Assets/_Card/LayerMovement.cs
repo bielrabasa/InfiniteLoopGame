@@ -24,7 +24,9 @@ public class LayerMovement : MonoBehaviour
         pos = MapState.GetVerticalBoardPositions();
         for(int i = 0; i < MapState.ROWS; i++)
         {
-            GameObject go = Instantiate(LayerPrefab, new Vector3(MapState.boardSize.x / 2f + 5f, 0, pos[i]), Quaternion.identity, transform);
+            //GameObject go = Instantiate(LayerPrefab, new Vector3(MapState.boardSize.x / 2f + 5f, -6.4f, pos[i]), Quaternion.identity, transform);
+            GameObject go = Instantiate(LayerPrefab, new Vector3(0, -6.4f, pos[i]), Quaternion.identity, transform);
+            go.transform.localScale = new Vector3(1.0f, 1.0f, 0.5f);
             go.layer = 7;
             layers[i] = go.transform;
 
@@ -33,15 +35,15 @@ public class LayerMovement : MonoBehaviour
             {
                 case 0:
                     go.name = "Range";
-                    go.GetComponent<Renderer>().material = rangeMat;
+                    go.GetComponentInChildren<Renderer>().material = rangeMat;
                     break;
                 case 1:
                     go.name = "Damage";
-                    go.GetComponent<Renderer>().material = damageMat;
+                    go.GetComponentInChildren<Renderer>().material = damageMat;
                     break;
                 case 2:
                     go.name = "Mana";
-                    go.GetComponent<Renderer>().material = manaMat;
+                    go.GetComponentInChildren<Renderer>().material = manaMat;
                     break;
             }
         }
