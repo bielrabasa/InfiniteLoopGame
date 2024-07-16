@@ -86,21 +86,17 @@ public class CardsOnLayers : MonoBehaviour
         CardLoader.LoadCards(ref shownCards);
         GameObject cards = GameObject.Find("CardLoader");
 
-        Vector3 frontCamera = GameObject.Find("Main Camera").GetComponent<Camera>().transform.position;
-        //-0.5f 24.75f, -8.35f
+        Vector3 centerPosition = Camera.main.transform.position + Camera.main.transform.forward * 3f;
 
-        frontCamera.y -= 9.75f;
-        frontCamera.z += 1.15f;
-
-        cards.transform.position = frontCamera;
-        cards.transform.Rotate(78.0f, 0.0f, 0.0f);
+        cards.transform.position = centerPosition;
+        cards.transform.forward = Camera.main.transform.forward;
 
         int i = 0;
 
         foreach (Transform child in cards.transform)
         {
             //Set a new position
-            child.transform.localPosition = new Vector3((1 * i) - (1 * (cards.transform.childCount - 3)), 1, -7.0f);
+            child.transform.localPosition = new Vector3((1 * i) - (1 * (cards.transform.childCount - 3)), 0, 0);
             child.transform.Rotate(-90.0f, 0.0f, 0.0f);
 
             i++;

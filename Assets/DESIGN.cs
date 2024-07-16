@@ -13,7 +13,7 @@ namespace DESIGN
         public const int ExtraManaPerTurn = 1;
 
         //--------------DEBUG---------------
-        public const bool SwitchCameraPosition = false;
+        public const bool SwitchCameraPosition = true;
 
         //------------WAIT TIMES------------
         //The time that a card waits after any encounter against an enemy
