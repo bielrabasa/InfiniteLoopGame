@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DESIGN;
 
 public class CardsOnLayers : MonoBehaviour
 {
@@ -144,7 +145,7 @@ public class CardsOnLayers : MonoBehaviour
         UpdateManaVisuals();
 
         //set a new color for the card (glowing)
-        card.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = new Color(0.98f, 1.0f, 0.80f, 1.0f);
+        card.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = DESIGN_VALUES.cardHighlightColor;
 
         //StartCoroutine(AnimationUP(newCard.transform));
     }

@@ -1,15 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+
+using DESIGN;
 
 public class Ability : MonoBehaviour
 {
     //Constants
     Vector3 attackPositionOffset = new Vector3(0, 0.5f, 0.5f);
-    const float timeAfterEncounter = 0.2f;
-    const float timeOnGoing = 0.08f;
-    const float timeOnReturning = 0.05f;
 
     public CardValues me;
     public Vector2Int myStartPosition;
@@ -78,7 +75,7 @@ public class Ability : MonoBehaviour
         if (!isDying) me.UpdateVisuals();
         if (!other.abilityScript.isDying) other.UpdateVisuals();
 
-        yield return new WaitForSeconds(timeAfterEncounter);
+        yield return new WaitForSeconds(DESIGN_VALUES.timeAfterEncounter);
     }
 
     //---------------------------------
@@ -191,7 +188,7 @@ public class Ability : MonoBehaviour
         Vector3 velocity = Vector3.zero;
         while (Vector3.Distance(transform.position, finalPos) > 0.01f)
         {
-            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref velocity, timeOnGoing);
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref velocity, DESIGN_VALUES.timeOnGoing);
             yield return null;
         }
     }
@@ -203,7 +200,7 @@ public class Ability : MonoBehaviour
         Vector3 velocity = Vector3.zero;
         while (Vector3.Distance(transform.position, finalPos) > 0.01f)
         {
-            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref velocity, timeOnReturning);
+            transform.localPosition = Vector3.SmoothDamp(transform.localPosition, finalPos, ref velocity, DESIGN_VALUES.timeOnReturning);
             yield return null;
         }
     }

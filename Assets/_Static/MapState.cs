@@ -196,6 +196,8 @@ public static class MapState
         IterateStartEndTurn(bottomPlayerAtacking, false); //Iterate the player attacking
         IterateStartEndTurn(!bottomPlayerAtacking, false); //Iterate the player defending
 
+        yield return new WaitForSeconds(DESIGN_VALUES.timeAfterTurn);
+
         //Switch Turns
         bottomPlayerAtacking = !bottomPlayerAtacking;
     }
@@ -205,7 +207,7 @@ public static class MapState
         if (cardPositions[c, r] != null)
         {
             yield return cardPositions[c, r].GetComponent<CardValues>().Attack(new Vector2Int(c, r));
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(DESIGN_VALUES.timeAfterSequence);
         }
     }
 
