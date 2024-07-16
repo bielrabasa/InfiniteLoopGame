@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+using DESIGN;
+
 public static class MapState
 {
     public const int COLUMNS = 3;
@@ -27,13 +29,13 @@ public static class MapState
 
     //Player information
     public static bool bottomPlayerAtacking = true;
-    public static int BottomHeroHP = 1; //TODO: Make it not hardcoded
-    public static int TopHeroHP = 1;
+    public static int BottomHeroHP = DESIGN_VALUES.InitialHeroHP;
+    public static int TopHeroHP = DESIGN_VALUES.InitialHeroHP;
     static TMP_Text TopHeroText = null;
     static TMP_Text BotHeroText = null;
-    public static int bottomMana = 5; //Starting mana value
-    public static int topMana = 7;
-    public const int MAX_MANA = 10;
+    public static int bottomMana = DESIGN_VALUES.BOT_PlayerInitialMana; //Starting mana value
+    public static int topMana = DESIGN_VALUES.TOP_PlayerInitialMana;
+    public static int MAX_MANA = DESIGN_VALUES.MAX_MANA;
 
     public enum TurnPhase
     {
@@ -288,7 +290,7 @@ public static class MapState
                 //Wait for attack
                 yield return StartTurn();
 
-                //SwitchCamera(); //TODO: Disable if annoying
+                if(DESIGN_VALUES.SwitchCameraPosition) SwitchCamera();
 
                 //Go to draw cards
                 yield return NextPhase();
@@ -298,11 +300,16 @@ public static class MapState
                 turnPhase = TurnPhase.CARD_SELECTING;
 
                 //Increase mana
-                if (bottomPlayerAtacking) 
-                { 
-                    if (++bottomMana > MAX_MANA) bottomMana = MAX_MANA; 
+                if (bottomPlayerAtacking)
+                {
+                    bottomMana += DESIGN_VALUES.ExtraManaPerTurn;
+                    if (bottomMana > MAX_MANA) bottomMana = MAX_MANA;
                 }
-                else if (++topMana > MAX_MANA) topMana = MAX_MANA;
+                else
+                {
+                    topMana += DESIGN_VALUES.ExtraManaPerTurn;
+                    if (topMana > MAX_MANA) topMana = MAX_MANA;
+                }
 
                 //Draw cards
                 GameObject.FindObjectOfType<CardsOnLayers>().DrawCards();
