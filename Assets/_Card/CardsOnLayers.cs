@@ -25,6 +25,8 @@ public class CardsOnLayers : MonoBehaviour
     //Selected cards
     List<GameObject> selectedCards = new List<GameObject>();
 
+    //Needs to stop animating?
+    bool stopAnimating = false;
 
     void Start()
     {
@@ -45,6 +47,8 @@ public class CardsOnLayers : MonoBehaviour
     //On Draw Cards
     public void DrawCards()
     {
+        stopAnimating = false;
+
         //Set current mana & pick cards from player deck
 
         if (MapState.bottomPlayerAtacking)
@@ -109,7 +113,7 @@ public class CardsOnLayers : MonoBehaviour
     void PreSelectionCards(GameObject selection)
     {
         //If is on animation, don't do anything
-        //if (selection.tag == "AnimOn") return;
+        if (selection.CompareTag("AnimOn")) return;
 
         if (selectedCards.Contains(selection))
         {
@@ -143,23 +147,8 @@ public class CardsOnLayers : MonoBehaviour
         //set a new color for the card (glowing)
         card.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = DESIGN_VALUES.cardHighlightColor;
 
-        //StartCoroutine(AnimationUP(newCard.transform));
+        StartCoroutine(Animation(card.transform, true));
     }
-
-    //IEnumerator AnimationUP(Transform card)
-    //{
-    //    string ogTag = card.tag;
-    //    card.tag = "AnimOn";
-
-    //    Vector3 finalPos = new Vector3(card.localPosition.x, card.localPosition.y + 0.25f, card.localPosition.z);
-    //    Vector3 velocity = Vector3.zero;
-    //    while (Vector3.Distance(card.localPosition, finalPos) > 0.01f)
-    //    {
-    //        card.localPosition = Vector3.SmoothDamp(card.localPosition, finalPos, ref velocity, timeAnim);
-    //        yield return null;
-    //    }
-    //    card.tag = ogTag;
-    //}
 
     void UnselectCard(GameObject card)
     {
@@ -171,26 +160,31 @@ public class CardsOnLayers : MonoBehaviour
         //set the original color
         card.transform.Find("Canvas").Find("CardImage").GetComponent<Image>().color = Color.white;
 
-        //StartCoroutine(AnimationDOWN(newCard.transform));
+        StartCoroutine(Animation(card.transform, false));
     }
 
-    //IEnumerator AnimationDOWN(Transform card)
-    //{
-    //    string ogTag = card.tag;
-    //    card.tag = "AnimOn";
+    IEnumerator Animation(Transform card, bool up)
+    {
+        string ogTag = card.tag;
+        card.tag = "AnimOn";
 
-    //    Vector3 finalPos = new Vector3(card.localPosition.x, card.localPosition.y - 0.25f, card.localPosition.z);
-    //    Vector3 velocity = Vector3.zero;
-    //    while (Vector3.Distance(card.localPosition, finalPos) > 0.01f)
-    //    {
-    //        card.localPosition = Vector3.SmoothDamp(card.localPosition, finalPos, ref velocity, timeAnim);
-    //        yield return null;
-    //    }
-    //    card.tag = ogTag;
-    //}
+        Vector3 finalPos = card.localPosition;
+        finalPos.y += DESIGN_VALUES.CardSelectingAnimationUpDistance * (up ? 1f : -1f);
+        Vector3 velocity = Vector3.zero;
+        while (card != null && Vector3.Distance(card.localPosition, finalPos) > 0.01f)
+        {
+            if (stopAnimating) break;
+            card.localPosition = Vector3.SmoothDamp(card.localPosition, finalPos, ref velocity, DESIGN_VALUES.timeOnCardSelectingAnimation);
+
+            yield return null;
+        }
+        if(card != null) card.tag = ogTag;
+    }
 
     public void SendCardsToBoard()
     {
+        stopAnimating = true;
+
         //Prepare cards to send to board (visually & removing from raycast layer)
         foreach (GameObject card in selectedCards)
         {

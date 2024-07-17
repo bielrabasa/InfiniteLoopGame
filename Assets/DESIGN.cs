@@ -32,6 +32,10 @@ namespace DESIGN
         //The time the camera takes to switch positions
         public const float timeOnCameraSwitching = 1f;
 
+        //Card selecting UP & DOWN animation
+        public const float CardSelectingAnimationUpDistance = 0.25f;
+        public const float timeOnCardSelectingAnimation = 0.1f;
+
         //--------------OTHERS--------------
         public static readonly Color cardHighlightColor = new Color(0.98f, 1.0f, 0.80f, 1.0f);
 
