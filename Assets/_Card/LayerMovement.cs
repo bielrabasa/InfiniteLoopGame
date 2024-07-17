@@ -68,6 +68,7 @@ public class LayerMovement : MonoBehaviour
                     isDragging = true;
                     draggingLayer = hit.transform;
                     draggingLayerIndex = Array.IndexOf(layers, draggingLayer);
+                    draggingLayer.Translate(Vector3.up);
                 }
             }
         }
@@ -122,7 +123,7 @@ public class LayerMovement : MonoBehaviour
         {
             Vector3 snapPos = draggingLayer.position;
             snapPos.z = pos[draggingLayerIndex];
-            draggingLayer.position = snapPos;
+            draggingLayer.position = snapPos + Vector3.down;
 
             isDragging = false;
             draggingLayer = null;
