@@ -162,7 +162,7 @@ public static class MapState
         card.localPosition = boardPositions[gridPos.x, gridPos.y];
 
         //TODO: Hardcoded scale
-        card.localScale *= 4f;
+        card.localScale *= DESIGN_VALUES.OnBoardCardSize;
     }
 
     //---------------TURN ATTACK---------------

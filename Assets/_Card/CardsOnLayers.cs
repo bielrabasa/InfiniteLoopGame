@@ -86,7 +86,7 @@ public class CardsOnLayers : MonoBehaviour
         CardLoader.LoadCards(ref shownCards);
         GameObject cards = GameObject.Find("CardLoader");
 
-        Vector3 centerPosition = Camera.main.transform.position + Camera.main.transform.forward * 3f;
+        Vector3 centerPosition = Camera.main.transform.position + Camera.main.transform.forward * DESIGN.DESIGN_VALUES.CardSelectingDistanceToCamera;
 
         cards.transform.position = centerPosition;
         cards.transform.forward = Camera.main.transform.forward;

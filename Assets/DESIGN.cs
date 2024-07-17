@@ -34,5 +34,11 @@ namespace DESIGN
 
         //--------------OTHERS--------------
         public static readonly Color cardHighlightColor = new Color(0.98f, 1.0f, 0.80f, 1.0f);
+
+        //---------------SIZES--------------
+        public const float OnBoardCardSize = 4.5f;
+        public const float CardSelectingDistanceToCamera = 3f;
+        public const float CardZoomDistanceToCamera = 8f;
+
     }
 }

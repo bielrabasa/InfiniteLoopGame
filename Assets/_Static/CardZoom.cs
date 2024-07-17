@@ -1,3 +1,4 @@
+using DESIGN;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +31,7 @@ public class CardZoom : MonoBehaviour
         {
             card = hit.transform;
             ogPos = card.position;
-            card.position = Camera.main.transform.position + Camera.main.transform.forward * 6f;
+            card.position = Camera.main.transform.position + Camera.main.transform.forward * DESIGN_VALUES.CardZoomDistanceToCamera;
         }
 
         // Raycast to detect tiles
