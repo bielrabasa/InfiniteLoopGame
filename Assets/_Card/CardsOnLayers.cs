@@ -9,6 +9,7 @@ public class CardsOnLayers : MonoBehaviour
 {
     [SerializeField] LayerMask cardLayer;
     [SerializeField] GameObject panelSelectCards;
+    [SerializeField] GameObject buttonNext;
 
     int shownCardsNumber = 5;
 
@@ -77,6 +78,7 @@ public class CardsOnLayers : MonoBehaviour
 
         //Show a menu to select the cards
         panelSelectCards.SetActive(true);
+        buttonNext.SetActive(false);
 
         //Set the text to show the mana have less
         UpdateManaVisuals();
