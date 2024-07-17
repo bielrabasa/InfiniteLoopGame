@@ -8,7 +8,7 @@ namespace DESIGN
 
         public const int MAX_MANA = 10;
         public const int BOT_PlayerInitialMana = 1;
-        public const int TOP_PlayerInitialMana = 1;
+        public const int TOP_PlayerInitialMana = 2;
 
         public const int ExtraManaPerTurn = 1;
 
@@ -30,7 +30,7 @@ namespace DESIGN
         public const float timeOnReturning = 0.05f;
 
         //The time the camera takes to switch positions
-        public const float timeOnCameraSwitching = 1f;
+        public const float timeOnCameraSwitching = 0.5f;
 
         //Card selecting UP & DOWN animation
         public const float CardSelectingAnimationUpDistance = 0.25f;
@@ -40,7 +40,7 @@ namespace DESIGN
         public static readonly Color cardHighlightColor = new Color(0.98f, 1.0f, 0.80f, 1.0f);
 
         //---------------SIZES--------------
-        public const float OnBoardCardSize = 4.5f;
+        public const float OnBoardCardSize = 5f;
         public const float CardSelectingDistanceToCamera = 3f;
         public const float CardZoomDistanceToCamera = 8f;
 
