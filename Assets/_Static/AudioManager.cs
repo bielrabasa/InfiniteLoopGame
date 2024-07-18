@@ -8,9 +8,13 @@ public static class AudioManager
     {
         NONE,
         ATTACK,
+        BUTTON,
         DESTROY,
+        SETCARDS,
+        MOVINGCARD,
         SELECTCARD,
-        BUTTON
+        DESSELECTCARD,
+        CAMARAROTATION
     }
 
     public enum Music
@@ -36,18 +40,30 @@ public static class AudioManager
             case SFX.ATTACK:
                 audioName = "";
                 break;
+            case SFX.BUTTON:
+                audioName = "";
+                break;
             case SFX.DESTROY:
+                audioName = "";
+                break;
+            case SFX.SETCARDS:
+                audioName = "";
+                break;
+            case SFX.MOVINGCARD:
                 audioName = "";
                 break;
             case SFX.SELECTCARD:
                 audioName = "";
                 break;
-            case SFX.BUTTON:
+            case SFX.DESSELECTCARD:
+                audioName = "";
+                break;
+            case SFX.CAMARAROTATION:
                 audioName = "";
                 break;
         }
 
-        sfxAS.clip = Resources.Load<AudioClip>("Audio/SFX" + audioName);
+        sfxAS.clip = Resources.Load<AudioClip>("Audio/SFX/" + audioName);
         sfxAS.Play();
     }
 
@@ -72,7 +88,7 @@ public static class AudioManager
                 break;
         }
 
-        musicAS.clip = Resources.Load<AudioClip>("Audio/Music" + audioName);
+        musicAS.clip = Resources.Load<AudioClip>("Audio/Music/" + audioName);
         musicAS.Play();
     }
 }

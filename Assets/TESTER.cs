@@ -76,5 +76,11 @@ public class TESTER : MonoBehaviour
         {
             MapState.bottomPlayerAtacking = !MapState.bottomPlayerAtacking;
         }*/
+
+        if (Input.GetKeyDown(KeyCode.K))
+            AudioManager.SetMusic(AudioManager.Music.BACKGROUND);
+
+        if (Input.GetKeyDown(KeyCode.L))
+            AudioManager.SetMusic(AudioManager.Music.WIN);
     }
 }
