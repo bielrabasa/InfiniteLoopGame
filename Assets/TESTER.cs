@@ -82,5 +82,13 @@ public class TESTER : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.L))
             AudioManager.SetSFX(AudioManager.SFX.ATTACK);
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Particle.particle.InstanceParticle(Particle.ParticleType.ADD_DAMAGE, 1, Vector3.forward);
+            Particle.particle.InstanceParticle(Particle.ParticleType.ADD_MANA, 2, Vector3.back);
+            Particle.particle.InstanceParticle(Particle.ParticleType.ADD_RANGE, 3, Vector3.right);
+            Particle.particle.InstanceParticle(Particle.ParticleType.RECEIVE_DAMAGE, 4, Vector3.left);
+        }
     }
 }

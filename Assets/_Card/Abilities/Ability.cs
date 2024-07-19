@@ -106,6 +106,8 @@ public class Ability : MonoBehaviour
     protected virtual void ReceiveAttack()
     {
         me.hp -= other.tempDamage;
+        //TODO: TEST
+        Particle.particle.InstanceParticle(Particle.ParticleType.RECEIVE_DAMAGE, other.tempDamage, Vector3.zero);
     }
 
     //When the card attacks specifically the Hero

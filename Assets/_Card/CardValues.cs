@@ -37,21 +37,11 @@ public class CardValues : MonoBehaviour
 
     //-------------------------------------
 
-    GameObject particleObject;
-    ParticleSystem particleSystem;
-    TMP_Text particleText;
-
-    //-------------------------------------
-
     void Start()
     {
         ResetTemporalValues(); //To initialize tempDamage
 
         InitializeVisuals();
-
-        particleObject = GameObject.Find("Damage_Particle");
-        particleSystem = GameObject.Find("Damage_Particle").GetComponent<ParticleSystem>();
-        particleText = GameObject.Find("Particle_Text").GetComponent<TMP_Text>();
     }
 
     public void AddAbilityScript() //Has to be called as soon as the ability id is set (btw Awake & Start)
@@ -120,16 +110,6 @@ public class CardValues : MonoBehaviour
     }
 
     //-----------PLAY FUNCTIONS----------
-
-    public void SetParticle(Color text_color, Vector3 pos, string text_value)
-    {
-        particleObject.transform.localPosition = pos;
-
-        var psMain = particleSystem.main;
-        psMain.startColor = text_color;
-        particleText.text = text_value;
-        particleSystem.Play();
-    }
 
     public void ResetTemporalValues()
     {
