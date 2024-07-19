@@ -10,6 +10,8 @@ public class CardZoom : MonoBehaviour
     Transform card;
     Vector3 ogPos;
 
+    bool sound = true;
+
     void Update()
     {
         if (MapState.turnPhase != MapState.TurnPhase.LAYER_MOVING) return;
@@ -32,7 +34,22 @@ public class CardZoom : MonoBehaviour
             card = hit.transform;
             ogPos = card.position;
             card.position = Camera.main.transform.position + Camera.main.transform.forward * DESIGN_VALUES.CardZoomDistanceToCamera;
+
+            if(sound)
+            {
+                AudioManager.SetSFX(AudioManager.SFX.SELECTCARD);
+                sound = false;
+            }
         }
+        else
+        {
+            if (!sound)
+            {
+                AudioManager.SetSFX(AudioManager.SFX.DESSELECTCARD);
+                sound = true;
+            }
+        }
+
 
         // Raycast to detect tiles
         /*if (!Physics.Raycast(ray, out hit, Mathf.Infinity, cardLayer)) {

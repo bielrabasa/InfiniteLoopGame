@@ -140,6 +140,7 @@ public class CardsOnLayers : MonoBehaviour
 
     void SelectCard(GameObject card)
     {
+        AudioManager.SetSFX(AudioManager.SFX.SELECTCARD);
         selectedCards.Add(card);
 
         currentPlayerMana -= card.GetComponent<CardValues>().manaCost;
@@ -154,6 +155,8 @@ public class CardsOnLayers : MonoBehaviour
 
     void UnselectCard(GameObject card)
     {
+        AudioManager.SetSFX(AudioManager.SFX.DESSELECTCARD);
+
         selectedCards.Remove(card);
 
         currentPlayerMana += card.GetComponent<CardValues>().manaCost;
@@ -231,6 +234,8 @@ public class CardsOnLayers : MonoBehaviour
         //Clear the selected and drawn cards
         selectedCards.Clear();
         shownCards.Clear();
+
+        AudioManager.SetSFX(AudioManager.SFX.SETCARDS);
     }
 
     void UpdateManaVisuals()

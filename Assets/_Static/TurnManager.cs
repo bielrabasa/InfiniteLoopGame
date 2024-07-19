@@ -6,13 +6,17 @@ public class TurnManager : MonoBehaviour
 {
     public void DrawingCardsAcceptButton()
     {
-        if(MapState.turnPhase == MapState.TurnPhase.CARD_SELECTING)
+        AudioManager.SetSFX(AudioManager.SFX.BUTTON);
+
+        if (MapState.turnPhase == MapState.TurnPhase.CARD_SELECTING)
             StartCoroutine(MapState.NextPhase());
     }
 
     public void NextButton()
     {
-        if(MapState.turnPhase == MapState.TurnPhase.LAYER_MOVING)
+        AudioManager.SetSFX(AudioManager.SFX.BUTTON);
+
+        if (MapState.turnPhase == MapState.TurnPhase.LAYER_MOVING)
             StartCoroutine(MapState.NextPhase());
     }
 }

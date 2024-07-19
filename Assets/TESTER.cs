@@ -81,6 +81,6 @@ public class TESTER : MonoBehaviour
             AudioManager.SetMusic(AudioManager.Music.BACKGROUND);
 
         if (Input.GetKeyDown(KeyCode.L))
-            AudioManager.SetMusic(AudioManager.Music.WIN);
+            AudioManager.SetSFX(AudioManager.SFX.ATTACK);
     }
 }

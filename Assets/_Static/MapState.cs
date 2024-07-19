@@ -207,6 +207,7 @@ public static class MapState
     {
         if (cardPositions[c, r] != null)
         {
+            AudioManager.SetSFX(AudioManager.SFX.ATTACK);
             yield return cardPositions[c, r].GetComponent<CardValues>().Attack(new Vector2Int(c, r));
             yield return new WaitForSeconds(DESIGN_VALUES.timeAfterSequence);
         }
@@ -263,6 +264,7 @@ public static class MapState
         InitHeroes();
         UpdateHeroInfo(true);
         UpdateHeroInfo(false);
+        AudioManager.SetMusic(AudioManager.Music.BACKGROUND);
     }
 
     public static IEnumerator NextPhase()
@@ -316,6 +318,7 @@ public static class MapState
 
                 //Draw cards
                 GameObject.FindObjectOfType<CardsOnLayers>().DrawCards();
+                AudioManager.SetSFX(AudioManager.SFX.DRAWCARDS);
 
                 break;
         }
@@ -325,12 +328,14 @@ public static class MapState
     static IEnumerator SwitchCamera()
     {
         switchingCameraPos = true;
+        AudioManager.SetSFX(AudioManager.SFX.CAMARAROTATION);
         yield return GameObject.FindObjectOfType<CameraMovement>().SwitchPosition();
         switchingCameraPos = false;
     }
     
     static void EndGame(bool bottomWon)
     {
+        AudioManager.SetMusic(AudioManager.Music.WIN);
         gameEnded = true;
         Debug.Log("Winner! " + (bottomWon ? "Bottom" : "Top"));
 
@@ -370,11 +375,19 @@ public static class MapState
         //Check for winner
         if (botHero)
         {
-            if (BottomHeroHP <= 0) EndGame(false);
+            if (BottomHeroHP <= 0)
+            {
+                AudioManager.SetSFX(AudioManager.SFX.DESTROY);
+                EndGame(false);
+            }
         }
         else
         {
-            if (TopHeroHP <= 0) EndGame(true);
+            if (TopHeroHP <= 0)
+            { 
+                AudioManager.SetSFX(AudioManager.SFX.DESTROY);
+                EndGame(true);
+            }
         }
     }
 }

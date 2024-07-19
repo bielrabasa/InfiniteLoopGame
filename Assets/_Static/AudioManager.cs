@@ -11,7 +11,8 @@ public static class AudioManager
         BUTTON,
         DESTROY,
         SETCARDS,
-        MOVINGCARD,
+        DRAWCARDS,
+        MOVINGCARD,     //TODO
         SELECTCARD,
         DESSELECTCARD,
         CAMARAROTATION
@@ -38,28 +39,32 @@ public static class AudioManager
                 audioName = "";
                 break;
             case SFX.ATTACK:
-                audioName = "";
+                int attack = Random.Range(0, 2) + 1;
+                audioName = "Cards_fight_" + attack;
                 break;
             case SFX.BUTTON:
-                audioName = "";
+                audioName = "Buttons";
                 break;
             case SFX.DESTROY:
-                audioName = "";
+                audioName = "Hero_Card_Destroy";
                 break;
             case SFX.SETCARDS:
-                audioName = "";
+                audioName = "Cards_placed";
+                break;
+            case SFX.DRAWCARDS:
+                audioName = "shuffling-cards";
                 break;
             case SFX.MOVINGCARD:
-                audioName = "";
+                audioName = "Cards_move";
                 break;
             case SFX.SELECTCARD:
-                audioName = "";
+                audioName = "Cards_select_deselect";
                 break;
             case SFX.DESSELECTCARD:
-                audioName = "";
+                audioName = "Cards_select_deselect";
                 break;
             case SFX.CAMARAROTATION:
-                audioName = "";
+                audioName = "Camera";
                 break;
         }
 
