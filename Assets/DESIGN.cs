@@ -17,7 +17,7 @@ namespace DESIGN
 
         //------------WAIT TIMES------------
         //The time that a card waits after any encounter against an enemy
-        public const float timeAfterEncounter = 0.2f;
+        public const float timeAfterEncounter = 0.5f;
         //The time that a card waits after doing all its attack sequence (it does it even when it does not attack anyone)
         public const float timeAfterSequence = 0.3f;
         //The time that cards wait to appear after the enemy turn is finished
@@ -30,7 +30,7 @@ namespace DESIGN
         public const float timeOnReturning = 0.05f;
 
         //The time the camera takes to switch positions
-        public const float timeOnCameraSwitching = 0.5f;
+        public const float timeOnCameraSwitching = 1.2f;
 
         //Card selecting UP & DOWN animation
         public const float CardSelectingAnimationUpDistance = 0.25f;
