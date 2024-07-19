@@ -25,8 +25,8 @@ public class LayerMovement : MonoBehaviour
         for(int i = 0; i < MapState.ROWS; i++)
         {
             //GameObject go = Instantiate(LayerPrefab, new Vector3(MapState.boardSize.x / 2f + 5f, -6.4f, pos[i]), Quaternion.identity, transform);
-            GameObject go = Instantiate(LayerPrefab, new Vector3(0, -6.4f, pos[i]), Quaternion.identity, transform);
-            go.transform.localScale = new Vector3(1.0f, 1.0f, 0.5f);
+            GameObject go = Instantiate(LayerPrefab, new Vector3(0, 0, pos[i]), Quaternion.identity, transform);
+            go.transform.localScale = new Vector3(0.45f, 0.45f, 0.45f);
             go.layer = 7;
             layers[i] = go.transform;
 
