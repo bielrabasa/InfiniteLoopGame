@@ -36,8 +36,7 @@ public static class AudioManager
         switch (sound) 
         {
             case SFX.NONE:
-                audioName = "";
-                break;
+                return;
             case SFX.ATTACK:
                 int attack = Random.Range(0, 2) + 1;
                 audioName = "Cards_fight_" + attack;
@@ -83,8 +82,7 @@ public static class AudioManager
         switch (sound)
         {
             case Music.NONE:
-                audioName = "";
-                break;
+                return;
             case Music.BACKGROUND:
                 audioName = "medieval-fantasy-142837";
                 break;

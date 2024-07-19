@@ -207,7 +207,6 @@ public static class MapState
     {
         if (cardPositions[c, r] != null)
         {
-            AudioManager.SetSFX(AudioManager.SFX.ATTACK);
             yield return cardPositions[c, r].GetComponent<CardValues>().Attack(new Vector2Int(c, r));
             yield return new WaitForSeconds(DESIGN_VALUES.timeAfterSequence);
         }

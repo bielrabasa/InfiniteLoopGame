@@ -22,13 +22,14 @@ public class Ability : MonoBehaviour
     {
         //Getting to mid-field
         OnPassingThroughLayers();
+        AudioManager.SetSFX(AudioManager.SFX.MOVINGCARD);
 
         //After reaching mid-field
         myCurrentPosition = myStartPosition;
         myCurrentPosition.y = MapState.ROWS / 2 + (MapState.bottomPlayerAtacking ? -1 : 0);
 
         //Forward attacking enemy cards
-        for(int i = 0; i < me.tempRange; i++) 
+        for (int i = 0; i < me.tempRange; i++) 
         {
             //Attack HERO
             if(i == 3)
@@ -38,11 +39,12 @@ public class Ability : MonoBehaviour
                 break;
             }
 
+            //Go to the desired position
+            yield return OnGoing();
+
             //If there is a card -> attack it!
             if (MapState.cardPositions[myCurrentPosition.x, myCurrentPosition.y] != null)
             {
-                //Go to the desired position
-                yield return OnGoing();
 
                 other = MapState.cardPositions[myCurrentPosition.x, myCurrentPosition.y].GetComponent<CardValues>();
                 yield return FullEncounter();
@@ -61,6 +63,8 @@ public class Ability : MonoBehaviour
 
     protected virtual IEnumerator FullEncounter()
     {
+        AudioManager.SetSFX(AudioManager.SFX.ATTACK);
+
         Attack();
 
         ReceiveAttack();
@@ -114,6 +118,7 @@ public class Ability : MonoBehaviour
     protected virtual void AttackHero()
     {
         //Damage the other hero
+        AudioManager.SetSFX(AudioManager.SFX.ATTACK);
         MapState.DamageHero(!MapState.bottomPlayerAtacking, me.tempDamage);
     }
 
@@ -198,6 +203,8 @@ public class Ability : MonoBehaviour
     //When the card returns to its starting position after attacking
     protected virtual IEnumerator OnReturning()
     {
+        AudioManager.SetSFX(AudioManager.SFX.MOVINGCARD);
+
         Vector3 finalPos = MapState.boardPositions[myStartPosition.x, myStartPosition.y];
         Vector3 velocity = Vector3.zero;
         while (Vector3.Distance(transform.position, finalPos) > 0.01f)
