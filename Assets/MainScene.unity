@@ -894,6 +894,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePrefab: {fileID: 2547561348157368765, guid: 8ffb8a0b8fb1da54994443a973992a6d, type: 3}
+  colorAD: {r: 1, g: 0, b: 0, a: 1}
+  colorAR: {r: 0, g: 1, b: 0, a: 1}
+  colorAM: {r: 0, g: 0, b: 1, a: 1}
+  colorRD: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &1285810291 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e869b8d853516584b8c838d8fea3e95b, type: 3}
