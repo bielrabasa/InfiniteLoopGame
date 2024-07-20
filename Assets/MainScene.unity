@@ -166,9 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a85099b8018cb74987bb2f18c674e25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bottomPlayerAttacking: 1
-  topMana: 0
-  botMana: 0
+  setCardsOnMap: 0
   cardsOnMap:
   - {x: 0, y: 0, z: 0}
   - {x: 6, y: 15, z: 0}
@@ -1553,7 +1551,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7664446075471965222, guid: 8fa9d41da5e1ef24daa7e44cc1c3de39, type: 3}
+    - {fileID: 40933069148133456, guid: 8fa9d41da5e1ef24daa7e44cc1c3de39, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 9104461343515189666, guid: 8fa9d41da5e1ef24daa7e44cc1c3de39, type: 3}
       insertIndex: -1
@@ -1765,7 +1765,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7664446075471965222, guid: 8fa9d41da5e1ef24daa7e44cc1c3de39, type: 3}
+    - {fileID: 40933069148133456, guid: 8fa9d41da5e1ef24daa7e44cc1c3de39, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 9104461343515189666, guid: 8fa9d41da5e1ef24daa7e44cc1c3de39, type: 3}
       insertIndex: -1

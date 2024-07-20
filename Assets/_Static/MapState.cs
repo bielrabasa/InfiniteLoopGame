@@ -346,8 +346,8 @@ public static class MapState
 
     static void InitHeroes()
     {
-        BotHeroText = GameObject.Find("BotHero").transform.GetChild(0).Find("HP_Text").GetComponent<TMP_Text>();
-        TopHeroText = GameObject.Find("TopHero").transform.GetChild(0).Find("HP_Text").GetComponent<TMP_Text>();
+        BotHeroText = GameObject.Find("BotHero").transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
+        TopHeroText = GameObject.Find("TopHero").transform.GetChild(0).GetChild(0).GetComponent<TMP_Text>();
     }
 
     static void UpdateHeroInfo(bool botHero)
