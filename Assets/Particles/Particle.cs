@@ -25,12 +25,22 @@ public class Particle : MonoBehaviour
         particle = this;
     }
 
-    public static void InstanceParticle(ParticleType type, int text, Vector3 pos)
+    public static void InstanceParticle(ParticleType type, int text, Vector3 pos, Transform card = null)
     {
         if(particle == null)
         {
             Debug.Log("No Particle gameobject exists!");
             return;
+        }
+
+        if(card != null)
+        {
+            if(!MapState.bottomPlayerAtacking) //invert positions
+            {
+                pos.x = -pos.x;
+                pos.z = -pos.z;
+            }
+            pos += card.position;
         }
 
         GameObject newParticle = Instantiate(particle.particlePrefab, pos, Quaternion.identity);

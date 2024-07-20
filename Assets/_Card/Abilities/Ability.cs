@@ -5,9 +5,9 @@ using DESIGN;
 
 public class Ability : MonoBehaviour
 {
-    protected static Vector3 addManaParticleOffset = new Vector3(-2, 2, 0);
-    protected static Vector3 addDamageParticleOffset = new Vector3(-1, 2, -1);
-    protected static Vector3 addRangeParticleOffset = new Vector3(0, 2, -1);
+    protected static Vector3 addManaParticleOffset = new Vector3(1, 3, 2.5f);
+    protected static Vector3 addDamageParticleOffset = new Vector3(-1, 3, -2.5f);
+    protected static Vector3 addRangeParticleOffset = new Vector3(0, 3, -2.5f);
 
     //Constants
     Vector3 attackPositionOffset = new Vector3(0, 0.5f, 0.5f);
@@ -164,13 +164,13 @@ public class Ability : MonoBehaviour
     {
         me.tempRange += 1;
         me.UpdateVisuals();
-        Particle.InstanceParticle(Particle.ParticleType.ADD_RANGE, 1, transform.position + addRangeParticleOffset);
+        Particle.InstanceParticle(Particle.ParticleType.ADD_RANGE, 1, addRangeParticleOffset, transform);
     }
     protected virtual void ApplyDamagePerk()
     {
         me.tempDamage += 1;
         me.UpdateVisuals();
-        Particle.InstanceParticle(Particle.ParticleType.ADD_DAMAGE, 1, transform.position + addDamageParticleOffset);
+        Particle.InstanceParticle(Particle.ParticleType.ADD_DAMAGE, 1, addDamageParticleOffset, transform);
     }
     protected virtual void ApplyManaPerk()
     {
@@ -179,7 +179,7 @@ public class Ability : MonoBehaviour
             if (++MapState.bottomMana > MapState.MAX_MANA) {
                 MapState.bottomMana = MapState.MAX_MANA;
                 //No mana added
-                Particle.InstanceParticle(Particle.ParticleType.ADD_MANA, 0, transform.position + addManaParticleOffset);
+                Particle.InstanceParticle(Particle.ParticleType.ADD_MANA, 0, addManaParticleOffset, transform);
                 return;
             }
         }
@@ -187,11 +187,11 @@ public class Ability : MonoBehaviour
         {
             MapState.topMana = MapState.MAX_MANA;
             //No mana added
-            Particle.InstanceParticle(Particle.ParticleType.ADD_MANA, 0, transform.position + addManaParticleOffset);
+            Particle.InstanceParticle(Particle.ParticleType.ADD_MANA, 0, addManaParticleOffset, transform);
             return;
         }
 
-        Particle.InstanceParticle(Particle.ParticleType.ADD_MANA, 1, transform.position + addManaParticleOffset);
+        Particle.InstanceParticle(Particle.ParticleType.ADD_MANA, 1, addManaParticleOffset, transform);
     }
 
     //Every time a card moves towards an enemy
