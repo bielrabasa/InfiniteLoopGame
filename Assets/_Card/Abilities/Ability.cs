@@ -5,6 +5,10 @@ using DESIGN;
 
 public class Ability : MonoBehaviour
 {
+    protected static Vector3 addManaParticleOffset = new Vector3(-2, 2, 0);
+    protected static Vector3 addDamageParticleOffset = new Vector3(-1, 2, -1);
+    protected static Vector3 addRangeParticleOffset = new Vector3(0, 2, -1);
+
     //Constants
     Vector3 attackPositionOffset = new Vector3(0, 0.5f, 0.5f);
 
@@ -111,7 +115,7 @@ public class Ability : MonoBehaviour
     {
         me.hp -= other.tempDamage;
         //TODO: TEST
-        Particle.particle.InstanceParticle(Particle.ParticleType.RECEIVE_DAMAGE, other.tempDamage, Vector3.zero);
+        //Particle.particle.InstanceParticle(Particle.ParticleType.RECEIVE_DAMAGE, other.tempDamage, Vector3.zero);
     }
 
     //When the card attacks specifically the Hero
@@ -160,19 +164,34 @@ public class Ability : MonoBehaviour
     {
         me.tempRange += 1;
         me.UpdateVisuals();
+        Particle.InstanceParticle(Particle.ParticleType.ADD_RANGE, 1, transform.position + addRangeParticleOffset);
     }
     protected virtual void ApplyDamagePerk()
     {
         me.tempDamage += 1;
         me.UpdateVisuals();
+        Particle.InstanceParticle(Particle.ParticleType.ADD_DAMAGE, 1, transform.position + addDamageParticleOffset);
     }
     protected virtual void ApplyManaPerk()
     {
         if (MapState.bottomPlayerAtacking)
         {
-            if (++MapState.bottomMana > MapState.MAX_MANA) MapState.bottomMana = MapState.MAX_MANA;
+            if (++MapState.bottomMana > MapState.MAX_MANA) {
+                MapState.bottomMana = MapState.MAX_MANA;
+                //No mana added
+                Particle.InstanceParticle(Particle.ParticleType.ADD_MANA, 0, transform.position + addManaParticleOffset);
+                return;
+            }
         }
-        else if (++MapState.topMana > MapState.MAX_MANA) MapState.topMana = MapState.MAX_MANA;
+        else if (++MapState.topMana > MapState.MAX_MANA)
+        {
+            MapState.topMana = MapState.MAX_MANA;
+            //No mana added
+            Particle.InstanceParticle(Particle.ParticleType.ADD_MANA, 0, transform.position + addManaParticleOffset);
+            return;
+        }
+
+        Particle.InstanceParticle(Particle.ParticleType.ADD_MANA, 1, transform.position + addManaParticleOffset);
     }
 
     //Every time a card moves towards an enemy

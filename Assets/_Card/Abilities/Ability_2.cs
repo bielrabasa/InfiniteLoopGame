@@ -25,6 +25,7 @@ public class Ability_2 : Ability
             CardValues friendCard = MapState.cardPositions[i, myStartPosition.y].GetComponent<CardValues>();
             friendCard.tempDamage += 1;
             friendCard.UpdateVisuals();
+            Particle.InstanceParticle(Particle.ParticleType.ADD_DAMAGE, 1, friendCard.transform.position + addDamageParticleOffset);
         }
     }
 }

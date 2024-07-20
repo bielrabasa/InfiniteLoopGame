@@ -4,19 +4,14 @@ using UnityEngine;
 
 public class TESTER : MonoBehaviour
 {
-    [Header("SPACE - PlayTurn")]
-    [Header("RETURN - SwapTurn")]
-    [Space]
-    [SerializeField] bool bottomPlayerAttacking = true; //Just to know who is playing
-    [SerializeField] int topMana = 0;
-    [SerializeField] int botMana = 0;
+    [SerializeField] bool setCardsOnMap = false;
     [Space]
     //ALWAYS 3 COLUMNS
     [SerializeField] Vector3Int[] cardsOnMap = new Vector3Int[MapState.ROWS];
 
     private void Start()
     {
-        //SetCardsOnMap();
+        if (setCardsOnMap) SetCardsOnMap();
     }
 
     void SetCardsOnMap()
@@ -60,35 +55,14 @@ public class TESTER : MonoBehaviour
 
     void Update()
     {
-        botMana = MapState.bottomMana;
-        topMana = MapState.topMana;
-
         if (Input.GetKeyDown(KeyCode.F)) StartCoroutine(MapState.NextPhase());
-
-        /*if (Input.GetKeyDown(KeyCode.Space))
-        {
-            FindObjectOfType<LayerMovement>().TransferInformation();
-            StartCoroutine(MapState.StartTurn());
-            bottomPlayerAttacking = MapState.bottomPlayerAtacking;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            MapState.bottomPlayerAtacking = !MapState.bottomPlayerAtacking;
-        }*/
-
-        if (Input.GetKeyDown(KeyCode.K))
-            AudioManager.SetMusic(AudioManager.Music.BACKGROUND);
-
-        if (Input.GetKeyDown(KeyCode.L))
-            AudioManager.SetSFX(AudioManager.SFX.ATTACK);
 
         if (Input.GetKeyDown(KeyCode.P))
         {
-            Particle.particle.InstanceParticle(Particle.ParticleType.ADD_DAMAGE, 1, Vector3.forward);
-            Particle.particle.InstanceParticle(Particle.ParticleType.ADD_MANA, 2, Vector3.back);
-            Particle.particle.InstanceParticle(Particle.ParticleType.ADD_RANGE, 3, Vector3.right);
-            Particle.particle.InstanceParticle(Particle.ParticleType.RECEIVE_DAMAGE, 4, Vector3.left);
+            Particle.InstanceParticle(Particle.ParticleType.ADD_DAMAGE, 1, Vector3.forward);
+            Particle.InstanceParticle(Particle.ParticleType.ADD_MANA, 2, Vector3.back);
+            Particle.InstanceParticle(Particle.ParticleType.ADD_RANGE, 3, Vector3.right);
+            Particle.InstanceParticle(Particle.ParticleType.RECEIVE_DAMAGE, 4, Vector3.left);
         }
     }
 }

@@ -25,9 +25,15 @@ public class Particle : MonoBehaviour
         particle = this;
     }
 
-    public void InstanceParticle(ParticleType type, int text, Vector3 pos)
+    public static void InstanceParticle(ParticleType type, int text, Vector3 pos)
     {
-        GameObject newParticle = Instantiate(particlePrefab, pos, Quaternion.identity);
+        if(particle == null)
+        {
+            Debug.Log("No Particle gameobject exists!");
+            return;
+        }
+
+        GameObject newParticle = Instantiate(particle.particlePrefab, pos, Quaternion.identity);
 
         newParticle.transform.Rotate(90,0,0);
 
@@ -39,25 +45,23 @@ public class Particle : MonoBehaviour
             case ParticleType.NONE:
                 return;
             case ParticleType.ADD_DAMAGE:
-                colorP = colorAD;
+                colorP = particle.colorAD;
                 valueP = "+" + text.ToString();
                 break;
             case ParticleType.ADD_RANGE:
-                colorP = colorAR;
+                colorP = particle.colorAR;
                 valueP = "+" + text.ToString();
                 break;
             case ParticleType.ADD_MANA:
-                colorP = colorAM;
+                colorP = particle.colorAM;
                 valueP = "+" + text.ToString();
                 break;
             case ParticleType.RECEIVE_DAMAGE:
-                colorP = colorRD;
+                colorP = particle.colorRD;
                 valueP = "-" + text.ToString();
                 break;
         }
 
         newParticle.GetComponent<IndivParticleScript>().Init(valueP, colorP);
-        //TODO: depending on the type -> Color, size...
-        //TODO: Add + or -
     }
 }
