@@ -4,35 +4,18 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    float initPos;
-
-    void Start()
-    {
-        initPos = transform.position.z;
-    }
-
     public IEnumerator SwitchPosition()
     {
-        Vector3 pos = transform.position;
-        float pini = transform.position.z;
-        float pend = -pini;
-
-        Quaternion r = transform.rotation;
         Quaternion rend = Quaternion.Euler(transform.rotation.eulerAngles + (Vector3.up * 180f));
 
         float time = 0f;
         while(time < 1f)
         {
-            pos.z = Mathf.Lerp(pini, pend, time);
-            transform.rotation = Quaternion.Slerp(r, rend, time);
-            transform.position = pos;
-
+            transform.RotateAround(Vector3.zero, Vector3.up, Time.deltaTime / DESIGN_VALUES.timeOnCameraSwitching * 180f);
             time += Time.deltaTime / DESIGN_VALUES.timeOnCameraSwitching;
             yield return null;
         }
 
-        pos.z = pend;
-        transform.position = pos;
         transform.rotation = rend;
     }
 
