@@ -9,6 +9,9 @@ public class Ability : MonoBehaviour
     protected static Vector3 addDamageParticleOffset = new Vector3(-1, 3, -2.5f);
     protected static Vector3 addRangeParticleOffset = new Vector3(0, 3, -2.5f);
 
+    protected static Vector3 receiveDamageParticleOffset = new Vector3(2, 3, -2.5f);
+    protected static Vector3 makeDamageParticleOffset = new Vector3(2, 3, -1f);
+
     //Constants
     Vector3 attackPositionOffset = new Vector3(0, 0.5f, 0.5f);
 
@@ -108,14 +111,14 @@ public class Ability : MonoBehaviour
     protected virtual void Attack()
     {
         other.hp -= me.tempDamage;
+        Particle.InstanceParticle(Particle.ParticleType.RECEIVE_DAMAGE, me.tempDamage, makeDamageParticleOffset, other.transform);
     }
 
     //When the cards receive damage
     protected virtual void ReceiveAttack()
     {
         me.hp -= other.tempDamage;
-        //TODO: TEST
-        //Particle.particle.InstanceParticle(Particle.ParticleType.RECEIVE_DAMAGE, other.tempDamage, Vector3.zero);
+        Particle.InstanceParticle(Particle.ParticleType.RECEIVE_DAMAGE, other.tempDamage, receiveDamageParticleOffset, transform);
     }
 
     //When the card attacks specifically the Hero

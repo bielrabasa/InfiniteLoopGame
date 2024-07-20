@@ -4,13 +4,16 @@
 
 public class Ability_1 : Ability
 {
+    const int damage = 2;
+
     public override void OnDie()
     {
         isDying = true;
 
         if (!other.abilityScript.isDying)
         {
-            other.hp -= 2;
+            other.hp -= damage;
+            Particle.InstanceParticle(Particle.ParticleType.RECEIVE_DAMAGE, damage, makeDamageParticleOffset, other.transform);
 
             CheckKillingOther();
         }
