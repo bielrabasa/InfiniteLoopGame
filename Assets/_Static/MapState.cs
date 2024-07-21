@@ -46,7 +46,7 @@ public static class MapState
     }
     public static TurnPhase turnPhase = TurnPhase.NONE;
     public static bool switchingCameraPos = false;
-    static bool gameEnded = false;
+    public static bool gameEnded = false;
 
     //Physical board size
     public static Vector2 boardSize = new Vector2(20, 30);
@@ -79,8 +79,8 @@ public static class MapState
             }
         }
 
-        bottomHeroPosition = new Vector3(0, 0, -boardSize.y / 2f);
-        topHeroPosition = new Vector3(0, 0, boardSize.y / 2f);
+        bottomHeroPosition = new Vector3(0, 3, -boardSize.y / 2f);
+        topHeroPosition = new Vector3(0, 3, boardSize.y / 2f);
     }
 
     public static float[] GetVerticalBoardPositions()
@@ -258,6 +258,18 @@ public static class MapState
 
     static void InitGame()
     {
+        cardPositions = new GameObject[COLUMNS, ROWS];
+        cardHolder = null;
+        bottomPlayerAtacking = true;
+        BottomHeroHP = DESIGN_VALUES.InitialHeroHP;
+        TopHeroHP = DESIGN_VALUES.InitialHeroHP;
+        TopHeroText = null;
+        BotHeroText = null;
+        bottomMana = DESIGN_VALUES.BOT_PlayerInitialMana;
+        topMana = DESIGN_VALUES.TOP_PlayerInitialMana;
+        turnPhase = TurnPhase.NONE;
+        switchingCameraPos = false;
+
         InitHeroes();
         UpdateHeroInfo(true);
         UpdateHeroInfo(false);
@@ -339,10 +351,17 @@ public static class MapState
     {
         AudioManager.SetMusic(AudioManager.Music.WIN);
         gameEnded = true;
-        Debug.Log("Winner! " + (bottomWon ? "Bottom" : "Top"));
 
         GameObject.FindObjectOfType<CameraMovement>().MoveToPosition(
             GameObject.Find(bottomWon ? "BotHero" : "TopHero").transform.position + Vector3.up * 12);
+
+        Reset();
+    }
+
+    static void Reset()
+    {
+        InitGame();
+        GameObject.FindObjectOfType<TurnManager>().ResetGame();
     }
 
     //---------------HEROES------------------

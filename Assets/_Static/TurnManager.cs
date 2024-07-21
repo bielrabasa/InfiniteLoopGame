@@ -39,6 +39,15 @@ public class TurnManager : MonoBehaviour
 
     public void ResetGame()
     {
+        StartCoroutine(Rst());
+    }
+
+    IEnumerator Rst()
+    {
+        yield return new WaitForSeconds(5f);
+        MapState.gameEnded = false;
+
         SceneManager.LoadScene("MainScene");
+        
     }
 }
