@@ -292,7 +292,11 @@ public static class MapState
                 //Wait for attack
                 yield return StartTurn();
 
-                if(DESIGN_VALUES.SwitchCameraPosition) yield return SwitchCamera();
+                //If game is over, stop game loop
+                if (gameEnded) yield break;
+
+                //Switch camera positions
+                if (DESIGN_VALUES.SwitchCameraPosition) yield return SwitchCamera();
 
                 //Go to draw cards
                 yield return NextPhase();

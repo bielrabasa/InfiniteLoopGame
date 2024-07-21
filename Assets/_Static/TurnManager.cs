@@ -21,14 +21,10 @@ public class TurnManager : MonoBehaviour
             StartCoroutine(MapState.NextPhase());
     }
 
-    public void StartGame()
-    {
-        StartCoroutine(MapState.NextPhase());
-    }
     IEnumerator WaitForStart()
     {
-        yield return new WaitForSeconds(1);
-        StartGame();
+        yield return new WaitForSeconds(0.3f);
+        yield return MapState.NextPhase();
     }
 
     void Start()
