@@ -158,11 +158,9 @@ public static class MapState
 
         card.GetComponent<Ability>().myStartPosition = gridPos;
 
-        //TODO: This will be made into a Lerp function
         card.localPosition = boardPositions[gridPos.x, gridPos.y];
 
-        //TODO: Hardcoded scale
-        card.localScale *= DESIGN_VALUES.OnBoardCardSize;
+        card.localScale = Vector3.one * DESIGN_VALUES.OnBoardCardSize;
     }
 
     //---------------TURN ATTACK---------------

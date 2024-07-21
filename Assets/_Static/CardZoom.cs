@@ -7,6 +7,8 @@ public class CardZoom : MonoBehaviour
 {
     [SerializeField] LayerMask cardLayer;
 
+    const float zoomScale = 7f;
+
     Transform card;
     Vector3 ogPos;
 
@@ -23,19 +25,21 @@ public class CardZoom : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (card != null)
-        {
-            card.position = ogPos;
-            card = null;
-        }
-
         if(Physics.Raycast(ray, out hit, Mathf.Infinity, cardLayer))
         {
+            if (card == hit.transform) return;
+            if(card != null) ReturnCardToPos(); //There was other card zoomed
+
+            //Make zoom
             card = hit.transform;
             ogPos = card.position;
             card.position = Camera.main.transform.position + Camera.main.transform.forward * DESIGN_VALUES.CardZoomDistanceToCamera;
+            
+            Vector3 s = card.localScale;
+            s *= zoomScale;
+            card.localScale = new Vector3(s.x, card.localScale.y, s.z);
 
-            if(sound)
+            if (sound)
             {
                 AudioManager.SetSFX(AudioManager.SFX.SELECTCARD);
                 sound = false;
@@ -43,38 +47,24 @@ public class CardZoom : MonoBehaviour
         }
         else
         {
+            if (card != null) ReturnCardToPos();
+
             if (!sound)
             {
                 AudioManager.SetSFX(AudioManager.SFX.DESSELECTCARD);
                 sound = true;
             }
         }
+    }
 
+    void ReturnCardToPos()
+    {
+        card.position = ogPos;
 
-        // Raycast to detect tiles
-        /*if (!Physics.Raycast(ray, out hit, Mathf.Infinity, cardLayer)) {
-            //If card was selected, bring to originalPosition
-            if(card != null)
-            {
-                card.transform.localPosition = ogPos;
-                card = null;
-            }
-            return;
-        }
-
-        card = hit.transform;
-        Vector3 frontCamera = Camera.main.transform.position + Camera.main.transform.forward * 2f;
-        
-        //Move it to front
-        if(card.position != frontCamera)
-        {
-            ogPos = card.position;
-            card.position = frontCamera;
-        }
-        else if(card != null)
-        {
-            card.transform.localPosition = ogPos;
-            card = null;
-        }*/
+        Vector3 s = card.localScale;
+        s /= zoomScale;
+        card.localScale = new Vector3(s.x, card.localScale.y, s.z);
+        card = null;
     }
 }
+

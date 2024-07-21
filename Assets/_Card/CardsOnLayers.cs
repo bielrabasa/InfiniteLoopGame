@@ -102,12 +102,13 @@ public class CardsOnLayers : MonoBehaviour
         foreach (Transform child in cards.transform)
         {
             //Set a new position
-            child.transform.localPosition = new Vector3((1 * i) - (1 * (cards.transform.childCount - 3)), 0, 0);
+            child.transform.localPosition = new Vector3((1 * i) - (1 * (cards.transform.childCount - 3)), 0.3f, 0);
             child.transform.Rotate(-90.0f, 0.0f, 0.0f);
 
             i++;
         }
 
+        cards.transform.localScale *= 14;
         currentSpacesLeft = MapState.SpacesLeft();
     }
 
