@@ -4,7 +4,7 @@ namespace DESIGN
 {
     public static class DESIGN_VALUES
     {
-        public const int InitialHeroHP = 30;
+        public const int InitialHeroHP = 15;
 
         public const int MAX_MANA = 10;
         public const int BOT_PlayerInitialMana = 1;
@@ -40,7 +40,7 @@ namespace DESIGN
         public static readonly Color cardHighlightColor = new Color(0.98f, 1.0f, 0.80f, 1.0f);
 
         //---------------SIZES--------------
-        public const float OnBoardCardSize = 5f;
+        public const float OnBoardCardSize = 3.8f;
         public const float CardSelectingDistanceToCamera = 3f;
         public const float CardZoomDistanceToCamera = 8f;
 
