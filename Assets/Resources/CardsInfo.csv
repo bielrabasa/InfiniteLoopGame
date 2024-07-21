@@ -1,21 +1,21 @@
 Card ID,Card Name,Faction,Mana Cost,Range,Damage,HP,Ability ID,Sprite Name,Ability Description,description for developers,Mana cal
-1,Thorin Ironfoot,Dwarf,1,1,1,2,,Dwarf_01,,,1
-2,Gimli Stonebeard,Dwarf,2,1,1,3,,Dwarf_02,,,2
-3,Durin Deepdelver,Dwarf,3,1,2,3,,Dwarf_03,,,3
-4,Balin Hammerhand,Dwarf,3,1,1,3,1,Dwarf_04,on die: deals 2 more damage to the enemy card or hero if dies ,"(for developers: dying only happens when attacking or defending, in both scenarios there is another enemy card interacting with this card, if this card dies during the fight, the enemy card gets 2 more damages)",2
-5,Dwalin Blackforge,Dwarf,4,2,2,3,,Dwarf_05,,,4
-6,Thrain Axebringer,Dwarf,6,1,2,6,,Dwarf_06,,,6
-7,Sir Gareth,Knight,2,1,2,2,,Knight_01,,,2
-8,Cedric the Bold,Knight,3,2,2,2,,Knight_02,,,3
-9,Roland Ironheart,Knight,4,2,3,2,,Knight_03,,,4
-10,Sir Alaric,Knight,5,2,3,3,,Knight_04,,,5
-11,Tristan Lightfoot,Knight,5,1,3,3,2,Knight_05,ongoing: gives +1 damage to the cards in the same layer,,4
-12,Sir Leon,Knight,7,3,1,3,3,Knight_06,"on attack: if fights an enemy card, deals damage to all the cards in that layer",,4
-13,Eldan,Elf,3,3,2,1,,Elf_01,,,3
-14,Faelar Sunblade,Elf,4,4,2,1,,Elf_02,,,4
-15,Thalor,Elf,6,3,1,1,4,Elf_03,"ongoing: if passes through mana layer, generates 2 mana","in each attack, if passes through mana layer, generates 2 mana instead of 1, normal cards generate 1",2
-16,Liora,Elf,7,3,1,1,,Elf_04,on play: can change the location of 2 cards,"the player can choose the new place of 2 cards. it's not switching the place of 2 cards, by choosing the location of 2 seperated cards",2
-17,Gorak Bloodfist,Orc,4,1,4,2,,Orc_01,,,4
-18,Thorgar Skullcrusher,Orc,5,1,4,3,,Orc_02,,,5
-19,Morgash Ironhide,Orc,7,2,5,3,,Orc_03,,,7
-20,Ugluk Bonegnasher,Orc,8,2,5,4,,Orc_04,,,8
+1,Thorin,Dwarf,1,1,2,2,,Dwarf_01,,,1
+2,Gimli,Dwarf,2,1,2,3,,Dwarf_02,,,2
+3,Durin,Dwarf,3,2,2,3,,Dwarf_03,,,3
+4,Balin,Dwarf,3,2,1,3,1,Dwarf_04,on die: deals 2 more damage to the enemy card or hero if dies ,"(for developers: dying only happens when attacking or defending, in both scenarios there is another enemy card interacting with this card, if this card dies during the fight, the enemy card gets 2 more damages)",2
+5,Dwalin,Dwarf,4,2,2,4,,Dwarf_05,,,4
+6,Thrain,Dwarf,6,3,2,5,,Dwarf_06,,,6
+7,Gareth,Knight,2,1,2,3,,Knight_01,,,2
+8,Cedric,Knight,3,2,2,3,,Knight_02,,,3
+9,Roland,Knight,4,2,3,3,,Knight_03,,,4
+10,Alaric,Knight,5,3,2,4,,Knight_04,,,5
+11,Tristan,Knight,5,3,2,3,2,Knight_05,ongoing: gives +1 damage to the cards in the same layer,,4
+12,Sir Leon,Knight,7,3,1,4,3,Knight_06,on attack: if fights an enemy card deals damage to all the cards in that layer,,4
+13,Eldan,Elf,3,4,2,1,,Elf_01,,,3
+14,Faelar,Elf,4,4,2,2,,Elf_02,,,4
+15,Thalor,Elf,6,4,1,2,4,Elf_03,ongoing: if passes through mana layer generates 2 mana,"in each attack, if passes through mana layer, generates 2 mana instead of 1, normal cards generate 1",3
+16,Liora,Elf,7,4,3,4,,Elf_04,,,7
+17,Gorak,Orc,4,1,4,3,,Orc_01,,,4
+18,Thorgar,Orc,5,1,4,4,,Orc_02,,,5
+19,Morgash,Orc,7,2,5,4,,Orc_03,,,7
+20,Ugluk,Orc,8,2,5,5,,Orc_04,,,8
