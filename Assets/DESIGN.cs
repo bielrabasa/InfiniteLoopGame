@@ -42,6 +42,6 @@ namespace DESIGN
         //---------------SIZES--------------
         public const float OnBoardCardSize = 4.5f;
         public const float CardSelectingDistanceToCamera = 8f; //Do not touch
-        public const float CardZoomDistanceToCamera = 25f; //Do not touch
+        public const float CardZoomDistanceToCamera = 20f; //Do not touch
     }
 }

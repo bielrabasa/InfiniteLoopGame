@@ -72,7 +72,7 @@ public static class MapState
                 float verticalStep = boardSize.y / ROWS;
 
                 pos.x = horizontalStep / 2f + (-boardSize.x / 2f) + horizontalStep * i;
-                pos.y = 1;
+                pos.y = 3;
                 pos.z = - verticalStep / 2f + (boardSize.y / 2f) - verticalStep * j;
 
                 boardPositions[i, j] = pos;
@@ -297,6 +297,7 @@ public static class MapState
 
                 //Switch camera positions
                 if (DESIGN_VALUES.SwitchCameraPosition) yield return SwitchCamera();
+                yield return new WaitForSeconds(0.1f);
 
                 //Go to draw cards
                 yield return NextPhase();

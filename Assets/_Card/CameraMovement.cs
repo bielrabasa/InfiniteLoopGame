@@ -10,6 +10,8 @@ public class CameraMovement : MonoBehaviour
         Transform topHero = GameObject.Find("TopHero").transform.GetChild(0).transform;
 
         Quaternion rend = Quaternion.Euler(transform.rotation.eulerAngles + (Vector3.up * 180f));
+        Vector3 pend = transform.position;
+        pend.z = -pend.z;
 
         float time = 0f;
         while(time < 1f)
@@ -24,6 +26,7 @@ public class CameraMovement : MonoBehaviour
             yield return null;
         }
 
+        transform.position = pend;
         transform.rotation = rend;
     }
 
