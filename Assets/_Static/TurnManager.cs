@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TurnManager : MonoBehaviour
 {
@@ -18,5 +19,30 @@ public class TurnManager : MonoBehaviour
 
         if (MapState.turnPhase == MapState.TurnPhase.LAYER_MOVING)
             StartCoroutine(MapState.NextPhase());
+    }
+
+    public void StartGame()
+    {
+        StartCoroutine(MapState.NextPhase());
+    }
+    IEnumerator WaitForStart()
+    {
+        yield return new WaitForSeconds(1);
+        StartGame();
+    }
+
+    void Start()
+    {
+        StartCoroutine(WaitForStart());
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)) Application.Quit();
+    }
+
+    public void ResetGame()
+    {
+        SceneManager.LoadScene("MainScene");
     }
 }
