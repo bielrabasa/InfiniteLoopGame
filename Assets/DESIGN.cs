@@ -10,7 +10,7 @@ namespace DESIGN
         public const int BOT_PlayerInitialMana = 1;
         public const int TOP_PlayerInitialMana = 2;
 
-        public const int ExtraManaPerTurn = 1;
+        public const int ExtraManaPerTurn = 2;
 
         //--------------DEBUG---------------
         public const bool SwitchCameraPosition = true;
