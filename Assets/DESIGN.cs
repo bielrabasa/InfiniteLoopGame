@@ -33,7 +33,7 @@ namespace DESIGN
         public const float timeOnCameraSwitching = 1.2f;
 
         //Card selecting UP & DOWN animation
-        public const float CardSelectingAnimationUpDistance = 0.25f;
+        public const float CardSelectingAnimationUpDistance = 0.20f;
         public const float timeOnCardSelectingAnimation = 0.1f;
 
         //--------------OTHERS--------------

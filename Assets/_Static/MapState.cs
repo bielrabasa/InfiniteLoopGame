@@ -72,7 +72,7 @@ public static class MapState
                 float verticalStep = boardSize.y / ROWS;
 
                 pos.x = horizontalStep / 2f + (-boardSize.x / 2f) + horizontalStep * i;
-                pos.y = 3;
+                pos.y = 1.7f;
                 pos.z = - verticalStep / 2f + (boardSize.y / 2f) - verticalStep * j;
 
                 boardPositions[i, j] = pos;

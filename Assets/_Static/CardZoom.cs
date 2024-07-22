@@ -33,7 +33,8 @@ public class CardZoom : MonoBehaviour
             //Make zoom
             card = hit.transform;
             ogPos = card.position;
-            card.position = Camera.main.transform.position + Camera.main.transform.forward * DESIGN_VALUES.CardZoomDistanceToCamera;
+            card.position = Camera.main.transform.position + Camera.main.transform.forward * DESIGN_VALUES.CardZoomDistanceToCamera
+                + (card.forward * 5f);
             
             Vector3 s = card.localScale;
             s *= zoomScale;
